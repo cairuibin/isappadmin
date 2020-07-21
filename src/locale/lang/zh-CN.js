@@ -42,5 +42,51 @@ export default {
   tree_table_page: '树状表格',
   org_tree_page: '组织结构树',
   drag_drawer_page: '可拖动抽屉',
-  tree_select_page: '树状下拉选择器'
+  tree_select_page: '树状下拉选择器',
+  homeAdmin: '首页',
+  ge_ren_zhong_xin: '个人中心',
+  xiu_gai_mi_ma: '修改密码',
+  yun_ying_guan_li: '运营管理',
+  ji_gou_guan_li: '机构管理',
+  xin_zeng_ji_gou: '新增机构',
+  shan_chu_ji_gou: '删除机构',
+  bing_chang_guan_li: '冰场管理',
+  xin_zeng_bing_chang: '新增冰场',
+  shan_chu_bing_chang: '删除冰场',
+
+  xun_lian_ji_hua: '训练计划',
+  xin_zeng_ji_hua: '新增计划',
+  shan_chu_ji_hua: '删除计划',
+  mo_ban_ji_hua: '模板计划',
+  fu_zhi_mo_ban: '复制模板',
+  ri_cheng_guan_li: '日程管理',
+  xin_zeng_ri_cheng: '新增日程',
+  shan_chu_ri_cheng: '删除日程',
+
+  ke_bao_guan_li: '课包管理',
+  xin_zeng_ke_bao: '新增课包',
+
+  ke_cheng_ding_dan: '课程订单',
+  ding_dan_xiang_qing: '订单详情',
+  shen_qing_tui_kuan: '申请退款',
+
+  chong_zhi_ding_dan: '充值订单',
+  xu_ni_ding_dan: '虚拟订单',
+
+  yong_hu_guan_li: '用户管理',
+  yong_hu_guan_li_2: '用户管理',
+  xue_yuan_guan_li: '学员管理',
+  ban_zhuan_ye_jiao_lain: '半专业教练',
+  zhuan_ye_jiao_lian: '专业教练',
+
+  shang_cheng_guan_li: '商城管理',
+  nei_rong_guan_li: '内容管理',
+  gong_jv_guan_li: '工具管理',
+  cai_wu_guan_li: '财务管理',
+  xi_tong_guan_li: '系统管理',
+  yong_hu_xiang_qing: '用户详情',
+  xue_yuan_xiang_qing: '学员详情',
+  ban_zhuan_ye_jiao_lian_xiang_qing: '教练详情',
+  zhuan_ye_jiao_liang_xiang_qing: '教练详情'
+
 }
