@@ -1,5 +1,5 @@
 <template>
-  <div class="editor-wrapper" >
+  <div class="editor-wrapper">
     <div :id="editorId"></div>
   </div>
 </template>
@@ -61,14 +61,9 @@ export default {
     this.editor.customConfig.onchangeTimeout = this.changeInterval
     // create这个方法一定要在所有配置项之后调用
     this.editor.create()
-    this.editor.txt.html(this.value || '')
-  },
-  watch: {
-    value (val) {
-      // 如果本地有存储加载本地存储内容
-      let html = val || ''
-      this.editor.txt.html(html)
-    }
+    // 如果本地有存储加载本地存储内容
+    let html = this.value || localStorage.editorCache
+    if (html) this.editor.txt.html(html)
   }
 }
 </script>
@@ -76,11 +71,5 @@ export default {
 <style lang="less">
 .editor-wrapper *{
   z-index: 100 !important;
-}
-.w-e-menu{
-  z-index: 2 !important;
-}
-.w-e-text-container{
-  z-index: 1 !important;
 }
 </style>

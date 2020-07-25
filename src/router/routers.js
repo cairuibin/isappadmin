@@ -92,141 +92,14 @@ export default [
     },
     component: Main,
     children: [
-      // {
-      //   path: 'ji_gou_guan_li',
-      //   name: 'ji_gou_guan_li',
-      //   meta: {
-      //     icon: 'ios-document',
-      //     title: '机构管理'
-
-      //   },
-      //   component: () => import('@/view/update/update-table.vue'),
-
-      //   children: [
-      //     {
-      //       path: 'xin_zeng_ji_gou',
-      //       name: 'xin_zeng_ji_gou',
-      //       meta: {
-      //         icon: 'md-funnel',
-      //         title: '新增机构'
-      //       },
-      //       component: () => import('@/view/multilevel/level-2-2/level-2-2-1.vue')
-      //     },
-      //     {
-      //       path: 'shan_chu_ji_gou',
-      //       name: 'shan_chu_ji_gou',
-      //       meta: {
-      //         icon: 'md-funnel',
-      //         title: '删除机构'
-      //       },
-      //       component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue')
-      //     }, {
-      //       path: 'bing_chang_guan_li',
-      //       name: 'bing_chang_guan_li',
-      //       meta: {
-      //         icon: 'md-funnel',
-      //         title: '冰场管理'
-      //       },
-      //       component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue'),
-      //       children: [{
-      //         path: 'xin_zeng_bing_chang',
-      //         name: 'xin_zeng_bing_chang',
-      //         meta: {
-      //           icon: 'md-funnel',
-      //           title: '新增冰场'
-      //         },
-      //         component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue')
-      //       }, {
-      //         path: 'shan_chu_bing_chang',
-      //         name: 'shan_chu_bing_chang',
-      //         meta: {
-      //           icon: 'md-funnel',
-      //           title: '删除冰场'
-      //         },
-      //         component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue')
-      //       }]
-      //     }
-      //   ]
-      // },
-      // {
-      //   path: 'xun_lian_ji_hua',
-      //   name: 'xun_lian_ji_hua',
-      //   meta: {
-      //     icon: 'md-clipboard',
-      //     title: '训练计划'
-
-      //   },
-      //   component: () => import('@/view/update/update-paste.vue'),
-      //   children: [{
-      //     path: 'xin_zeng_ji_hua',
-      //     name: 'xin_zeng_ji_hua',
-      //     meta: {
-      //       icon: 'md-funnel',
-      //       title: '新增计划'
-      //     },
-      //     component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue')
-      //   }, {
-      //     path: 'shan_chu_ji_hua',
-      //     name: 'shan_chu_ji_hua',
-      //     meta: {
-      //       icon: 'md-funnel',
-      //       title: '删除计划'
-      //     },
-      //     component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue')
-      //   }, {
-      //     path: 'mo_ban_ji_hua',
-      //     name: 'mo_ban_ji_hua',
-      //     meta: {
-      //       icon: 'md-funnel',
-      //       title: '模板计划',
-      //       showAlways: true
-      //     },
-      //     component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue'),
-      //     children: [{
-      //       path: 'fu_zhi_mo_ban',
-      //       name: 'fu_zhi_mo_ban',
-      //       meta: {
-      //         icon: 'md-funnel',
-      //         title: '复制模板'
-      //       },
-      //       component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue')
-      //     }]
-      //   }, {
-      //     path: 'ri_cheng_guan_li',
-      //     name: 'ri_cheng_guan_li',
-      //     meta: {
-      //       icon: 'md-funnel',
-      //       title: '日程管理'
-      //     },
-      //     component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue'),
-      //     children: [{
-      //       path: 'xin_zeng_ri_cheng',
-      //       name: 'xin_zeng_ri_cheng',
-      //       meta: {
-      //         icon: 'md-funnel',
-      //         title: '新增日程'
-      //       },
-      //       component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue')
-      //     }, {
-      //       path: 'shan_chu_ri_cheng',
-      //       name: 'shan_chu_ri_cheng',
-      //       meta: {
-      //         icon: 'md-funnel',
-      //         title: '删除日程'
-      //       },
-      //       component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue')
-      //     }]
-      //   }]
-      // },
       {
         path: 'ke_bao_guan_li',
         name: 'ke_bao_guan_li',
         meta: {
           icon: 'md-clipboard',
-          title: '课包管理',
-          showAlways: true
+          title: '课包管理'
         },
-        component: () => import('@/view/update/update-paste.vue'),
+        component: parentView,
         children: [{
           path: 'ke_bao_guan_li_lie_biao',
           name: 'ke_bao_guan_li_lie_biao',
@@ -235,17 +108,19 @@ export default [
             title: '课包管理列表'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
-        }, {
-          path: 'xin_zeng_ke_bao_wu_an',
-          name: 'xin_zeng_ke_bao_wu_an',
-          meta: {
-            icon: 'md-clipboard',
-            title: '新增课包-无安排'
+          component: () => import('@/view/yun_ying_guan_li/ke_bao_guan_li/ke_bao_guan_li_lie_biao.vue')
+        },
+        // {
+        //   path: 'xin_zeng_ke_bao_wu_an',
+        //   name: 'xin_zeng_ke_bao_wu_an',
+        //   meta: {
+        //     icon: 'md-clipboard',
+        //     title: '新增课包-无安排'
 
-          },
-          component: () => import('@/view/update/update-paste.vue')
-        }, {
+        //   },
+        //   component: () => import('@/view/update/update-paste.vue')
+        // },
+        {
           path: 'xin_zeng_ke_bao_xun_lian',
           name: 'xin_zeng_ke_bao_xun_lian',
           meta: {
@@ -253,7 +128,7 @@ export default [
             title: '新增课包-训练计划'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view/yun_ying_guan_li/ke_bao_guan_li/xin_zeng_ke_bao_xun_lian.vue')
         }, {
           path: 'xin_zeng_ke_bao_zi_ding_yi',
           name: 'xin_zeng_ke_bao_zi_ding_yi',
@@ -495,7 +370,7 @@ export default [
 
     },
     component: Main,
-    children: [ {
+    children: [{
       path: 'fen_lei_guan_li',
       name: 'fen_lei_guan_li',
       meta: {
@@ -647,83 +522,119 @@ export default [
           title: '专项动作'
 
         },
-        component: () => import('@/view/update/update-paste.vue')
+        component: () => import('@/view/update/update-paste.vue'),
+        children: [{
+          path: 'zhuan_xiang_dong_zuo_lie_biao',
+          name: 'zhuan_xiang_dong_zuo_lie_biao',
+          meta: {
+            icon: 'md-clipboard',
+            title: '专项动作列表'
+
+          },
+          component: () => import('@/view/update/update-paste.vue')
+        }, {
+          path: 'zhuan_xiang_dong_zuo_huaxing_xaing_qing',
+          name: 'zhuan_xiang_dong_zuo_huaxing_xaing_qing',
+          meta: {
+            icon: 'md-clipboard',
+            title: '专项动作-滑行列表'
+
+          },
+          component: () => import('@/view/update/update-paste.vue')
+        }, {
+          path: 'zhuan_xiang_dong_zuo_dongzuo_xiang_qing',
+          name: 'zhuan_xiang_dong_zuo_dongzuo_xiang_qing',
+          meta: {
+            icon: 'md-clipboard',
+            title: '专项动作-动作详情'
+
+          },
+          component: () => import('@/view/update/update-paste.vue')
+        }]
       }, {
         path: 'ji_hua_mo_ban',
         name: 'ji_hua_mo_ban',
         meta: {
           icon: 'ios-document',
-          title: '计划模板'
+          title: '训练计划模板'
 
         },
         component: () => import('@/view/update/update-table.vue'),
         children: [{
-          path: 'jia_hua_moban_sahng_ke_liu_cheng',
-          name: 'jia_hua_moban_sahng_ke_liu_cheng',
+          path: 'ji_hua_mo_ban_lie_biao',
+          name: 'ji_hua_mo_ban_lie_biao',
           meta: {
             icon: 'md-clipboard',
-            title: '计划模板-上课流程'
+            title: '训练计划模板列表'
 
           },
           component: () => import('@/view/update/update-paste.vue')
         }, {
-          path: 'ji_hua_mo_ban_ji_hua_lie_biao',
-          name: 'ji_hua_mo_ban_ji_hua_lie_biao',
+          path: 'xing_zeng_mo_ban',
+          name: 'xing_zeng_mo_ban',
           meta: {
             icon: 'md-clipboard',
-            title: '计划模板-计划列表'
+            title: '新增模板'
 
           },
           component: () => import('@/view/update/update-paste.vue')
+        }, {
+          path: 'ke_jie_guan_li',
+          name: 'ke_jie_guan_li',
+          meta: {
+            icon: 'md-clipboard',
+            title: '课节管理'
+
+          },
+          component: () => import('@/view/update/update-paste.vue'),
+          children: [{
+            path: 'ke_jie_guan_li_lie_baio',
+            name: 'ke_jie_guan_li_lie_baio',
+            meta: {
+              icon: 'md-clipboard',
+              title: '课节管理列表'
+
+            },
+            component: () => import('@/view/update/update-paste.vue')
+          }, {
+            path: 'xin_zeng_ke_jie',
+            name: 'xin_zeng_ke_jie',
+            meta: {
+              icon: 'md-clipboard',
+              title: '新增课节'
+
+            },
+            component: () => import('@/view/update/update-paste.vue')
+          }]
         }]
-      },
-      {
-        path: 'i_hua_jing_xuan',
-        name: 'i_hua_jing_xuan',
+      }, {
+        // 内容管理下的课节管理
+        path: 'n_ke_jie_guan_li',
+        name: 'n_ke_jie_guan_li',
         meta: {
-          icon: 'ios-document',
-          title: 'i滑精选'
+          icon: 'md-clipboard',
+          title: '课节管理'
 
         },
-        component: () => import('@/view/update/update-table.vue'),
+        component: () => import('@/view/update/update-paste.vue'),
         children: [{
-          path: 'i_hua_jing_xuan_cai_dan_pei_zhi',
-          name: 'i_hua_jing_xuan_cai_dan_pei_zhi',
+          path: 'n_ke_jie_guan_li_lie_baio',
+          name: 'n_ke_jie_guan_li_lie_baio',
           meta: {
-            icon: 'ios-document',
-            title: 'i滑精选-菜单配置',
-            showAlways: true
-          },
-          component: () => import('@/view/update/update-table.vue'),
-          children: [{
-            path: 'xin_zeng_cai_dan',
-            name: 'xin_zeng_cai_dan',
-            meta: {
-              icon: 'ios-document',
-              title: '新增菜单'
+            icon: 'md-clipboard',
+            title: '课节管理列表'
 
-            },
-            component: () => import('@/view/update/update-table.vue')
-          }]
+          },
+          component: () => import('@/view/update/update-paste.vue')
         }, {
-          path: 'i_hua_jing_xuan_xuan_zhong_cai_dan',
-          name: 'i_hua_jing_xuan_xuan_zhong_cai_dan',
+          path: 'n_xin_zeng_ke_jie',
+          name: 'n_xin_zeng_ke_jie',
           meta: {
-            icon: 'ios-document',
-            title: 'i滑精选-选中菜单',
-            showAlways: true
-          },
-          component: () => import('@/view/update/update-table.vue'),
-          children: [{
-            path: 'xin_zeng_nei_rong',
-            name: 'xin_zeng_nei_rong',
-            meta: {
-              icon: 'ios-document',
-              title: '新增内容'
+            icon: 'md-clipboard',
+            title: '新增课节'
 
-            },
-            component: () => import('@/view/update/update-table.vue')
-          }]
+          },
+          component: () => import('@/view/update/update-paste.vue')
         }]
       },
       {
@@ -736,64 +647,53 @@ export default [
         },
         component: () => import('@/view/update/update-paste.vue'),
         children: [{
-          path: 'xian_sahng_ke_cheng_happy',
-          name: 'xian_sahng_ke_cheng_happy',
+          path: 'xian_sahng_ke_cheng_lie_biao',
+          name: 'xian_sahng_ke_cheng_lie_biao',
           meta: {
             icon: 'md-clipboard',
-            title: '线上课程-HappySkate'
+            title: '线上课程列表'
 
           },
-          component: () => import('@/view/update/update-paste.vue'),
-          children: [{
-            path: 'xin_zeng_ke_cheng',
-            name: 'xin_zeng_ke_cheng',
-            meta: {
-              icon: 'md-clipboard',
-              title: '新增课程'
+          component: () => import('@/view/update/update-paste.vue')
+        }, {
+          path: 'fen_lei_ming_xi',
+          name: 'fen_lei_ming_xi',
+          meta: {
+            icon: 'md-clipboard',
+            title: '分类明细'
 
-            },
-            component: () => import('@/view/update/update-paste.vue')
-          }, {
-            path: 'xian_sahng_ke_cheng_ke_jie_lie_biao',
-            name: 'xian_sahng_ke_cheng_ke_jie_lie_biao',
-            meta: {
-              icon: 'md-clipboard',
-              title: '线上课程-课节列表',
-              showAlways: true
-            },
-            component: () => import('@/view/update/update-paste.vue'),
-            children: [{
-              path: 'xin_zeng_ke_jie',
-              name: 'xin_zeng_ke_jie',
-              meta: {
-                icon: 'md-clipboard',
-                title: '新增课节'
+          },
+          component: () => import('@/view/update/update-paste.vue')
+        }, {
+          path: 'x_xin_zeng_ke_cheng',
+          name: 'x_xin_zeng_ke_cheng',
+          meta: {
+            icon: 'md-clipboard',
+            title: '新增课程'
 
-              },
-              component: () => import('@/view/update/update-paste.vue')
-            }]
-          }]
+          },
+          component: () => import('@/view/update/update-paste.vue')
+        }, {
+          path: 'ke_cheng_guan_li',
+          name: 'ke_cheng_guan_li',
+          meta: {
+            icon: 'md-clipboard',
+            title: '课程管理'
+
+          },
+          component: () => import('@/view/update/update-paste.vue')
+        }, {
+          path: 'x_xin_zeng_ke_jie',
+          name: 'x_xin_zeng_ke_jie',
+          meta: {
+            icon: 'md-clipboard',
+            title: '新增课节'
+
+          },
+          component: () => import('@/view/update/update-paste.vue')
         }]
       },
       {
-        path: 'li_lun_ti_ku',
-        name: 'li_lun_ti_ku',
-        meta: {
-          icon: 'ios-document',
-          title: '理论题库'
-
-        },
-        component: () => import('@/view/update/update-table.vue')
-      }, {
-        path: 'i_xiu_nei_rong',
-        name: 'i_xiu_nei_rong',
-        meta: {
-          icon: 'md-clipboard',
-          title: 'i秀内容'
-
-        },
-        component: () => import('@/view/update/update-paste.vue')
-      }, {
         path: 'zhuan_jia_qing_xun_ying',
         name: 'zhuan_jia_qing_xun_ying',
         meta: {
@@ -802,61 +702,92 @@ export default [
           showAlways: true
         },
         component: () => import('@/view/update/update-table.vue'),
-        children: [ {
-          path: 'xin_zeng_xun_lian_ying',
-          name: 'xin_zeng_xun_lian_ying',
+        children: [{
+          path: 'zhuan_jia_qing_xun_ying_lie_biao',
+          name: 'zhuan_jia_qing_xun_ying_lie_biao',
           meta: {
             icon: 'ios-document',
-            title: '新增训练营'
+            title: '专家青训营列表'
 
           },
           component: () => import('@/view/update/update-table.vue')
+        },
+        // {
+        //   path: 'xin_zeng_xun_lian_ying_wu_an_pai',
+        //   name: 'xin_zeng_xun_lian_ying_wu_an_pai',
+        //   meta: {
+        //     icon: 'ios-document',
+        //     title: '新增训练营-无安排'
+
+        //   },
+        //   component: () => import('@/view/update/update-table.vue')
+        // },
+        {
+          path: 'xin_zeng_xun_lian_ying_xun_lian_ji_hua',
+          name: 'xin_zeng_xun_lian_ying_xun_lian_ji_hua',
+          meta: {
+            icon: 'ios-document',
+            title: '新增训练营-训练计划'
+            // showAlways: true,
+          },
+          component: () => import('@/view/update/update-table.vue')
+        }, {
+          path: 'xin_zeng_xun_lian_ying_zi_ding_yi',
+          name: 'xin_zeng_xun_lian_ying_zi_ding_yi',
+          meta: {
+            icon: 'ios-document',
+            title: '新增训练营-自定义',
+            showAlways: true
+          },
+          component: () => import('@/view/update/update-table.vue'),
+          children: [{
+            path: 'xin_zeng_xun_lian_ying_zi_ding_yi_lie_biao',
+            name: 'xin_zeng_xun_lian_ying_zi_ding_yi_lie_biao',
+            meta: {
+              icon: 'md-clipboard',
+              title: '新增训练营-自定义列表'
+            },
+            component: () => import('@/view/update/update-paste.vue')
+          }, {
+            path: 'x_xin_zeng_ke_jie',
+            name: 'x_xin_zeng_ke_jie',
+            meta: {
+              icon: 'md-clipboard',
+              title: '新增课节'
+            },
+            component: () => import('@/view/update/update-paste.vue')
+          }]
+        }]
+      },
+      {
+        path: 'i_hua_jing_xuan_guan_li',
+        name: 'i_hua_jing_xuan_guan_li',
+        meta: {
+          icon: 'ios-document',
+          title: 'i滑精选管理'
+        },
+        component: () => import('@/view/update/update-table.vue'),
+        children: [{
+          path: 'i_hua_jing_xuan_da_ka_jia_tang',
+          name: 'i_hua_jing_xuan_da_ka_jia_tang',
+          meta: {
+            icon: 'md-clipboard',
+            title: 'i滑精选-大咖讲堂'
+          },
+          component: () => import('@/view/update/update-paste.vue')
+        }, {
+          path: 'i_hua_jing_xuan_xin_zeng_nei_rong',
+          name: 'i_hua_jing_xuan_xin_zeng_nei_rong',
+          meta: {
+            icon: 'md-clipboard',
+            title: 'i滑精选-新增内容'
+          },
+          component: () => import('@/view/update/update-paste.vue')
         }]
       }
     ]
   },
   {
-    path: '/gong_jv_guan_li',
-    name: 'gong_jv_guan_li',
-
-    meta: {
-      icon: 'md-cloud-upload',
-      title: '工具管理'
-
-    },
-    component: Main,
-    children: [
-      {
-        path: 'da_ka_jia_tang',
-        name: 'da_ka_jia_tang',
-        meta: {
-          icon: 'ios-document',
-          title: '大咖讲堂'
-
-        },
-        component: () => import('@/view/update/update-table.vue')
-      },
-      {
-        path: 'ti_wen_wei_guan',
-        name: 'ti_wen_wei_guan',
-        meta: {
-          icon: 'md-clipboard',
-          title: '提问围观'
-
-        },
-        component: () => import('@/view/update/update-paste.vue')
-      }, {
-        path: 'zhi_fu_ding_dan',
-        name: 'zhi_fu_ding_dan',
-        meta: {
-          icon: 'md-clipboard',
-          title: '支付订单'
-
-        },
-        component: () => import('@/view/update/update-paste.vue')
-      }
-    ]
-  }, {
     path: '/cai_wu_guan_li',
     name: 'cai_wu_guan_li',
 
@@ -867,16 +798,16 @@ export default [
     },
     component: Main,
     children: [
-      {
-        path: 'xian_jin_ding_dan',
-        name: 'xian_jin_ding_dan',
-        meta: {
-          icon: 'ios-document',
-          title: '现金订单'
+      // {
+      //   path: 'xian_jin_ding_dan',
+      //   name: 'xian_jin_ding_dan',
+      //   meta: {
+      //     icon: 'ios-document',
+      //     title: '现金订单'
 
-        },
-        component: () => import('@/view/update/update-table.vue')
-      },
+      //   },
+      //   component: () => import('@/view/update/update-table.vue')
+      // },
       {
         path: 'tui_kuan_guan_li',
         name: 'tui_kuan_guan_li',
@@ -885,19 +816,76 @@ export default [
           title: '退款管理'
 
         },
-        component: () => import('@/view/update/update-paste.vue')
+        component: () => import('@/view/update/update-paste.vue'),
+        children: [{
+          path: 'tui_kuan_guan_li_lie_biao',
+          name: 'tui_kuan_guan_li_lie_biao',
+          meta: {
+            icon: 'md-clipboard',
+            title: '退款管理列表'
+
+          },
+          component: () => import('@/view/update/update-paste.vue')
+        }, {
+          path: 'shen_he_tui_kuan',
+          name: 'shen_he_tui_kuan',
+          meta: {
+            icon: 'md-clipboard',
+            title: '审核退款'
+
+          },
+          component: () => import('@/view/update/update-paste.vue')
+        }, {
+          path: 'cha_kan_xiang_qing',
+          name: 'cha_kan_xiang_qing',
+          meta: {
+            icon: 'md-clipboard',
+            title: '查看详情'
+
+          },
+          component: () => import('@/view/update/update-paste.vue')
+        }]
       }, {
-        path: 'ti_xian_guan_li',
-        name: 'ti_xian_guan_li',
+        path: 'fen_run_guan_li',
+        name: 'fen_run_guan_li',
         meta: {
           icon: 'md-clipboard',
-          title: '提现管理'
+          title: '分润管理'
 
         },
-        component: () => import('@/view/update/update-paste.vue')
+        component: () => import('@/view/update/update-paste.vue'),
+        children: [{
+          path: 'fen_run_guan_li_lie_biao',
+          name: 'fen_run_guan_li_lie_biao',
+          meta: {
+            icon: 'md-clipboard',
+            title: '分润管理列表'
+
+          },
+          component: () => import('@/view/update/update-paste.vue')
+        }, {
+          path: 'shou_yi_ming_xi',
+          name: 'shou_yi_ming_xi',
+          meta: {
+            icon: 'md-clipboard',
+            title: '收益明细'
+
+          },
+          component: () => import('@/view/update/update-paste.vue')
+        }, {
+          path: 'ti_xian_li_shi',
+          name: 'ti_xian_li_shi',
+          meta: {
+            icon: 'md-clipboard',
+            title: '提现历史'
+
+          },
+          component: () => import('@/view/update/update-paste.vue')
+        }]
       }
     ]
-  }, {
+  },
+  {
     path: '/xi_tong_guan_li',
     name: 'xi_tong_guan_li',
 
@@ -909,55 +897,223 @@ export default [
     component: Main,
     children: [
       {
-        path: 'qun_xian_guan_li',
-        name: 'qun_xian_guan_li',
+        path: 'guan_li_yuan',
+        name: 'guan_li_yuan',
         meta: {
           icon: 'ios-document',
-          title: '权限管理'
+          title: '管理员'
 
         },
-        component: () => import('@/view/update/update-table.vue')
-      },
-      {
-        path: 'yi_jian_fan_kui',
-        name: 'yi_jian_fan_kui',
-        meta: {
-          icon: 'md-clipboard',
-          title: '意见反馈'
+        component: () => import('@/view/update/update-table.vue'),
+        children: [{
+          path: 'guan_li_yuan_lie_biao',
+          name: 'guan_li_yuan_lie_biao',
+          meta: {
+            icon: 'ios-document',
+            title: '管理员列表'
 
-        },
-        component: () => import('@/view/update/update-paste.vue')
-      }, {
-        path: 'tui_song_guan_li',
-        name: 'tui_song_guan_li',
-        meta: {
-          icon: 'ios-document',
-          title: '推送管理'
+          },
+          component: () => import('@/view/update/update-table.vue')
+        }, {
+          path: 'g_xing_zeng',
+          name: 'g_xing_zeng',
+          meta: {
+            icon: 'ios-document',
+            title: '新增'
 
-        },
-        component: () => import('@/view/update/update-table.vue')
-      },
-      {
-        path: 'xiao_xi_guan_li',
-        name: 'xiao_xi_guan_li',
-        meta: {
-          icon: 'md-clipboard',
-          title: '消息管理'
+          },
+          component: () => import('@/view/update/update-table.vue')
+        }, {
+          path: 'g_bian_ji',
+          name: 'g_bian_ji',
+          meta: {
+            icon: 'ios-document',
+            title: '编辑'
 
-        },
-        component: () => import('@/view/update/update-paste.vue')
-      }, {
-        path: 'ban_ben_guan_li',
-        name: 'ban_ben_guan_li',
-        meta: {
-          icon: 'md-clipboard',
-          title: '版本管理'
+          },
+          component: () => import('@/view/update/update-table.vue')
+        }, {
+          path: 'chong_zhi_mi_ma',
+          name: 'chong_zhi_mi_ma',
+          meta: {
+            icon: 'ios-document',
+            title: '重置密码'
 
-        },
-        component: () => import('@/view/update/update-paste.vue')
+          },
+          component: () => import('@/view/update/update-table.vue')
+        }]
       }
+      // {
+      //   path: 'jue_se_guan_li',
+      //   name: 'jue_se_guan_li',
+      //   meta: {
+      //     icon: 'md-clipboard',
+      //     title: '角色管理'
+
+      //   },
+      //   component: () => import('@/view/update/update-paste.vue'),
+      //   children: [{
+      //     path: 'jue_se_guan_li_lie_biao',
+      //     name: 'jue_se_guan_li_lie_biao',
+      //     meta: {
+      //       icon: 'md-clipboard',
+      //       title: '角色管理列表'
+
+      //     },
+      //     component: () => import('@/view/update/update-paste.vue')
+      //   }, {
+      //     path: 'j_xing_zeng',
+      //     name: 'j_xing_zeng',
+      //     meta: {
+      //       icon: 'md-clipboard',
+      //       title: '新增'
+
+      //     },
+      //     component: () => import('@/view/update/update-paste.vue')
+      //   }, {
+      //     path: 'xiu_gai_jue_se_ming',
+      //     name: 'xiu_gai_jue_se_ming',
+      //     meta: {
+      //       icon: 'md-clipboard',
+      //       title: '修改角色名'
+
+      //     },
+      //     component: () => import('@/view/update/update-paste.vue')
+      //   }, {
+      //     path: 'shou_quan',
+      //     name: 'shou_quan',
+      //     meta: {
+      //       icon: 'md-clipboard',
+      //       title: '授权'
+
+      //     },
+      //     component: () => import('@/view/update/update-paste.vue')
+      //   }, {
+      //     path: 'shng_chu',
+      //     name: 'shng_chu',
+      //     meta: {
+      //       icon: 'md-clipboard',
+      //       title: '删除'
+
+      //     },
+      //     component: () => import('@/view/update/update-paste.vue')
+      //   },]
+      // },
+      //  {
+      //   path: 'cai_dan_guan_li',
+      //   name: 'cai_dan_guan_li',
+      //   meta: {
+      //     icon: 'ios-document',
+      //     title: '菜单管理'
+
+      //   },
+      //   component: () => import('@/view/update/update-table.vue'),
+      //   children: [{
+      //     path: 'cai_dan_guan_li_lie_biao',
+      //     name: 'cai_dan_guan_li_lie_biao',
+      //     meta: {
+      //       icon: 'ios-document',
+      //       title: '菜单管理列表'
+
+      //     },
+      //     component: () => import('@/view/update/update-table.vue'),
+
+      //   }, {
+      //     path: 'c_xing_zeng',
+      //     name: 'c_xing_zeng',
+      //     meta: {
+      //       icon: 'ios-document',
+      //       title: '新增'
+
+      //     },
+      //     component: () => import('@/view/update/update-table.vue'),
+
+      //   }, {
+      //     path: 'c_bian_ji',
+      //     name: 'c_bian_ji',
+      //     meta: {
+      //       icon: 'ios-document',
+      //       title: '编辑'
+
+      //     },
+      //     component: () => import('@/view/update/update-table.vue'),
+
+      //   }, {
+      //     path: 'tian_jia_zi_fen_lei',
+      //     name: 'tian_jia_zi_fen_lei',
+      //     meta: {
+      //       icon: 'ios-document',
+      //       title: '添加子分类'
+
+      //     },
+      //     component: () => import('@/view/update/update-table.vue'),
+
+      //   }]
+      // },
+
+      // {
+      //   path: 'xiao_xi_guan_li',
+      //   name: 'xiao_xi_guan_li',
+      //   meta: {
+      //     icon: 'md-clipboard',
+      //     title: '消息管理'
+
+      //   },
+      //   component: () => import('@/view/update/update-paste.vue')
+      // }, {
+      //   path: 'ban_ben_guan_li',
+      //   name: 'ban_ben_guan_li',
+      //   meta: {
+      //     icon: 'md-clipboard',
+      //     title: '版本管理'
+
+      //   },
+      //   component: () => import('@/view/update/update-paste.vue')
+      // }
     ]
   },
+  // {
+  //   path: '/gong_jv_guan_li',
+  //   name: 'gong_jv_guan_li',
+
+  //   meta: {
+  //     icon: 'md-cloud-upload',
+  //     title: '工具管理'
+
+  //   },
+  //   component: Main,
+  //   children: [
+  //     {
+  //       path: 'da_ka_jia_tang',
+  //       name: 'da_ka_jia_tang',
+  //       meta: {
+  //         icon: 'ios-document',
+  //         title: '大咖讲堂'
+
+  //       },
+  //       component: () => import('@/view/update/update-table.vue')
+  //     },
+  //     {
+  //       path: 'ti_wen_wei_guan',
+  //       name: 'ti_wen_wei_guan',
+  //       meta: {
+  //         icon: 'md-clipboard',
+  //         title: '提问围观'
+
+  //       },
+  //       component: () => import('@/view/update/update-paste.vue')
+  //     }, {
+  //       path: 'zhi_fu_ding_dan',
+  //       name: 'zhi_fu_ding_dan',
+  //       meta: {
+  //         icon: 'md-clipboard',
+  //         title: '支付订单'
+
+  //       },
+  //       component: () => import('@/view/update/update-paste.vue')
+  //     }
+  //   ]
+  // },
 
   {
     path: '/components',
@@ -1270,133 +1426,133 @@ export default [
       hideInMenu: true
     },
     component: () => import('@/view/error-page/404.vue')
+  },
+  {
+    path: '',
+    name: 'doc',
+    meta: {
+      title: '文档',
+      href: 'https://lison16.github.io/iview-admin-doc/#/',
+      icon: 'ios-book'
+    }
+  },
+  {
+    path: '/join',
+    name: 'join',
+    component: Main,
+    meta: {
+      hideInBread: true
+    },
+    children: [
+      {
+        path: 'join_page',
+        name: 'join_page',
+        meta: {
+          icon: '_qq',
+          title: 'QQ群'
+        },
+        component: () => import('@/view/join-page.vue')
+      }
+    ]
+  },
+  {
+    path: '/message',
+    name: 'message',
+    component: Main,
+    meta: {
+      hideInBread: true,
+      hideInMenu: true
+    },
+    children: [
+      {
+        path: 'message_page',
+        name: 'message_page',
+        meta: {
+          icon: 'md-notifications',
+          title: '消息中心'
+        },
+        component: () => import('@/view/single-page/message/index.vue')
+      }
+    ]
+  },
+  {
+    path: '/tools_methods',
+    name: 'tools_methods',
+    meta: {
+      hideInBread: true
+    },
+    component: Main,
+    children: [
+      {
+        path: 'tools_methods_page',
+        name: 'tools_methods_page',
+        meta: {
+          icon: 'ios-hammer',
+          title: '工具方法',
+          beforeCloseName: 'before_close_normal'
+        },
+        component: () => import('@/view/tools-methods/tools-methods.vue')
+      }
+    ]
+  },
+  {
+    path: '/i18n',
+    name: 'i18n',
+    meta: {
+      hideInBread: true
+    },
+    component: Main,
+    children: [
+      {
+        path: 'i18n_page',
+        name: 'i18n_page',
+        meta: {
+          icon: 'md-planet',
+          title: 'i18n - {{ i18n_page }}'
+        },
+        component: () => import('@/view/i18n/i18n-page.vue')
+      }
+    ]
+  },
+  {
+    path: '/error_store',
+    name: 'error_store',
+    meta: {
+      hideInBread: true
+    },
+    component: Main,
+    children: [
+      {
+        path: 'error_store_page',
+        name: 'error_store_page',
+        meta: {
+          icon: 'ios-bug',
+          title: '错误收集'
+        },
+        component: () => import('@/view/error-store/error-store.vue')
+      }
+    ]
+  },
+  {
+    path: '/error_logger',
+    name: 'error_logger',
+    meta: {
+      hideInBread: true,
+      hideInMenu: true
+    },
+    component: Main,
+    children: [
+      {
+        path: 'error_logger_page',
+        name: 'error_logger_page',
+        meta: {
+          icon: 'ios-bug',
+          title: '错误收集'
+        },
+        component: () => import('@/view/single-page/error-logger.vue')
+      }
+    ]
   }
-  // {
-  //   path: '',
-  //   name: 'doc',
-  //   meta: {
-  //     title: '文档',
-  //     href: 'https://lison16.github.io/iview-admin-doc/#/',
-  //     icon: 'ios-book'
-  //   }
-  // },
-  // {
-  //   path: '/join',
-  //   name: 'join',
-  //   component: Main,
-  //   meta: {
-  //     hideInBread: true
-  //   },
-  //   children: [
-  //     {
-  //       path: 'join_page',
-  //       name: 'join_page',
-  //       meta: {
-  //         icon: '_qq',
-  //         title: 'QQ群'
-  //       },
-  //       component: () => import('@/view/join-page.vue')
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/message',
-  //   name: 'message',
-  //   component: Main,
-  //   meta: {
-  //     hideInBread: true,
-  //     hideInMenu: true
-  //   },
-  //   children: [
-  //     {
-  //       path: 'message_page',
-  //       name: 'message_page',
-  //       meta: {
-  //         icon: 'md-notifications',
-  //         title: '消息中心'
-  //       },
-  //       component: () => import('@/view/single-page/message/index.vue')
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/tools_methods',
-  //   name: 'tools_methods',
-  //   meta: {
-  //     hideInBread: true
-  //   },
-  //   component: Main,
-  //   children: [
-  //     {
-  //       path: 'tools_methods_page',
-  //       name: 'tools_methods_page',
-  //       meta: {
-  //         icon: 'ios-hammer',
-  //         title: '工具方法',
-  //         beforeCloseName: 'before_close_normal'
-  //       },
-  //       component: () => import('@/view/tools-methods/tools-methods.vue')
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/i18n',
-  //   name: 'i18n',
-  //   meta: {
-  //     hideInBread: true
-  //   },
-  //   component: Main,
-  //   children: [
-  //     {
-  //       path: 'i18n_page',
-  //       name: 'i18n_page',
-  //       meta: {
-  //         icon: 'md-planet',
-  //         title: 'i18n - {{ i18n_page }}'
-  //       },
-  //       component: () => import('@/view/i18n/i18n-page.vue')
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/error_store',
-  //   name: 'error_store',
-  //   meta: {
-  //     hideInBread: true
-  //   },
-  //   component: Main,
-  //   children: [
-  //     {
-  //       path: 'error_store_page',
-  //       name: 'error_store_page',
-  //       meta: {
-  //         icon: 'ios-bug',
-  //         title: '错误收集'
-  //       },
-  //       component: () => import('@/view/error-store/error-store.vue')
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/error_logger',
-  //   name: 'error_logger',
-  //   meta: {
-  //     hideInBread: true,
-  //     hideInMenu: true
-  //   },
-  //   component: Main,
-  //   children: [
-  //     {
-  //       path: 'error_logger_page',
-  //       name: 'error_logger_page',
-  //       meta: {
-  //         icon: 'ios-bug',
-  //         title: '错误收集'
-  //       },
-  //       component: () => import('@/view/single-page/error-logger.vue')
-  //     }
-  //   ]
-  // },
 ]
 
 // 框架自带的
@@ -1871,3 +2027,130 @@ export default [
 //     component: () => import('@/view/error-page/404.vue')
 //   }
 // ]
+
+// {
+//   path: 'ji_gou_guan_li',
+//   name: 'ji_gou_guan_li',
+//   meta: {
+//     icon: 'ios-document',
+//     title: '机构管理'
+
+//   },
+//   component: () => import('@/view/update/update-table.vue'),
+
+//   children: [
+//     {
+//       path: 'xin_zeng_ji_gou',
+//       name: 'xin_zeng_ji_gou',
+//       meta: {
+//         icon: 'md-funnel',
+//         title: '新增机构'
+//       },
+//       component: () => import('@/view/multilevel/level-2-2/level-2-2-1.vue')
+//     },
+//     {
+//       path: 'shan_chu_ji_gou',
+//       name: 'shan_chu_ji_gou',
+//       meta: {
+//         icon: 'md-funnel',
+//         title: '删除机构'
+//       },
+//       component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue')
+//     }, {
+//       path: 'bing_chang_guan_li',
+//       name: 'bing_chang_guan_li',
+//       meta: {
+//         icon: 'md-funnel',
+//         title: '冰场管理'
+//       },
+//       component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue'),
+//       children: [{
+//         path: 'xin_zeng_bing_chang',
+//         name: 'xin_zeng_bing_chang',
+//         meta: {
+//           icon: 'md-funnel',
+//           title: '新增冰场'
+//         },
+//         component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue')
+//       }, {
+//         path: 'shan_chu_bing_chang',
+//         name: 'shan_chu_bing_chang',
+//         meta: {
+//           icon: 'md-funnel',
+//           title: '删除冰场'
+//         },
+//         component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue')
+//       }]
+//     }
+//   ]
+// },
+// {
+//   path: 'xun_lian_ji_hua',
+//   name: 'xun_lian_ji_hua',
+//   meta: {
+//     icon: 'md-clipboard',
+//     title: '训练计划'
+
+//   },
+//   component: () => import('@/view/update/update-paste.vue'),
+//   children: [{
+//     path: 'xin_zeng_ji_hua',
+//     name: 'xin_zeng_ji_hua',
+//     meta: {
+//       icon: 'md-funnel',
+//       title: '新增计划'
+//     },
+//     component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue')
+//   }, {
+//     path: 'shan_chu_ji_hua',
+//     name: 'shan_chu_ji_hua',
+//     meta: {
+//       icon: 'md-funnel',
+//       title: '删除计划'
+//     },
+//     component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue')
+//   }, {
+//     path: 'mo_ban_ji_hua',
+//     name: 'mo_ban_ji_hua',
+//     meta: {
+//       icon: 'md-funnel',
+//       title: '模板计划',
+//       showAlways: true
+//     },
+//     component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue'),
+//     children: [{
+//       path: 'fu_zhi_mo_ban',
+//       name: 'fu_zhi_mo_ban',
+//       meta: {
+//         icon: 'md-funnel',
+//         title: '复制模板'
+//       },
+//       component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue')
+//     }]
+//   }, {
+//     path: 'ri_cheng_guan_li',
+//     name: 'ri_cheng_guan_li',
+//     meta: {
+//       icon: 'md-funnel',
+//       title: '日程管理'
+//     },
+//     component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue'),
+//     children: [{
+//       path: 'xin_zeng_ri_cheng',
+//       name: 'xin_zeng_ri_cheng',
+//       meta: {
+//         icon: 'md-funnel',
+//         title: '新增日程'
+//       },
+//       component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue')
+//     }, {
+//       path: 'shan_chu_ri_cheng',
+//       name: 'shan_chu_ri_cheng',
+//       meta: {
+//         icon: 'md-funnel',
+//         title: '删除日程'
+//       },
+//       component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue')
+//     }]
+//   }]
+// },
