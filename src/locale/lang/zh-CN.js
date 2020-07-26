@@ -199,6 +199,10 @@ export default {
   xue_yuan_xiang_qing: '学员详情',
   xue_yuan_lie_baio: '学员列表',
   ban_zhuan_ye_jiao_lian_xiang_qing: '教练详情',
-  zhuan_ye_jiao_liang_xiang_qing: '教练详情'
-
+  zhuan_ye_jiao_liang_xiang_qing: '教练详情',
+  g_xing_zeng:"新增",
+  g_bian_ji: '编辑',
+  c_xing_zeng:"新增",
+  c_bian_ji: '编辑',
+  j_xing_zeng:"新增",
 }
