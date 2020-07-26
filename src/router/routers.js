@@ -798,16 +798,7 @@ export default [
     },
     component: Main,
     children: [
-      // {
-      //   path: 'xian_jin_ding_dan',
-      //   name: 'xian_jin_ding_dan',
-      //   meta: {
-      //     icon: 'ios-document',
-      //     title: '现金订单'
-
-      //   },
-      //   component: () => import('@/view/update/update-table.vue')
-      // },
+    
       {
         path: 'tui_kuan_guan_li',
         name: 'tui_kuan_guan_li',
@@ -816,7 +807,7 @@ export default [
           title: '退款管理'
 
         },
-        component: () => import('@/view/update/update-paste.vue'),
+        component: parentView,
         children: [{
           path: 'tui_kuan_guan_li_lie_biao',
           name: 'tui_kuan_guan_li_lie_biao',
@@ -825,7 +816,7 @@ export default [
             title: '退款管理列表'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view/cai_wu_guan_li/tui_kuan_guan_li/tui_kuan_guan_li_lie_biao.vue')
         }, {
           path: 'shen_he_tui_kuan',
           name: 'shen_he_tui_kuan',
@@ -834,7 +825,7 @@ export default [
             title: '审核退款'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view/cai_wu_guan_li/tui_kuan_guan_li/shen_he_tui_kuan.vue')
         }, {
           path: 'cha_kan_xiang_qing',
           name: 'cha_kan_xiang_qing',
@@ -843,7 +834,7 @@ export default [
             title: '查看详情'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view/cai_wu_guan_li/tui_kuan_guan_li/cha_kan_xiang_qing.vue')
         }]
       }, {
         path: 'fen_run_guan_li',
@@ -853,7 +844,7 @@ export default [
           title: '分润管理'
 
         },
-        component: () => import('@/view/update/update-paste.vue'),
+        component: parentView,
         children: [{
           path: 'fen_run_guan_li_lie_biao',
           name: 'fen_run_guan_li_lie_biao',
@@ -862,7 +853,7 @@ export default [
             title: '分润管理列表'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view/cai_wu_guan_li/fen_run_guan_li/fen_run_guan_li_lie_biao')
         }, {
           path: 'shou_yi_ming_xi',
           name: 'shou_yi_ming_xi',
@@ -871,7 +862,7 @@ export default [
             title: '收益明细'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view/cai_wu_guan_li/fen_run_guan_li/shou_yi_ming_xi.vue')
         }, {
           path: 'ti_xian_li_shi',
           name: 'ti_xian_li_shi',
@@ -880,7 +871,7 @@ export default [
             title: '提现历史'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view//cai_wu_guan_li/fen_run_guan_li/ti_xian_li_shi.vue')
         }]
       }
     ]
