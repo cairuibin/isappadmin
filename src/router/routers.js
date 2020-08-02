@@ -895,7 +895,7 @@ export default [
           title: '管理员'
 
         },
-        component: () => import('@/view/update/update-table.vue'),
+        component: parentView,
         children: [{
           path: 'guan_li_yuan_lie_biao',
           name: 'guan_li_yuan_lie_biao',
@@ -904,7 +904,7 @@ export default [
             title: '管理员列表'
 
           },
-          component: () => import('@/view/update/update-table.vue')
+          component: () => import('@/view/xi_tong_guan_li/guan_li_yuan/guan_li_yun_lie_biao.vue')
         }, {
           path: 'g_xing_zeng',
           name: 'g_xing_zeng',
@@ -913,7 +913,7 @@ export default [
             title: '新增'
 
           },
-          component: () => import('@/view/update/update-table.vue')
+          component: () => import('@/view/xi_tong_guan_li/guan_li_yuan/xin_zeng.vue')
         }, {
           path: 'g_bian_ji',
           name: 'g_bian_ji',
@@ -922,7 +922,7 @@ export default [
             title: '编辑'
 
           },
-          component: () => import('@/view/update/update-table.vue')
+          component: () => import('@/view/xi_tong_guan_li/guan_li_yuan/bian_ji.vue')
         }, {
           path: 'chong_zhi_mi_ma',
           name: 'chong_zhi_mi_ma',
@@ -931,7 +931,7 @@ export default [
             title: '重置密码'
 
           },
-          component: () => import('@/view/update/update-table.vue')
+          component: () => import('@/view/xi_tong_guan_li/guan_li_yuan/chong_zhi_mi_ma.vue')
         }]
       },
       {
@@ -942,7 +942,7 @@ export default [
           title: '角色管理'
 
         },
-        component: () => import('@/view/update/update-paste.vue'),
+        component: parentView,
         children: [{
           path: 'jue_se_guan_li_lie_biao',
           name: 'jue_se_guan_li_lie_biao',
@@ -951,7 +951,7 @@ export default [
             title: '角色管理列表'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view/xi_tong_guan_li/jiao_se_guan_li/jiao_se_guan_li_lie_biao.vue')
         }, {
           path: 'j_xing_zeng',
           name: 'j_xing_zeng',
@@ -960,7 +960,7 @@ export default [
             title: '新增'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view/xi_tong_guan_li/jiao_se_guan_li/xin_zeng.vue')
         }, {
           path: 'xiu_gai_jue_se_ming',
           name: 'xiu_gai_jue_se_ming',
@@ -969,7 +969,7 @@ export default [
             title: '修改角色名'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view/xi_tong_guan_li/jiao_se_guan_li/xiu_gai_jiao_se_ming.vue')
         }, {
           path: 'shou_quan',
           name: 'shou_quan',
@@ -978,7 +978,7 @@ export default [
             title: '授权'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view/xi_tong_guan_li/jiao_se_guan_li/shou_quan.vue')
         }, {
           path: 'shng_chu',
           name: 'shng_chu',
@@ -987,7 +987,7 @@ export default [
             title: '删除'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view/xi_tong_guan_li/jiao_se_guan_li/shan_chu.vue')
         },]
       },
        {
@@ -998,7 +998,7 @@ export default [
           title: '菜单管理'
 
         },
-        component: () => import('@/view/update/update-table.vue'),
+        component: parentView,
         children: [{
           path: 'cai_dan_guan_li_lie_biao',
           name: 'cai_dan_guan_li_lie_biao',
@@ -1007,7 +1007,7 @@ export default [
             title: '菜单管理列表'
 
           },
-          component: () => import('@/view/update/update-table.vue'),
+          component: () => import('@/view/xi_tong_guan_li/cai_dan_guan_li/tian_jia_zi_fen_lei_biao.vue'),
 
         }, {
           path: 'c_xing_zeng',
@@ -1017,7 +1017,7 @@ export default [
             title: '新增'
 
           },
-          component: () => import('@/view/update/update-table.vue'),
+          component: () => import('@/view/xi_tong_guan_li/cai_dan_guan_li/xin_zeng.vue'),
 
         }, {
           path: 'c_bian_ji',
@@ -1027,7 +1027,7 @@ export default [
             title: '编辑'
 
           },
-          component: () => import('@/view/update/update-table.vue'),
+          component: () => import('@/view/xi_tong_guan_li/cai_dan_guan_li/bian_ji.vue'),
 
         }, {
           path: 'tian_jia_zi_fen_lei',
@@ -1037,7 +1037,7 @@ export default [
             title: '添加子分类'
 
           },
-          component: () => import('@/view/update/update-table.vue'),
+          component: () => import('@/view/xi_tong_guan_li/cai_dan_guan_li/tian_jia_zi_fen_lei_biao.vue'),
 
         }]
       },
