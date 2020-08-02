@@ -522,7 +522,7 @@ export default [
           title: '专项动作'
 
         },
-        component: () => import('@/view/update/update-paste.vue'),
+        component: parentView,
         children: [{
           path: 'zhuan_xiang_dong_zuo_lie_biao',
           name: 'zhuan_xiang_dong_zuo_lie_biao',
@@ -531,7 +531,7 @@ export default [
             title: '专项动作列表'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view//nei_rong_guan_li/zhuan_xiang_dong_zuo/zhuan_xiang_dong_zuo_lie_biao.vue')
         }, {
           path: 'zhuan_xiang_dong_zuo_huaxing_xaing_qing',
           name: 'zhuan_xiang_dong_zuo_huaxing_xaing_qing',
@@ -540,7 +540,7 @@ export default [
             title: '专项动作-滑行列表'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view//nei_rong_guan_li/zhuan_xiang_dong_zuo/zhuan_xiang_dong_zuo_hua_xing_lie_biao.vue')
         }, {
           path: 'zhuan_xiang_dong_zuo_dongzuo_xiang_qing',
           name: 'zhuan_xiang_dong_zuo_dongzuo_xiang_qing',
@@ -549,7 +549,7 @@ export default [
             title: '专项动作-动作详情'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view//nei_rong_guan_li/zhuan_xiang_dong_zuo/zhuan_xiang_dong_zuo_dong_zuo_xiang_qing.vue')
         }]
       }, {
         path: 'ji_hua_mo_ban',
@@ -559,7 +559,7 @@ export default [
           title: '训练计划模板'
 
         },
-        component: () => import('@/view/update/update-table.vue'),
+        component: parentView,
         children: [{
           path: 'ji_hua_mo_ban_lie_biao',
           name: 'ji_hua_mo_ban_lie_biao',
@@ -568,7 +568,7 @@ export default [
             title: '训练计划模板列表'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view/nei_rong_guan_li/xun_lian_ji_hua_mo_ban/xun_lian_ji_hua_mo_ban_lie_biao.vue')
         }, {
           path: 'xing_zeng_mo_ban',
           name: 'xing_zeng_mo_ban',
@@ -577,7 +577,7 @@ export default [
             title: '新增模板'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view/nei_rong_guan_li/xun_lian_ji_hua_mo_ban/xin_zeng_mo_ban.vue')
         }, {
           path: 'ke_jie_guan_li',
           name: 'ke_jie_guan_li',
@@ -586,7 +586,7 @@ export default [
             title: '课节管理'
 
           },
-          component: () => import('@/view/update/update-paste.vue'),
+          component:parentView,
           children: [{
             path: 'ke_jie_guan_li_lie_baio',
             name: 'ke_jie_guan_li_lie_baio',
@@ -595,7 +595,7 @@ export default [
               title: '课节管理列表'
 
             },
-            component: () => import('@/view/update/update-paste.vue')
+            component: () => import('@/view/nei_rong_guan_li/xun_lian_ji_hua_mo_ban/ke_jie_guan_li/ke_jie_guan_li_lie_biao.vue')
           }, {
             path: 'xin_zeng_ke_jie',
             name: 'xin_zeng_ke_jie',
@@ -604,7 +604,7 @@ export default [
               title: '新增课节'
 
             },
-            component: () => import('@/view/update/update-paste.vue')
+            component: () => import('@/view/nei_rong_guan_li/xun_lian_ji_hua_mo_ban/ke_jie_guan_li/xin_zeng_ke_jie.vue')
           }]
         }]
       }, {
@@ -616,7 +616,7 @@ export default [
           title: '课节管理'
 
         },
-        component: () => import('@/view/update/update-paste.vue'),
+        component: parentView,
         children: [{
           path: 'n_ke_jie_guan_li_lie_baio',
           name: 'n_ke_jie_guan_li_lie_baio',
@@ -625,7 +625,7 @@ export default [
             title: '课节管理列表'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view/nei_rong_guan_li/ke_jie_guan_li/ke_jie_guan_li_lie_biao.vue')
         }, {
           path: 'n_xin_zeng_ke_jie',
           name: 'n_xin_zeng_ke_jie',
@@ -634,7 +634,7 @@ export default [
             title: '新增课节'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view/nei_rong_guan_li/ke_jie_guan_li/xin_zeng_ke_jie.vue')
         }]
       },
       {
@@ -645,7 +645,7 @@ export default [
           title: '线上课程',
           showAlways: true
         },
-        component: () => import('@/view/update/update-paste.vue'),
+        component: parentView,
         children: [{
           path: 'xian_sahng_ke_cheng_lie_biao',
           name: 'xian_sahng_ke_cheng_lie_biao',
@@ -654,7 +654,7 @@ export default [
             title: '线上课程列表'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view/nei_rong_guan_li/xian_shang_ke_cheng/xian_shang_ke_cheng_lie_biao.vue')
         }, {
           path: 'fen_lei_ming_xi',
           name: 'fen_lei_ming_xi',
@@ -663,7 +663,7 @@ export default [
             title: '分类明细'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view/nei_rong_guan_li/xian_shang_ke_cheng/fen_lei_ming_xi.vue')
         }, {
           path: 'x_xin_zeng_ke_cheng',
           name: 'x_xin_zeng_ke_cheng',
@@ -672,7 +672,7 @@ export default [
             title: '新增课程'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view/nei_rong_guan_li/xian_shang_ke_cheng/xin_zeng_ke_cheng.vue')
         }, {
           path: 'ke_cheng_guan_li',
           name: 'ke_cheng_guan_li',
@@ -681,7 +681,7 @@ export default [
             title: '课程管理'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view/nei_rong_guan_li/xian_shang_ke_cheng/ke_cheng_guan_li.vue')
         }, {
           path: 'x_xin_zeng_ke_jie',
           name: 'x_xin_zeng_ke_jie',
@@ -690,7 +690,7 @@ export default [
             title: '新增课节'
 
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view/nei_rong_guan_li/xian_shang_ke_cheng/xin_zeng_ke_jie.vue')
         }]
       },
       {
@@ -701,7 +701,7 @@ export default [
           title: '专家青训营',
           showAlways: true
         },
-        component: () => import('@/view/update/update-table.vue'),
+        component: parentView,
         children: [{
           path: 'zhuan_jia_qing_xun_ying_lie_biao',
           name: 'zhuan_jia_qing_xun_ying_lie_biao',
@@ -710,7 +710,7 @@ export default [
             title: '专家青训营列表'
 
           },
-          component: () => import('@/view/update/update-table.vue')
+          component: () => import('@/view/nei_rong_guan_li/zhuan_jia_qing_xun_ying/zhuan_jia_qing_xun_ying_lie_biao.vue')
         },
         // {
         //   path: 'xin_zeng_xun_lian_ying_wu_an_pai',
@@ -730,7 +730,7 @@ export default [
             title: '新增训练营-训练计划'
             // showAlways: true,
           },
-          component: () => import('@/view/update/update-table.vue')
+          component: () => import('@/view/nei_rong_guan_li/zhuan_jia_qing_xun_ying/xin_zeng_xun_lian_ying_xun_lian_ji_hua.vue')
         }, {
           path: 'xin_zeng_xun_lian_ying_zi_ding_yi',
           name: 'xin_zeng_xun_lian_ying_zi_ding_yi',
@@ -739,7 +739,7 @@ export default [
             title: '新增训练营-自定义',
             showAlways: true
           },
-          component: () => import('@/view/update/update-table.vue'),
+          component: parentView,
           children: [{
             path: 'xin_zeng_xun_lian_ying_zi_ding_yi_lie_biao',
             name: 'xin_zeng_xun_lian_ying_zi_ding_yi_lie_biao',
@@ -747,7 +747,7 @@ export default [
               icon: 'md-clipboard',
               title: '新增训练营-自定义列表'
             },
-            component: () => import('@/view/update/update-paste.vue')
+            component: () => import('@/view/nei_rong_guan_li/zhuan_jia_qing_xun_ying/xin_zeng_xun_lian_ying_zi_ding_yi/xin_zeng_xun_lian_ying_zi_ding_yi_lie_biao.vue')
           }, {
             path: 'x_xin_zeng_ke_jie',
             name: 'x_xin_zeng_ke_jie',
@@ -755,7 +755,7 @@ export default [
               icon: 'md-clipboard',
               title: '新增课节'
             },
-            component: () => import('@/view/update/update-paste.vue')
+            component: () => import('@/view/nei_rong_guan_li/zhuan_jia_qing_xun_ying/xin_zeng_xun_lian_ying_zi_ding_yi/xin_zeng_ke_jie.vue')
           }]
         }]
       },
