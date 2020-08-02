@@ -378,7 +378,7 @@ export default [
         title: '分类管理'
 
       },
-      component: () => import('@/view/update/update-table.vue'),
+      component: parentView,
       children: [{
         path: 'fen_lei_guan_li_lie_biao',
         name: 'fen_lei_guan_li_lie_biao',
@@ -387,7 +387,7 @@ export default [
           title: '分类管理列表'
 
         },
-        component: () => import('@/view/update/update-paste.vue')
+        component: () => import('@/view/shang_cheng_guan_li/fen_lei_guan_li/fen_lei_guan_li_lie_biao.vue')
       }, {
         path: 'xin_zeng_fen_lei',
         name: 'xin_zeng_fen_lei',
@@ -396,7 +396,7 @@ export default [
           title: '新增分类'
 
         },
-        component: () => import('@/view/update/update-paste.vue')
+        component: () => import('@/view/shang_cheng_guan_li/fen_lei_guan_li/xin_zeng_fen_lei.vue')
       }]
     },
     {
@@ -407,7 +407,7 @@ export default [
         title: '商品管理'
 
       },
-      component: () => import('@/view/update/update-table.vue'),
+      component: parentView,
       children: [{
         path: 'shang_pin_guan_li_lie_biao',
         name: 'shang_pin_guan_li_lie_biao',
@@ -416,7 +416,7 @@ export default [
           title: '商品管理列表'
 
         },
-        component: () => import('@/view/update/update-paste.vue')
+        component: () => import('@/view//shang_cheng_guan_li/shang_pin_guan_li/shang_pin_guan_li_lie_biao.vue')
       }, {
         path: 'shang_pin_guan_li_cha_xun_fen_lei',
         name: 'shang_pin_guan_li_cha_xun_fen_lei',
@@ -425,7 +425,7 @@ export default [
           title: '商品管理-查询分类'
 
         },
-        component: () => import('@/view/update/update-paste.vue')
+        component: () => import('@/view/shang_cheng_guan_li/shang_pin_guan_li/shang_pin_guan_li_cha_xun_fen_lei.vue')
       }, {
         path: 'xin_zeng_sahng_pin',
         name: 'xin_zeng_sahng_pin',
@@ -434,7 +434,7 @@ export default [
           title: '新增商品'
 
         },
-        component: () => import('@/view/update/update-paste.vue')
+        component: () => import('@/view/shang_cheng_guan_li/shang_pin_guan_li/xin_zeng_shang_pin.vue')
       }, {
         path: 'shan_chu_shang_pin',
         name: 'shan_chu_shang_pin',
@@ -443,7 +443,7 @@ export default [
           title: '删除商品'
 
         },
-        component: () => import('@/view/update/update-paste.vue')
+        component: () => import('@/view/shang_cheng_guan_li/shang_pin_guan_li/shan_chu_shang_pin.vue')
       }]
     },
     {
@@ -454,7 +454,7 @@ export default [
         title: '商品订单',
         showAlways: true
       },
-      component: () => import('@/view/update/update-paste.vue'),
+      component: parentView,
       children: [{
         path: 'ding_dan_guan_li_lie_biao',
         name: 'ding_dan_guan_li_lie_biao',
@@ -463,7 +463,7 @@ export default [
           title: '商品订单列表'
 
         },
-        component: () => import('@/view/update/update-paste.vue')
+        component: () => import('@/view/shang_cheng_guan_li/shang_pin_ding_dan/shang_pin_ding_dan_lie_biao.vue')
       }, {
         path: 'ding_dan_xaing_qing_dai_zhi_fu',
         name: 'ding_dan_xaing_qing_dai_zhi_fu',
@@ -472,7 +472,7 @@ export default [
           title: '订单详情-待支付'
 
         },
-        component: () => import('@/view/update/update-paste.vue')
+        component: () => import('@/view/shang_cheng_guan_li/shang_pin_ding_dan/ding_dan_xiang_qing_dai_zhi_fu.vue')
       }, {
         path: 'ding_dan_xaing_qing_dai_fa_huo',
         name: 'ding_dan_xaing_qing_dai_fa_huo',
@@ -481,7 +481,7 @@ export default [
           title: '订单详情-待发货'
 
         },
-        component: () => import('@/view/update/update-paste.vue')
+        component: () => import('@/view/shang_cheng_guan_li/shang_pin_ding_dan/ding_dan_xiang_qing_dai_fa_huo.vue')
       }, {
         path: 'ding_dan_xaing_qing_dai_shou_huo',
         name: 'ding_dan_xaing_qing_dai_shou_huo',
@@ -490,7 +490,7 @@ export default [
           title: '订单详情-待收货'
 
         },
-        component: () => import('@/view/update/update-paste.vue')
+        component: () => import('@/view/shang_cheng_guan_li/shang_pin_ding_dan/ding_dan_xiang_qing_dai_shou_huo.vue')
       }, {
         path: 'ding_dan_xaing_qing_shen_qing_tui_kuan',
         name: 'ding_dan_xaing_qing_shen_qing_tui_kuan',
@@ -499,7 +499,7 @@ export default [
           title: '订单详情-申请退款'
 
         },
-        component: () => import('@/view/update/update-paste.vue')
+        component: () => import('@/view/shang_cheng_guan_li/shang_pin_ding_dan/ding_dan_xiang_qing_shen_qing_tui_kuan.vue')
       }]
     }
     ]
