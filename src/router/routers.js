@@ -1007,7 +1007,7 @@ export default [
             title: '菜单管理列表'
 
           },
-          component: () => import('@/view/xi_tong_guan_li/cai_dan_guan_li/tian_jia_zi_fen_lei_biao.vue'),
+          component: () => import('@/view/xi_tong_guan_li/cai_dan_guan_li/cai_dan_guan_li.vue'),
 
         }, {
           path: 'c_xing_zeng',
