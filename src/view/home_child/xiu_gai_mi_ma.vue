@@ -10,10 +10,6 @@
         <FormItem label="确认新密码：" prop="Checkpwd">
             <Input type="password" placeholder="6~20位字符" v-model="formCustom.Checkpwd" style="width: 200px" />
         </FormItem>
-
-        <FormItem>
-            <Button type="primary" @click="handleSubmit('formCustom')">修改</Button>
-        </FormItem>
     </Form>
   </div>
 </template>

@@ -61,25 +61,24 @@ export default [
     component: Main,
     children: [
       {
+        path: 'xiu_gai_mi_ma',
+        name: 'homeAdmin',
+        meta: {
+          icon: 'md-clipboard',
+          title: '首页'
+        },
+        component: () => import('@/view/single-page/home')
+      },
+      {
         path: 'ge_ren_zhong_xin',
         name: 'ge_ren_zhong_xin',
         meta: {
           icon: 'ios-document',
           title: '个人中心'
-
         },
         component: () => import('@/view/home_child/ge_ren_zhong_xin.vue')
       },
-      {
-        path: 'xiu_gai_mi_ma',
-        name: 'xiu_gai_mi_ma',
-        meta: {
-          icon: 'md-clipboard',
-          title: '修改密码'
-
-        },
-        component: () => import('@/view/home_child/xiu_gai_mi_ma.vue')
-      }
+      
     ]
   }, {
     path: '/yun_ying_guan_li',
