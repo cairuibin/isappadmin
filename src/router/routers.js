@@ -98,17 +98,17 @@ export default [
           icon: 'md-clipboard',
           title: '课包管理'
         },
-        component: parentView,
-        children: [{
-          path: 'ke_bao_guan_li_lie_biao',
-          name: 'ke_bao_guan_li_lie_biao',
-          meta: {
-            icon: 'md-clipboard',
-            title: '课包管理列表'
+        component: () => import('@/view/yun_ying_guan_li/ke_bao_guan_li/ke_bao_guan_li_lie_biao.vue'),
+        // children: [{
+        //   path: 'ke_bao_guan_li_lie_biao',
+        //   name: 'ke_bao_guan_li_lie_biao',
+        //   meta: {
+        //     icon: 'md-clipboard',
+        //     title: '课包管理列表'
 
-          },
-          component: () => import('@/view/yun_ying_guan_li/ke_bao_guan_li/ke_bao_guan_li_lie_biao.vue')
-        },
+        //   },
+        //   component: () => import('@/view/yun_ying_guan_li/ke_bao_guan_li/ke_bao_guan_li_lie_biao.vue')
+        // },
         // {
         //   path: 'xin_zeng_ke_bao_wu_an',
         //   name: 'xin_zeng_ke_bao_wu_an',
@@ -119,44 +119,47 @@ export default [
         //   },
         //   component: () => import('@/view/update/update-paste.vue')
         // },
-        {
-          path: 'xin_zeng_ke_bao_xun_lian',
-          name: 'xin_zeng_ke_bao_xun_lian',
-          meta: {
-            icon: 'md-clipboard',
-            title: '新增课包-训练计划'
+        // {
+        //   path: 'xin_zeng_ke_bao_xun_lian',
+        //   name: 'xin_zeng_ke_bao_xun_lian',
+        //   meta: {
+        //     icon: 'md-clipboard',
+        //     title: '新增课包-训练计划'
 
-          },
-          component: () => import('@/view/yun_ying_guan_li/ke_bao_guan_li/xin_zeng_ke_bao_xun_lian.vue')
-        }, {
-          path: 'xin_zeng_ke_bao_zi_ding_yi',
-          name: 'xin_zeng_ke_bao_zi_ding_yi',
-          meta: {
-            icon: 'md-clipboard',
-            title: '新增课包-自定义课节',
-            showAlways: true
-          },
-          component: () => import('@/view/update/update-paste.vue'),
-          children: [{
-            path: 'xin_zeng_ke_bao_zi_ding_yi_lie_biao',
-            name: 'xin_zeng_ke_bao_zi_ding_yi_lie_biao',
-            meta: {
-              icon: 'md-clipboard',
-              title: '新增课包-自定义课节列表'
+        //   },
+        //   component: () => import('@/view/yun_ying_guan_li/ke_bao_guan_li/xin_zeng_ke_bao_xun_lian.vue')
+        // }, 
+        // {
+        //   path: 'xin_zeng_ke_bao_zi_ding_yi',
+        //   name: 'xin_zeng_ke_bao_zi_ding_yi',
+        //   meta: {
+        //     icon: 'md-clipboard',
+        //     title: '新增课包-自定义课节',
+        //     showAlways: true
+        //   },
+        //   component: () => import('@/view/update/update-paste.vue'),
+        //   children: [{
+        //     path: 'xin_zeng_ke_bao_zi_ding_yi_lie_biao',
+        //     name: 'xin_zeng_ke_bao_zi_ding_yi_lie_biao',
+        //     meta: {
+        //       icon: 'md-clipboard',
+        //       title: '新增课包-自定义课节列表'
 
-            },
-            component: () => import('@/view/update/update-paste.vue')
-          }, {
-            path: 'xin_zeng_ke_jie_xiao_guo',
-            name: 'xin_zeng_ke_jie_xiao_guo',
-            meta: {
-              icon: 'md-clipboard',
-              title: '新增课节效果'
+        //     },
+        //     component: () => import('@/view/update/update-paste.vue')
+        //   }, 
+        //   {
+        //     path: 'xin_zeng_ke_jie_xiao_guo',
+        //     name: 'xin_zeng_ke_jie_xiao_guo',
+        //     meta: {
+        //       icon: 'md-clipboard',
+        //       title: '新增课节效果'
 
-            },
-            component: () => import('@/view/update/update-paste.vue')
-          }]
-        }]
+        //     },
+        //     component: () => import('@/view/update/update-paste.vue')
+        //   }]
+        // }
+      // ]
       }, {
         path: 'ke_cheng_ding_dan',
         name: 'ke_cheng_ding_dan',
