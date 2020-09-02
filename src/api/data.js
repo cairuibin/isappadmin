@@ -6,6 +6,12 @@ export const getTableData = () => {
     method: 'get'
   })
 }
+export const getkebaoTableData = () => {
+  return axios.request({
+    url: 'api/v2/data/course/getCoursePacketPage',
+    method: 'post'
+  })
+}
 
 export const getDragList = () => {
   return axios.request({

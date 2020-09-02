@@ -17,109 +17,126 @@
 </template>
 
 <script>
-import Tables from '_c/tables'
-import { getTableData } from '@/api/data'
+import Tables from "_c/tables";
+import untilMd5 from "../../../utils/md5";
 export default {
-  name: 'tables_page',
+  name: "tables_page",
   components: {
-    Tables
+    Tables,
   },
-  data () {
+  data() {
     return {
       columns: [
         {
-          type: 'selection',
+          type: "selection",
           width: 60,
-          align: 'center'
+          align: "center",
         },
-        { title: '课包名称', key: 'name', sortable: false },
-        { title: '课程安排', key: 'email', editable: false },
-        { title: '应收(元)', key: 'createTime' },
-        { title: '实收(元)', key: 'createTime' },
-        { title: '状态', key: 'createTime' },
-        { title: '关联门店', key: 'createTime' },
-        { title: '创建者', key: 'createTime' },
-        { title: '报名总数', key: 'createTime' },
+        { title: "课包名称", key: "title", sortable: false },
+        { title: "课程安排", key: "email", editable: false },
+        { title: "应收(元)", key: "createTime" },
+        { title: "实收(元)", key: "createTime" },
+        { title: "状态", key: "status" },
+        { title: "关联门店", key: "rinkId" },
+        { title: "创建者", key: "createUser" },
+        { title: "报名总数", key: "createTime" },
         {
-          title: '操作',
-
-          key: 'action',
-
+          title: "操作",
+          key: "action",
           width: 150,
-
-          align: 'center',
-
+          align: "center",
           render: (h, params) => {
-            return h('div', [
+            return h("div", [
               h(
-                'Button',
+                "Button",
 
                 {
                   props: {
-                    type: 'primary',
+                    type: "primary",
 
-                    size: 'small'
+                    size: "small",
                   },
                   style: {
-                    marginRight: '5px'
+                    marginRight: "5px",
                   },
                   on: {
                     click: () => {
-                      this.look(params.index)
-                    }
-                  }
+                      this.look(params.index);
+                    },
+                  },
                 },
 
-                '查看'
+                "查看"
               ),
               h(
-                'Button',
+                "Button",
 
                 {
                   props: {
-                    type: 'warning',
+                    type: "warning",
 
-                    size: 'small'
+                    size: "small",
                   },
 
                   style: {
-                    marginRight: '5px'
+                    marginRight: "5px",
                   },
 
                   on: {
                     click: () => {
-                      this.editBus(params.row, params.index)
-                    }
-                  }
+                      this.editBus(params.row, params.index);
+                    },
+                  },
                 },
 
-                '编辑'
-              )
-            ])
-          }
-        }
+                "编辑"
+              ),
+            ]);
+          },
+        },
       ],
-      tableData: []
-    }
+      tableData: [],
+    };
   },
   methods: {
-    editBus (item, index) {},
-    look (params) {},
-    handleDelete (params) {
-      console.log(params)
+    editBus(item, index) {},
+    look(params) {},
+    handleDelete(params) {
+      console.log(params);
     },
-    exportExcel () {
+    exportExcel() {
       this.$refs.tables.exportCsv({
-        filename: `table-${new Date().valueOf()}.csv`
-      })
-    }
+        filename: `table-${new Date().valueOf()}.csv`,
+      });
+    },
   },
-  mounted () {
-    getTableData().then((res) => {
-      this.tableData = res.data
-    })
-  }
-}
+  mounted() {
+    this.axios
+      .post("/api/api/v2/data/course/getCoursePacketPage", {
+        // code: "xy-week-1",
+        isUseTemplate: 0,
+        isMemberGoods: 0,
+        status: 1,
+        pageNum: 1,
+        pageSize: 10,
+        sign: untilMd5.toSign(
+          {
+            // code: "xy-week-1",
+            isUseTemplate: 0,
+            isMemberGoods: 0,
+            status: 1,
+            pageNum: 1,
+            pageSize: 10,
+          },
+          "getCoursePacketPage"
+        ),
+      })
+      .then((res) => {
+        console.log(res.data.data.list)
+        this.tableData = res.data.data.list
+      });
+  },
+};
 </script>
 
 <style>
