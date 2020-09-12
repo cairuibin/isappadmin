@@ -1,8 +1,13 @@
 <template>
   <div>
-    <Modal v-model="modal2" width="660">
-      <p slot="header" style="color:#f60;text-align:center">
-        <Icon type="ios-information-circle"></Icon>
+    <Modal 
+        v-model="modal2" 
+        :maskClosable="false" 
+        footer-hide
+        width="750" 
+        @on-cancel="Cancel"
+    >
+      <p slot="header" style="text-align:center">
         <span>学员详情</span>
       </p>
       <div>
@@ -25,10 +30,10 @@
         </div>
         <div class="div_content">
           <span>照片：</span>
-        <img width="50px" src="@/assets/images/logo-min.jpg" alt="">
+          <img width="50px" src="@/assets/images/logo-min.jpg" alt />
         </div>
         <div class="div_content">
-          <span>性别:</span>
+          <span>性别：</span>
           {{'女'}}
         </div>
         <div class="div_content">
@@ -40,12 +45,8 @@
         </div>
         <div class="div_content">
           <span>线下学习历史：</span>
-         <tables ref="tables" v-model="tableData" :columns="columns" @on-delete="handleDelete" />
+          <tables class="detail_table" ref="tables" v-model="tableData" :columns="columns" @on-delete="handleDelete" />
         </div>
-        
-      </div>
-      <div slot="footer">
-        <!-- <Button type="error" size="large" long :loading="modal_loading" @click="del">Delete</Button> -->
       </div>
     </Modal>
   </div>
@@ -55,7 +56,11 @@
 import Tables from "_c/tables";
 import { getTableData } from "@/api/data";
 export default {
-     components: {
+  props:{
+    studentInfo:Object,
+    onCancel:Function,
+  },
+  components: {
     Tables,
   },
   data() {
@@ -66,17 +71,20 @@ export default {
       sheng_he_bo_hui: "",
       bo_hui_yuan_yin: "",
       qi_ta: "",
-       columns: [
+      columns: [
         { title: "课程名称", key: "name", sortable: false },
-        { title: "实缴(元)", key: "email", editable: false  },
-        { title: "教练", key: "createTime"  },
-        { title: "状态", key: "createTime"  }
+        { title: "实缴(元)", key: "email", editable: false },
+        { title: "教练", key: "createTime" },
+        { title: "状态", key: "createTime" },
       ],
       tableData: [],
     };
   },
   methods: {
-        handleDelete(params) {
+    Cancel(){
+        this.onCancel()
+    },
+    handleDelete(params) {
       console.log(params);
     },
     del() {
@@ -87,7 +95,8 @@ export default {
         this.$Message.success("Successfully delete");
       }, 2000);
     },
-  },  mounted() {
+  },
+  mounted() {
     getTableData().then((res) => {
       this.tableData = res.data;
     });
@@ -96,17 +105,18 @@ export default {
 </script>
 
 <style scoped lang='scss'>
+
 .div_content {
   margin-bottom: 10px;
   display: flex;
   align-items: center;
-}
-.div_content {
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  .btn {
-    margin-left: 65%;
+  >span{
+    width: 115px;
+    display: inline-block;
+    text-align: right;
+  }
+  .detail_table{
+    width: 590px;
   }
 }
 </style>
