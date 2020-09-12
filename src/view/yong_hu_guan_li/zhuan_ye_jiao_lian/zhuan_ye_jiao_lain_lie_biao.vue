@@ -13,23 +13,28 @@
       <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
     <Detail v-if="detailModal" :coachInfo="coachInfo" :onCancel="onCancel" />
+    <Rzsx v-if="rzsxModal" :rzsxInfo="rzsxInfo" :onCancel="rzsxCancel" />
   </div>
 </template>
 
 <script>
 import Tables from "_c/tables";
 import Detail from "./zhuan_ye_jiao_lain_xiang_qing";
+import Rzsx from './zhuan_ye_jiao_lain_shen_he'
 import { getTableData } from "@/api/data";
 export default {
   name: "tables_page",
   components: {
     Tables,
     Detail,
+    Rzsx,
   },
   data() {
     return {
       detailModal: false,
       coachInfo: {},
+      rzsxModal: false,
+      rzsxInfo: {},
       columns: [
         {
           type: "selection",
@@ -90,7 +95,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.look(params.index);
+                      this.rzsx(params.row);
                     },
                   },
                 },
@@ -111,6 +116,13 @@ export default {
     },
     onCancel() {
       this.detailModal = false;
+    },
+    rzsx(row){
+      this.rzxsInfo = row
+      this.rzsxModal=true;
+    },
+    rzsxCancel() {
+      this.rzsxModal = false;
     },
     handleDelete(params) {
       console.log(params);

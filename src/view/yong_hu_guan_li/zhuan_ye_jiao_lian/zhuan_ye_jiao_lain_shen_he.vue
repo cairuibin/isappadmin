@@ -1,8 +1,13 @@
 <template>
   <div>
-    <Modal v-model="modal2" width="460">
-      <p slot="header" style="color:#f60;text-align:center">
-        <Icon type="ios-information-circle"></Icon>
+    <Modal 
+      v-model="modal2"
+      :maskClosable="false" 
+      footer-hide
+      width="750" 
+      @on-cancel="Cancel"
+    >
+      <p slot="header" style="text-align:center">
         <span>账号专家认证</span>
       </p>
       <div>
@@ -45,51 +50,50 @@
         <div class="h1">认证资料</div>
         <div class="div_content">
           <span>提交时间：</span>
-
           yyyy-MM-dd HH:mm:ss
         </div>
         <div class="div_content">
           <span>专业项目：</span>花样滑冰
         </div>
         <div class="div_content">
-          <span>专项运动开始时间:</span>2015-10
+          <span>专项运动开始时间：</span>2015-10
         </div>
         <div class="div_content">
           <span>运动生涯成绩：</span>
-          教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容
+          <div>{{"教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容"}}</div>
         </div>
          <div class="div_content">
-          <span>专项教学开始时间</span>
+          <span>专项教学开始时间：</span>
           2015-10
         </div>
          <div class="div_content">
-          <span>教学特点</span>
-          教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容
+          <span>教学特点：</span>
+          <div>{{"教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容"}}</div>
         </div>
         <div class="div_content">
           <span>教学成果：</span>
-          教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容
+          <div>{{"教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容"}}</div>
         </div>
          <div class="div_content">
           <span>审核通过：</span>
-          <Button>审核通过</Button>
+          <Button type="primary" @click="onAdopt">审核通过</Button>
         </div>
-        <div class>
+        <div class="div_content">
           <span>审核驳回：</span>
-          <div class="c_item">
-            <Checkbox v-model="single">Checkbox</Checkbox>信息有误，请仔细核对
-          </div>
-          <div class="c_item">
-            <Checkbox v-model="single1">Checkbox</Checkbox>照片上传不清晰
-          </div>
-          <div class="c_item">
-            <Checkbox v-model="single2">Checkbox</Checkbox>其它
-            <Input class="input" />
+          <div>
+            <div class="c_item">
+            <Checkbox v-model="single"></Checkbox>信息有误，请仔细核对
+            </div>
+            <div class="c_item">
+              <Checkbox v-model="single1"></Checkbox>照片上传不清晰
+            </div>
+            <div class="c_item">
+              <Checkbox v-model="single2"></Checkbox>其它
+              <Input class="input" />
+            </div>
+             <Button type="error" @click="onReject">审核驳回</Button>
           </div>
         </div>
-      </div>
-      <div slot="footer">
-        <!-- <Button type="error" size="large" long :loading="modal_loading" @click="del">Delete</Button> -->
       </div>
     </Modal>
   </div>
@@ -97,6 +101,10 @@
 
 <script>
 export default {
+   props:{
+    rzsxInfo:Object,
+    onCancel:Function,
+  },
   data() {
     return {
       modal2: true,
@@ -111,6 +119,15 @@ export default {
     };
   },
   methods: {
+    Cancel(){
+        this.onCancel()
+    },
+    onAdopt(){
+        // 通过接口
+    },
+    onReject(){
+      // 驳回接口
+    },
     del() {
       this.modal_loading = true;
       setTimeout(() => {
@@ -124,17 +141,17 @@ export default {
 </script>
 
 <style scoped lang='scss'>
+
 .div_content {
   margin-bottom: 10px;
   display: flex;
   align-items: center;
-}
-.div_content {
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  .btn {
-    margin-left: 65%;
+  > span {
+    width: 115px;
+    text-align: right;
+  }
+  > div {
+    flex: 1;
   }
 }
 .input {
