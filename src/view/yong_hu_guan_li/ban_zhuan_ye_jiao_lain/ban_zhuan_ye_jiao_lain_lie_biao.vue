@@ -19,9 +19,10 @@
 
 <script>
 import Tables from "_c/tables";
-import Detail from './ban_zhuan_ye_jiao_lian_xiang_qing'
-import Rzsx from './ban_zhuan_ye_jiao_lain_shen_he'
-import { getTableData } from "@/api/data";
+import Detail from "./ban_zhuan_ye_jiao_lian_xiang_qing";
+import Rzsx from "./ban_zhuan_ye_jiao_lain_shen_he";
+// import { getTableData } from "@/api/data";
+import untilMd5 from "../../../utils/md5";
 export default {
   name: "tables_page",
   components: {
@@ -58,7 +59,7 @@ export default {
         {
           title: "操作",
           key: "action",
-          width:150,
+          width: 150,
           align: "center",
           render: (h, params) => {
             return h("div", [
@@ -95,7 +96,7 @@ export default {
                     marginRight: "5px",
                   },
                   on: {
-                     click: () => {
+                    click: () => {
                       this.rzsx(params.row);
                     },
                   },
@@ -111,16 +112,16 @@ export default {
     };
   },
   methods: {
-     look(row) {
+    look(row) {
       this.coachInfo = row;
       this.detailModal = true;
     },
     onCancel() {
       this.detailModal = false;
     },
-    rzsx(row){
-      this.rzxsInfo = row
-      this.rzsxModal=true;
+    rzsx(row) {
+      this.rzxsInfo = row;
+      this.rzsxModal = true;
     },
     rzsxCancel() {
       this.rzsxModal = false;
@@ -133,10 +134,25 @@ export default {
         filename: `table-${new Date().valueOf()}.csv`,
       });
     },
+    gettabledata_c(params) {
+      this.axios
+        .post("/api/api/v2/user/coach/getCoachPage", {
+          ...params,
+          sign: untilMd5.toSign({ ...params }, "getCoachPage"),
+        })
+        .then((res) => {
+          console.log(res.data, "半专业教练列表");
+          this.tableData = res.data.data.list;
+        });
+    },
   },
   mounted() {
-    getTableData().then((res) => {
-      this.tableData = res.data;
+    this.gettabledata_c({
+      workType: 1,
+      gender: 0,
+      pageNum: 1,
+      pageSize: 10,
+      coachType: 1,
     });
   },
 };

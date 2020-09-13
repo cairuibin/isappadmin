@@ -54,7 +54,8 @@
 
 <script>
 import Tables from "_c/tables";
-import { getTableData } from "@/api/data";
+// import { getTableData } from "@/api/data";
+import untilMd5 from "../../../utils/md5";
 export default {
   props:{
     studentInfo:Object,
@@ -94,13 +95,31 @@ export default {
         this.modal2 = false;
         this.$Message.success("Successfully delete");
       }, 2000);
-    },
+    }, 
+     getstudent_detail_c(params){
+      this.axios
+      .post("/api/api/v2/user/student/getStudentPage", {
+       ...params,
+        sign: untilMd5.toSign(
+          {
+           ...params
+          },
+          "getStudentPage"
+        ),
+      })
+      .then((res) => {
+        console.log(res.data,'学员详情');
+        this.tableData_all=res.data
+        this.tableData = res.data.data.list;
+      });
+    }
   },
-  mounted() {
-    getTableData().then((res) => {
-      this.tableData = res.data;
-    });
-  },
+  created(){
+     this.getstudent_detail_c({
+
+     })
+  }
+
 };
 </script>
 

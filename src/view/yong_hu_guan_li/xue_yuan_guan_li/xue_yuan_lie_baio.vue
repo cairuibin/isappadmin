@@ -8,7 +8,7 @@
       <!-- searchable search-place="top" 搜索框-->
       <tables ref="tables" v-model="tableData" :columns="columns" @on-delete="handleDelete" />
       <div style="margin-top:20px">
-        <Page show-total :total="tableData.length" show-elevator></Page>
+        <Page show-total :total="tableData?tableData.length:0" show-elevator></Page>
       </div>
       <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
@@ -20,7 +20,7 @@
 import Tables from "_c/tables";
 import untilMd5 from "../../../utils/md5";
 import Detail from './xue_yuan_xiang_qing'
-import { getTableData } from "@/api/data";
+// import { getTableData } from "@/api/data";
 export default {
   name: "tables_page",
   components: {
@@ -37,15 +37,41 @@ export default {
           width: 60,
           align: "center",
         },
-        { title: "ID", key: "name", sortable: false },
-        { title: "学员姓名", key: "email", editable: false  },
-        { title: "头像", key: "createTime"  },
-        { title: "生日", key: "createTime"  },
-        { title: "性别", key: "createTime"  },
-        { title: "所属专项", key: "createTime"  },
-        { title: "所属教练", key: "createTime"  },
-        { title: "账号信息", key: "createTime"  },
-        { title: "状态", key: "createTime"  },
+        { title: "ID", key: "id", sortable: false },
+        { title: "学员姓名", key: "name", editable: false  },
+        { title: "头像", key: "logoUrl"  , render: (h, params) => {
+            return (
+              <div>
+                <img style={{ width: "30px" }} src={params.row.logoUrl} />
+              </div>
+            );
+          },},
+        { title: "生日", key: "birthday"  },
+        { title: "性别", key: "gender" ,render: (h, params) => {
+            return (
+              <span>{params.row.gender===0?"女":"男"}</span>
+            );
+          }, },
+        { title: "所属专项", key: "studyType" ,render: (h, params) => {
+         
+            return (
+             
+              <span>{params.row.studyType===1?"花样滑冰":"冰球"}</span>
+            );
+          },    },
+        { title: "所属教练", key: "rinkName"  },
+        { title: "账号信息", key: "membershipType",render: (h, params) => {
+         
+            return (
+             
+              <span>{params.row.name}/{this.tableData_all.timestamp}</span>
+            );
+          },   },
+        { title: "状态", key: "status", render: (h, params) => {
+            return (
+              <span>{params.row.status===0?"正常":"不正常"}</span>
+            );
+          },  },
         {
           title: "操作",
           key: "action",
@@ -77,10 +103,12 @@ export default {
         },
       ],
       tableData: [],
+      tableData_all:{}
     };
   },
   methods: {
     look(row) {
+      console.log(row.id,'2222')
       this.studentInfo=row
       this.detailModal=true
     },
@@ -95,26 +123,30 @@ export default {
         filename: `table-${new Date().valueOf()}.csv`,
       });
     },
-  },
-  mounted() {
-     this.axios
+    gettabledata_c(params){
+      this.axios
       .post("/api/api/v2/user/student/getStudentPage", {
-        userId: '1',
-        pageNum: 1,
-        pageSize: 10,
+       ...params,
         sign: untilMd5.toSign(
           {
-            userId: '1',
-            pageNum: 1,
-            pageSize: 10,
+           ...params
           },
           "getStudentPage"
         ),
       })
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data,'学员管理');
+        this.tableData_all=res.data
         this.tableData = res.data.data.list;
       });
+    }
+  },
+  mounted() {
+     this.gettabledata_c({
+        //  userId: '0',
+        pageNum: 1,
+        pageSize: 10,
+     })
   },
 };
 </script>

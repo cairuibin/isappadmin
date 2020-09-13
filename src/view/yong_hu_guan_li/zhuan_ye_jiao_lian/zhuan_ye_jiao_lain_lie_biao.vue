@@ -21,7 +21,7 @@
 import Tables from "_c/tables";
 import Detail from "./zhuan_ye_jiao_lain_xiang_qing";
 import Rzsx from './zhuan_ye_jiao_lain_shen_he'
-import { getTableData } from "@/api/data";
+import untilMd5 from "../../../utils/md5";
 export default {
   name: "tables_page",
   components: {
@@ -132,10 +132,25 @@ export default {
         filename: `table-${new Date().valueOf()}.csv`,
       });
     },
+       gettabledata_c(params) {
+      this.axios
+        .post("/api/api/v2/user/coach/getCoachPage", {
+          ...params,
+          sign: untilMd5.toSign({ ...params }, "getCoachPage"),
+        })
+        .then((res) => {
+          console.log(res.data, "专业教练列表");
+          this.tableData = res.data.data.list;
+        });
+    },
   },
   mounted() {
-    getTableData().then((res) => {
-      this.tableData = res.data;
+   this.gettabledata_c({
+      workType: 1,
+      gender: 0,
+      pageNum: 1,
+      pageSize: 10,
+      coachType: 2,
     });
   },
 };
