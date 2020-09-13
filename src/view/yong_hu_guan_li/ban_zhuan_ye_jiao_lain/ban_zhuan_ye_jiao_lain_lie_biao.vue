@@ -43,10 +43,22 @@ export default {
           align: "center",
         },
         { title: "ID", key: "name", sortable: false, width: 90 },
-        { title: "真实姓名", key: "email", editable: false, width: 90 },
-        { title: "教练照", key: "createTime", width: 90 },
-        { title: "手机账号", key: "createTime", width: 90 },
-        { title: "工作性质", key: "createTime", width: 90 },
+        { title: "真实姓名", key: "name", editable: false, width: 90 },
+        { title: "教练照", key: "createTime", width: 90, render: (h, params) => {
+            return (
+              <div>
+                <img style={{ width: "30px" }} src={params.row.logoUrl} />
+              </div>
+            );
+          }, },
+        { title: "手机账号", key: "mobile", width: 90 },
+        { title: "工作性质", key: "createTime", width: 90,ender: (h, params) => {
+            return (
+              <div>
+                {params.workType===0?"全职":"兼职"}
+              </div>
+            );
+          }, },
         { title: "所在城市", key: "createTime", width: 90 },
         { title: "所属机构", key: "createTime", width: 90 },
         { title: "账户余额(i币)", key: "createTime", width: 119 },

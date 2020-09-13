@@ -12,7 +12,7 @@
       </div>
       <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
-    <Detail v-if="detailModal" :studentInfo="studentInfo" :onCancel="onCancel" />
+    <Detail v-if="detailModal" :studentInfo_id="studentInfo_id" :onCancel="onCancel" />
   </div>
 </template>
 
@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       detailModal:false,
-      studentInfo:{},
+      studentInfo_id:'',
       columns: [
         {
           type: "selection",
@@ -109,7 +109,7 @@ export default {
   methods: {
     look(row) {
       console.log(row.id,'2222')
-      this.studentInfo=row
+      this.studentInfo_id=row.id
       this.detailModal=true
     },
     onCancel(){

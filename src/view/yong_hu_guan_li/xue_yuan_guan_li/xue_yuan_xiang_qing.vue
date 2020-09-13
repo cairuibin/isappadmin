@@ -1,51 +1,54 @@
 <template>
   <div>
-    <Modal 
-        v-model="modal2" 
-        :maskClosable="false" 
-        footer-hide
-        width="750" 
-        @on-cancel="Cancel"
-    >
+    <Modal v-model="modal2" :maskClosable="false" footer-hide width="750" @on-cancel="Cancel">
       <p slot="header" style="text-align:center">
         <span>学员详情</span>
       </p>
       <div>
         <div class="div_content">
           <span>用户ID：</span>
-          {{'1101021987'}}
+        
+          {{student_detail_c.userId}}
         </div>
         <div class="div_content">
           <span>账号信息：</span>
-          {{'豆豆龙/18611587069'}}
+          {{student_detail_c.name}}
         </div>
 
         <div class="div_content">
           <span>注册时间：</span>
-          {{'yyyy-MM-dd HH:mm:ss'}}
+          {{student_detail_c.createTime}}
         </div>
         <div class="div_content">
           <span>学员姓名：</span>
-          {{'候森'}}
+          {{student_detail_c.name}}
         </div>
         <div class="div_content">
           <span>照片：</span>
-          <img width="50px" src="@/assets/images/logo-min.jpg" alt />
+          <img width="50px" :src="student_detail_c.logoUrl" alt />
         </div>
         <div class="div_content">
           <span>性别：</span>
-          {{'女'}}
+          {{student_detail_c.gender===0?'女':"男"}}
         </div>
         <div class="div_content">
           <span>生日：</span>
-          {{'2008-05-04'}}
+          {{student_detail_c.birthday}}
         </div>
         <div class="div_content">
-          <span>所属专项：</span>花样滑冰
+          <span>所属专项：</span>{{
+            student_detail_c.studyType===0?'花样滑冰':'冰球'
+          }}
         </div>
         <div class="div_content">
           <span>线下学习历史：</span>
-          <tables class="detail_table" ref="tables" v-model="tableData" :columns="columns" @on-delete="handleDelete" />
+          <tables
+            class="detail_table"
+            ref="tables"
+            v-model="tableData"
+            :columns="columns"
+            @on-delete="handleDelete"
+          />
         </div>
       </div>
     </Modal>
@@ -57,9 +60,9 @@ import Tables from "_c/tables";
 // import { getTableData } from "@/api/data";
 import untilMd5 from "../../../utils/md5";
 export default {
-  props:{
-    studentInfo:Object,
-    onCancel:Function,
+  props: {
+    studentInfo_id: String,
+    onCancel: Function,
   },
   components: {
     Tables,
@@ -79,11 +82,12 @@ export default {
         { title: "状态", key: "createTime" },
       ],
       tableData: [],
+      student_detail_c:{}
     };
   },
   methods: {
-    Cancel(){
-        this.onCancel()
+    Cancel() {
+      this.onCancel();
     },
     handleDelete(params) {
       console.log(params);
@@ -95,46 +99,43 @@ export default {
         this.modal2 = false;
         this.$Message.success("Successfully delete");
       }, 2000);
-    }, 
-     getstudent_detail_c(params){
-      this.axios
-      .post("/api/api/v2/user/student/getStudentPage", {
-       ...params,
-        sign: untilMd5.toSign(
-          {
-           ...params
-          },
-          "getStudentPage"
-        ),
-      })
-      .then((res) => {
-        console.log(res.data,'学员详情');
-        this.tableData_all=res.data
-        this.tableData = res.data.data.list;
-      });
-    }
+    },
+    getstudent_detail_c(params) {
+     return this.axios
+        .post("/api/api/v2/user/student/getStudentInfo", {
+          ...params,
+          sign: untilMd5.toSign(
+            {
+              ...params,
+            },
+            "getStudentInfo"
+          ),
+        });
+    },
   },
-  created(){
-     this.getstudent_detail_c({
-
-     })
-  }
-
+  created() {
+    this.getstudent_detail_c({
+      id: this.studentInfo_id,
+    }).then((res) => {
+          console.log(res.data.data, "学员详情");
+          this.student_detail_c = res.data.data;
+          // this.tableData = res.data.data.list;
+        });
+  },
 };
 </script>
 
 <style scoped lang='scss'>
-
 .div_content {
   margin-bottom: 10px;
   display: flex;
   align-items: center;
-  >span{
+  > span {
     width: 115px;
     display: inline-block;
     text-align: right;
   }
-  .detail_table{
+  .detail_table {
     width: 590px;
   }
 }
