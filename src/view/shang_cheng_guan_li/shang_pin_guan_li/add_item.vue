@@ -99,7 +99,7 @@ export default {
        
 }
  .ivu-col-span-16{
-          width: 36%;
+          width: 40%;
         }
         .ivu-col-offset-1{
           margin-left:0;
