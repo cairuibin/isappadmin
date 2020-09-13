@@ -117,6 +117,7 @@ export default {
                 } else {
                   this.$Message.error("登录失败");
                 }
+                localStorage.setItem('user',res.data.data)
                 console.log(res.data);
               },
               (e) => {
