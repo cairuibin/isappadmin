@@ -43,7 +43,7 @@
 
 <script>
 import Tables from "_c/tables";
-import { getTableData } from "@/api/data";
+import untilMd5 from '../../../utils/md5'
 export default {
   name: "tables_page",
   components: {
@@ -121,9 +121,31 @@ export default {
     },
   },
   mounted() {
-    getTableData().then((res) => {
-      this.tableData = res.data;
-    });
+      this.axios
+      .post("/api/api/v2/business/goodsOrder/getGoodsOrdersPage", {
+        // code: "xy-week-1",
+        // goodsId: 11,  //商品id
+        // userId:11,  //用户id
+        // stauts: 13, //订单状态  全部状态
+        // isDelete: 0,  // 删除标记
+        pageNum: 1,
+        pageSize: 10,
+        sign: untilMd5.toSign(
+          {
+            // code: "xy-week-1",
+            isUseTemplate: 0,
+            isMemberGoods: 0,
+            status: 1,
+            pageNum: 1,
+            pageSize: 10,
+          },
+          "getGoodsOrdersPage"
+        ),
+      })
+      .then((res) => {
+        console.log(res.data,'商品列表管理数据')
+        // this.tableData = res.data.data.list
+      });
   },
 };
 </script>

@@ -132,7 +132,7 @@ export default {
         ),
       })
       .then((res) => {
-        console.log(res.data.data.list)
+        console.log(res.data.data.list,'课包管理')
         this.tableData = res.data.data.list
       });
   },

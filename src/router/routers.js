@@ -177,6 +177,14 @@ export default [
           title: '学员管理',
         },
         component: () => import('@/view/yong_hu_guan_li/xue_yuan_guan_li/xue_yuan_lie_baio.vue'),
+      },{
+        path: 'ban_zhuan_ye_jiao_lain',
+        name: 'ban_zhuan_ye_jiao_lain',
+        meta: {
+          icon: 'md-clipboard',
+          title: '半专业教练',
+        },
+        component: () => import('@/view/yong_hu_guan_li/ban_zhuan_ye_jiao_lain/ban_zhuan_ye_jiao_lain_lie_biao.vue'),
       },
       {
         path: 'zhuan_ye_jiao_lian',

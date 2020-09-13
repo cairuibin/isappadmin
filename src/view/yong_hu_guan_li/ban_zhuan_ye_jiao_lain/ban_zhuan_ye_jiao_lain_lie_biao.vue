@@ -12,19 +12,29 @@
       </div>
       <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
+    <Detail v-if="detailModal" :coachInfo="coachInfo" :onCancel="onCancel" />
+    <Rzsx v-if="rzsxModal" :rzsxInfo="rzsxInfo" :onCancel="rzsxCancel" />
   </div>
 </template>
 
 <script>
 import Tables from "_c/tables";
+import Detail from './ban_zhuan_ye_jiao_lian_xiang_qing'
+import Rzsx from './ban_zhuan_ye_jiao_lain_shen_he'
 import { getTableData } from "@/api/data";
 export default {
   name: "tables_page",
   components: {
     Tables,
+    Detail,
+    Rzsx,
   },
   data() {
     return {
+      detailModal: false,
+      coachInfo: {},
+      rzsxModal: false,
+      rzsxInfo: {},
       columns: [
         {
           type: "selection",
@@ -44,7 +54,6 @@ export default {
         { title: "收益总金额(元)", key: "createTime", width: 119 },
         { title: "注册时间", key: "createTime", width: 119 },
         { title: "审核提交时间", key: "createTime", width: 119 },
-        { title: "注册时间", key: "createTime", width: 119 },
         { title: "状态", key: "createTime", width: 119 },
         {
           title: "操作",
@@ -62,10 +71,11 @@ export default {
                   },
                   style: {
                     marginRight: "5px",
+                    marginBottom: "5px",
                   },
                   on: {
                     click: () => {
-                      this.look(params.index);
+                      this.look(params.row);
                     },
                   },
                 },
@@ -78,15 +88,15 @@ export default {
                 {
                   props: {
                     type: "primary",
-
+                    // disabled:true,
                     size: "small",
                   },
                   style: {
                     marginRight: "5px",
                   },
                   on: {
-                    click: () => {
-                      this.look(params.index);
+                     click: () => {
+                      this.rzsx(params.row);
                     },
                   },
                 },
@@ -101,9 +111,20 @@ export default {
     };
   },
   methods: {
-    editBus(item, index) {},
-    bohui(params) {},
-    look(params) {},
+     look(row) {
+      this.coachInfo = row;
+      this.detailModal = true;
+    },
+    onCancel() {
+      this.detailModal = false;
+    },
+    rzsx(row){
+      this.rzxsInfo = row
+      this.rzsxModal=true;
+    },
+    rzsxCancel() {
+      this.rzsxModal = false;
+    },
     handleDelete(params) {
       console.log(params);
     },

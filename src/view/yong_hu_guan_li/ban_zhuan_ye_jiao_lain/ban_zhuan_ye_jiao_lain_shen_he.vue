@@ -1,83 +1,91 @@
 <template>
   <div>
-    <Modal v-model="modal2" width="460">
-      <p slot="header" style="color:#f60;text-align:center">
-        <Icon type="ios-information-circle"></Icon>
-        <span>账号审核</span>
+    <Modal 
+      v-model="modal2"
+      :maskClosable="false" 
+      footer-hide
+      width="750" 
+      @on-cancel="Cancel"
+    >
+      <p slot="header" style="text-align:center">
+        <span>账号专家认证</span>
       </p>
       <div>
-        <div class="div_content">
+         <div class="div_content">
           <span>教练ID：</span>
-          {{'1101021987'}}
+          <div>{{'1101021987'}}</div>
         </div>
         <div class="div_content">
           <span>手机账号：</span>
-          {{'18611587069'}}
+          <div>{{'18611587069'}}</div>
         </div>
-
         <div class="div_content">
           <span>注册时间：</span>
-          {{'yyyy-MM-dd HH:mm:ss'}}
+          <div>{{'yyyy-MM-dd HH:mm:ss'}}</div>
         </div>
         <div class="div_content">
           <span>账号状态：</span>
-          {{'待审核'}}
+          <div>{{'审核通过'}}</div>
         </div>
-        <div class="div_content">
-          <span>教练资料</span>
-          {{''}}
-        </div>
+        <div>教练资料</div>
         <div class="div_content">
           <span>提交时间：</span>
-          {{'yyyy-MM-dd HH:mm:ss'}}
+          <div>{{'yyyy-MM-dd HH:mm:ss'}}</div>
         </div>
         <div class="div_content">
           <span>教练姓名：</span>
-          {{'尤硕'}}
+          <div>{{'尤硕'}}</div>
         </div>
         <div class="div_content">
           <span>性别：</span>
-          男
+          <div>{{"男"}}</div>
         </div>
         <div class="div_content">
-          <span>身份证号：</span>110108198805041111
+          <span>身份证号：</span>
+          <div>{{"110108198805041111"}}</div>
         </div>
         <div class="div_content">
           <span>教练照：</span>
-          <img src alt />
+          <div>
+            <img src alt />
+          </div>
         </div>
         <div class="div_content">
-          <span>工作性质：</span>全职
+          <span>工作性质：</span>
+          <div>全职</div>
         </div>
         <div class="div_content">
-          <span>所在城市：</span>北京市/北京市/海淀区
+          <span>所在城市：</span>
+          <div>{{"北京市/北京市/海淀区"}}</div>
         </div>
         <div class="div_content">
-          <span>所属机构：</span>喜悦-大兴店
+          <span>所属机构：</span>
+          <div>{{"喜悦-大兴店"}}</div>
         </div>
         <div class="div_content">
-          <span>教练简介：</span>教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容
+          <span>教练简介：</span>
+          <div>{{"教练简介内容教练简介内容教练简介内容教练简介内容"}}</div>
         </div>
-        <div class="div_content">
+         <div class="div_content">
           <span>审核通过：</span>
-          <Button>审核通过</Button>
+          <Button type="primary" @click="onAdopt">审核通过</Button>
         </div>
-        <div class>
+        <div class="div_content">
           <span>审核驳回：</span>
-          <div class="c_item">
-            <Checkbox v-model="single">Checkbox</Checkbox>信息有误，请仔细核对
-          </div>
-          <div class="c_item">
-            <Checkbox v-model="single1">Checkbox</Checkbox>照片上传不清晰
-          </div>
-          <div class="c_item">
-            <Checkbox v-model="single2">Checkbox</Checkbox>其它
-            <Input class="input" />
+          <div>
+            <div class="c_item">
+            <Checkbox v-model="single"></Checkbox>信息有误，请仔细核对
+            </div>
+            <div class="c_item">
+              <Checkbox v-model="single1"></Checkbox>照片上传不清晰
+            </div>
+            <div class="c_item">
+              <Checkbox v-model="single2"></Checkbox>其它
+              <Input class="input" />
+            </div>
+             <Button type="error" @click="onReject">审核驳回</Button>
           </div>
         </div>
-      </div>
-      <div slot="footer">
-        <!-- <Button type="error" size="large" long :loading="modal_loading" @click="del">Delete</Button> -->
       </div>
     </Modal>
   </div>
@@ -85,6 +93,10 @@
 
 <script>
 export default {
+  props:{
+    rzsxInfo:Object,
+    onCancel:Function,
+  },
   data() {
     return {
       modal2: true,
@@ -99,6 +111,15 @@ export default {
     };
   },
   methods: {
+    Cancel(){
+        this.onCancel()
+    },
+    onAdopt(){
+        // 通过接口
+    },
+    onReject(){
+      // 驳回接口
+    },
     del() {
       this.modal_loading = true;
       setTimeout(() => {
@@ -112,17 +133,17 @@ export default {
 </script>
 
 <style scoped lang='scss'>
+
 .div_content {
   margin-bottom: 10px;
   display: flex;
   align-items: center;
-}
-.div_content {
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  .btn {
-    margin-left: 65%;
+  > span {
+    width: 115px;
+    text-align: right;
+  }
+  > div {
+    flex: 1;
   }
 }
 .input {

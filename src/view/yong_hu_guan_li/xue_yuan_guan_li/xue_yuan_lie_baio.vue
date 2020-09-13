@@ -12,6 +12,7 @@
       </div>
       <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
+    <Detail v-if="detailModal" :studentInfo="studentInfo" :onCancel="onCancel" />
   </div>
 </template>
 
@@ -23,9 +24,12 @@ export default {
   name: "tables_page",
   components: {
     Tables,
+    Detail,
   },
   data() {
     return {
+      detailModal:false,
+      studentInfo:{},
       columns: [
         {
           type: "selection",
@@ -43,18 +47,12 @@ export default {
         { title: "状态", key: "createTime"  },
         {
           title: "操作",
-
           key: "action",
-
-     
-
           align: "center",
-
           render: (h, params) => {
             return h("div", [
               h(
                 "Button",
-
                 {
                   props: {
                     type: "primary",
@@ -66,11 +64,11 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.look(params.index);
+                      // 参数为学员信息
+                      this.look(params.row);
                     },
                   },
                 },
-
                 "查看"
               ),
             ]);
@@ -81,9 +79,13 @@ export default {
     };
   },
   methods: {
-    editBus(item, index) {},
-    bohui(params) {},
-    look(params) {},
+    look(row) {
+      this.studentInfo=row
+      this.detailModal=true
+    },
+    onCancel(){
+        this.detailModal=false
+    },
     handleDelete(params) {
       console.log(params);
     },
