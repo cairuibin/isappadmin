@@ -19,7 +19,8 @@
 <script>
 import Tables from "_c/tables";
 import untilMd5 from "../../../utils/md5";
-// import { getTableData } from "@/api/data";
+import Detail from './xue_yuan_xiang_qing'
+import { getTableData } from "@/api/data";
 export default {
   name: "tables_page",
   components: {
