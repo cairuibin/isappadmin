@@ -115,7 +115,8 @@ export default {
   },
   created() {
     this.getstudent_detail_c({
-      id: this.studentInfo_id,
+      id: this.studentInfo_id.toString(),
+      coachId:null
     }).then((res) => {
           console.log(res.data.data, "学员详情");
           this.student_detail_c = res.data.data;
