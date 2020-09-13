@@ -18,8 +18,8 @@
 
 <script>
 import Tables from "_c/tables";
-import Detail from './xue_yuan_xiang_qing'
-import { getTableData } from "@/api/data";
+import untilMd5 from "../../../utils/md5";
+// import { getTableData } from "@/api/data";
 export default {
   name: "tables_page",
   components: {
@@ -96,9 +96,24 @@ export default {
     },
   },
   mounted() {
-    getTableData().then((res) => {
-      this.tableData = res.data;
-    });
+     this.axios
+      .post("/api/api/v2/user/student/getStudentPage", {
+        userId: '1',
+        pageNum: 1,
+        pageSize: 10,
+        sign: untilMd5.toSign(
+          {
+            userId: '1',
+            pageNum: 1,
+            pageSize: 10,
+          },
+          "getStudentPage"
+        ),
+      })
+      .then((res) => {
+        console.log(res.data);
+        this.tableData = res.data.data.list;
+      });
   },
 };
 </script>
