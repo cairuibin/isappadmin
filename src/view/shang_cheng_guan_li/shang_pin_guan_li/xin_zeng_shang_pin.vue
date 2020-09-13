@@ -92,8 +92,8 @@
         </FormItem>
         <Button>+增加介绍图</Button>
 
-        <FormItem label="简介:" prop="editText">
-          <Editor />
+        <FormItem label="简介:" prop="introduce">
+          <editor ref="editor" v-model="formValidate.introduce"></editor>
         </FormItem>
         <div style="font-size:16px">付款方式</div>
         <div>付款信息：一口价/买家拍下减库存</div>
@@ -136,7 +136,7 @@
   </div>
 </template>
 <script>
-import Editor from "@/view/components/editor/editor.vue";
+import Editor from '_c/editor'
 import AddItem from "./add_item";
 export default {
     props: {
@@ -159,15 +159,15 @@ export default {
         ],
       },
       formValidate: {
-        name: "",
-        mail: "",
-        city: "",
-        gender: "",
-        interest: [],
-        date: "",
-        time: "",
-        desc: "",
-        editText: "",
+        // name: "",
+        // mail: "",
+        // city: "",
+        // gender: "",
+        // interest: [],
+        // date: "",
+        // time: "",
+        // desc: "",
+        // introduce: "",
       },
       ruleValidate: {
         name: [
@@ -177,7 +177,7 @@ export default {
             trigger: "blur",
           },
         ],
-        editText: [
+        introduce: [
           {
             required: true,
             message: "请输入图文介绍",
@@ -285,6 +285,7 @@ export default {
       this.onCancel()
     },
     handleSubmit(name) {
+      console.log(this.formValidate);
       this.$refs[name].validate((valid) => {
         if (valid) {
           this.$Message.success("Success!");
