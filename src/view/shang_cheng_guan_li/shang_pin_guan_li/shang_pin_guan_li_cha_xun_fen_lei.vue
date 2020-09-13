@@ -1,18 +1,19 @@
 <template>
   <div class="dispaly_flex">
     <Card class="width_15">
-      <ul>
+      <!-- <ul>
         <li>哈哈哈哈</li>
         <li>哈哈哈哈</li>
         <li>哈哈哈哈</li>
         <li>哈哈哈哈</li>
         <li>哈哈哈哈</li>
-      </ul>
+      </ul> -->
+      <div :class="['nav_left',index===navIndex?'nav_active':'']" @click="navClick(index)" v-for="(item,index) in navList" :key="index">{{item.title}}</div>
     </Card>
     <Card class="width_70">
       <div style="margin-bottom:10px;">
-        <i-button type="primary">分类管理</i-button>&emsp;
-        <i-button type="primary">新增</i-button>&emsp;
+        <i-button type="primary" @click="onFlgl">分类管理</i-button>&emsp;
+        <i-button type="primary" @click="onAdd">新增</i-button>&emsp;
         <i-button type="primary">上架</i-button>&emsp;
         <i-button type="error">下架</i-button>&emsp;
         <i-button type="error">删除</i-button>
@@ -25,19 +26,25 @@
       </div>-->
       <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
+    <XinzengModal v-if="addModal" :onCancel="onCancel"></XinzengModal>
   </div>
 </template>
 
 <script>
 import Tables from "_c/tables";
+import XinzengModal from './xin_zeng_shang_pin';
 import { getTableData } from "@/api/data";
 export default {
   name: "tables_page",
   components: {
     Tables,
+    XinzengModal,
   },
   data() {
     return {
+      addModal:false,
+      navList: [{ title: "冰鞋" }, { title: "冰服" }, { title: "护具" }],
+      navIndex:0,
       columns: [
         {
           type: "selection",
@@ -142,6 +149,21 @@ export default {
     };
   },
   methods: {
+    navClick(i){
+        this.navIndex=i
+    },
+     onFlgl(){
+        this.$router.push({
+        name: 'fen_lei_guan_li',
+        // params: { name: this.names[index] }
+      })
+    },
+     onAdd(){
+      this.addModal = true;
+    },
+     onCancel() {
+      this.addModal = false;
+    },
     editBus(item, index) {},
     look(params) {},
     handleDelete(params) {
@@ -168,6 +190,15 @@ export default {
 .width_15 {
   width: 15%;
 }
+.nav_left{
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+  }
+ .nav_active{
+    color:#fff;
+    background: rgb(0, 153, 153);
+  }
 .width_70 {
   flex: 1;
 }

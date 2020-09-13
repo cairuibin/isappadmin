@@ -6,7 +6,6 @@
       :scrollable="true"
       :mask-closable="false"
       :loading="loading"
-      @on-ok="ok"
       @on-cancel="cancel"
       width="60%"
     >
@@ -43,12 +42,12 @@
           </Select>
         </FormItem>
         <div style="font-size:16px">销售信息:</div>
-        <AddItem lab="颜色" />
+        <!-- <AddItem lab="颜色" />
 
-        <AddItem lab="尺码" />
+        <AddItem lab="尺码" /> -->
 
         <FormItem label="规格库存" prop="name">
-          通过填写的颜色和尺码进行各规格库存录
+          <AddItem />
           <!-- <Input v-model="formValidate.name" placeholder="适用人群：" /> -->
         </FormItem>
 
@@ -125,7 +124,7 @@
         </FormItem>
 
         <FormItem>
-          <Button @click="handleReset('formValidate')" style="margin-left: 8px">取消</Button>
+          <Button @click="cancel" style="margin-left: 8px">取消</Button>
           <Button type="primary" @click="handleSubmit('formValidate')">暂不上架</Button>
           <Button type="primary" @click="handleSubmit('formValidate')">直接上架</Button>
         </FormItem>
@@ -140,6 +139,9 @@
 import Editor from "@/view/components/editor/editor.vue";
 import AddItem from "./add_item";
 export default {
+    props: {
+    onCancel: Function,
+  },
   data() {
     return {
       modal: true,
@@ -257,29 +259,30 @@ export default {
   },
   mounted() {},
   methods: {
-    async ok() {
-      this.$refs.setGold.validate(async (valid) => {
-        if (valid) {
-          let res = await this.$ajax.post("/xx/xx", {});
-          if (res.cd === 0) {
-            // doSomething..
-          } else {
-            this.$Message.info(res.msg);
-          }
-        } else {
-          // 对话框校验失败，取消loading状态
-          // this.loading = false
-          // setTimeout(() => {
-          //  this.$nextTick(() => {
-          //     this.loading = true
-          //   })
-          // }, 100)
-        }
-      });
-    },
+    // async ok() {
+    //   this.$refs.setGold.validate(async (valid) => {
+    //     if (valid) {
+    //       let res = await this.$ajax.post("/xx/xx", {});
+    //       if (res.cd === 0) {
+    //         // doSomething..
+    //       } else {
+    //         this.$Message.info(res.msg);
+    //       }
+    //     } else {
+    //       // 对话框校验失败，取消loading状态
+    //       // this.loading = false
+    //       // setTimeout(() => {
+    //       //  this.$nextTick(() => {
+    //       //     this.loading = true
+    //       //   })
+    //       // }, 100)
+    //     }
+    //   });
+    // },
     cancel() {
       // 取消后，重置表单
-      this.$refs["setGold"].resetFields();
+      this.$refs["formValidate"].resetFields();
+      this.onCancel()
     },
     handleSubmit(name) {
       this.$refs[name].validate((valid) => {
@@ -289,9 +292,6 @@ export default {
           this.$Message.error("Fail!");
         }
       });
-    },
-    handleReset(name) {
-      this.$refs[name].resetFields();
     },
   },
 };
