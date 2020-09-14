@@ -114,8 +114,10 @@ export default {
     },
   },
   created() {
+    console.log(this.studentInfo_id,'this.studentInfo_id')
     this.getstudent_detail_c({
       id: this.studentInfo_id.toString(),
+      // id:"316785923322810368",
       coachId:null
     }).then((res) => {
           console.log(res.data.data, "学员详情");
