@@ -2,7 +2,7 @@
   <div>
     <Card>
       <div style="margin-bottom:10px;">
-        <i-button type="primary">新增</i-button>&emsp;
+        <i-button type="primary" @click="modal=true">新增</i-button>&emsp;
         <!-- <i-button type="error">删除</i-button> -->
       </div>
       <!-- editable 表格可编辑 -->
@@ -13,15 +13,21 @@
       </div>-->
       <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
+    <Newdetail @setmodal="setmodal" :modal="modal" />
   </div>
 </template>
 
 <script>
 import Tables from "_c/tables";
 import untilMd5 from "../../../utils/md5";
+import Newdetail from "./xin_zeng_fen_lei";
 export default {
   name: "tables_page",
   components: {
+    Tables,
+  },
+  components: {
+    Newdetail,
     Tables,
   },
   data() {
@@ -141,6 +147,7 @@ export default {
         },
       ],
       tableData: [],
+      modal: false,
     };
   },
   methods: {
@@ -153,6 +160,9 @@ export default {
       this.$refs.tables.exportCsv({
         filename: `table-${new Date().valueOf()}.csv`,
       });
+    },
+    setmodal() {
+      this.modal = false;
     },
     getGoodsPage(params) {
       this.axios
@@ -173,10 +183,10 @@ export default {
     },
   },
   mounted() {
-   this.getGoodsPage({
-     pageNum:1,
-     pageSize:10
-   })
+    this.getGoodsPage({
+      pageNum: 1,
+      pageSize: 10,
+    });
   },
 };
 </script>

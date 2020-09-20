@@ -8,55 +8,42 @@
       :loading="loading"
       @on-ok="ok"
       @on-cancel="cancel"
-      width='30%'
+      width="30%"
     >
       <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
         <FormItem label="父类:" prop="name">
           <Input v-model="formValidate.name" placeholder="请输入父类名称，无父类则代表一级类目" />
         </FormItem>
         <FormItem label="分类名称:" prop="desc">
-          <Input
-            v-model="formValidate.desc"
-            placeholder="请输入分类名称"
-          />
+          <Input v-model="formValidate.desc" placeholder="请输入分类名称" />
         </FormItem>
-     <FormItem label="分类code：" prop="desc">
-          <Input
-            v-model="formValidate.desc"
-            placeholder="请输入分类code"
-          />
+        <FormItem label="分类code：" prop="desc">
+          <Input v-model="formValidate.desc" placeholder="请输入分类code" />
         </FormItem>
         <FormItem label="状态" prop="city">
           <Select v-model="formValidate.city" placeholder="请选择课程安排">
-                 <Option value="shanghai">启用</Option>
+            <Option value="shanghai">启用</Option>
             <Option value="beijing">禁止</Option>
-         
-       
           </Select>
         </FormItem>
-             <FormItem label="备注" prop="desc">
-          <Input
-            v-model="formValidate.desc"
-            placeholder="请输入"
-          />
+        <FormItem label="备注" prop="desc">
+          <Input v-model="formValidate.desc" placeholder="请输入" />
         </FormItem>
-      
+
         <FormItem>
           <Button type="primary" @click="handleSubmit('formValidate')">保存</Button>
           <Button @click="handleReset('formValidate')" style="margin-left: 8px">取消</Button>
         </FormItem>
       </Form>
-      <div slot="footer">
-         </div>
+      <div slot="footer"></div>
     </Modal>
   </div>
 </template>
 <script>
-import Editor from "@/view/components/editor/editor.vue";
 export default {
+  props: ["modal"],
   data() {
     return {
-      modal: true,
       loading: true,
       setForm: { rate: "" },
       rules: {
@@ -165,10 +152,6 @@ export default {
       },
     };
   },
-  components: {
-    Editor,
-  },
-  mounted() {},
   methods: {
     async ok() {
       this.$refs.setGold.validate(async (valid) => {
@@ -192,7 +175,9 @@ export default {
     },
     cancel() {
       // 取消后，重置表单
-      this.$refs["setGold"].resetFields();
+
+      this.$refs["formValidate"].resetFields();
+      this.$emit("setmodal", false);
     },
     handleSubmit(name) {
       this.$refs[name].validate((valid) => {
@@ -202,9 +187,11 @@ export default {
           this.$Message.error("Fail!");
         }
       });
+      this.$emit('setmodal',false)
     },
     handleReset(name) {
       this.$refs[name].resetFields();
+      this.$emit("setmodal", false);
     },
   },
 };
