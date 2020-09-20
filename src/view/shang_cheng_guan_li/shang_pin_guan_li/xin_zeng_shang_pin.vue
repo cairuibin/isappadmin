@@ -12,33 +12,33 @@
       <div style="font-size:16px">基本信息:</div>
 
       <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="130">
-        <FormItem label="商品分类" prop="city">
-          <Select v-model="formValidate.city" placeholder="选择分类">
-            <Option value="beijing">选择安排</Option>
-            <Option value="shanghai">训练计划</Option>
-            <Option value="shenzhen">自定义课节</Option>
+        <FormItem label="商品分类" prop="goodsCategoryId">
+          <Select v-model="formValidate.goodsCategoryId" placeholder="选择分类">
+            <!-- <Option value="1">1</Option>
+            <Option value="2">2</Option>
+            <Option value="3">3</Option> -->
           </Select>
         </FormItem>
         <FormItem label="商品标题" prop="name">
           <Input v-model="formValidate.name" placeholder="请输入商品标题" />
         </FormItem>
-        <FormItem label="副标题" prop="name">
-          <Input v-model="formValidate.name" placeholder="请输入商品副标题" />
+        <FormItem label="副标题" prop="fname">
+          <Input v-model="formValidate.fname" placeholder="请输入商品副标题" />
         </FormItem>
-        <FormItem label="所属品牌" prop="city">
-          <Select v-model="formValidate.city" placeholder="选择品牌">
-            <Option value="beijing">选择安排</Option>
-            <Option value="shanghai">训练计划</Option>
-            <Option value="shenzhen">自定义课节</Option>
+        <FormItem label="所属品牌" prop="supplierId">
+          <Select v-model="formValidate.supplierId" placeholder="选择品牌">
+            <!-- <Option value="1">1</Option>
+            <Option value="2">2</Option>
+            <Option value="3">3</Option> -->
           </Select>
         </FormItem>
         <FormItem label="适用人群：" prop="name">
           <Input v-model="formValidate.name" placeholder="适用人群：" />
         </FormItem>
-        <FormItem label="采购地" prop="city">
-          <Select v-model="formValidate.city" placeholder="选择">
-            <Option value="beijing">国内</Option>
-            <Option value="shanghai">海外及港澳台</Option>
+        <FormItem label="采购地" prop="cgd">
+          <Select v-model="formValidate.cgd" placeholder="选择">
+            <Option value="1">国内</Option>
+            <Option value="2">海外及港澳台</Option>
           </Select>
         </FormItem>
         <div style="font-size:16px">销售信息:</div>
@@ -46,9 +46,8 @@
 
         <AddItem lab="尺码" /> -->
 
-        <FormItem label="规格库存" prop="name">
-          <AddItem />
-          <!-- <Input v-model="formValidate.name" placeholder="适用人群：" /> -->
+        <FormItem label="规格库存" prop="amountStock">
+          <AddItem @addChange="addChange"/>
         </FormItem>
 
         <FormItem label="一口价" prop="name">
@@ -99,11 +98,15 @@
         <div>付款信息：一口价/买家拍下减库存</div>
 
         <div style="font-size:16px">物流信息</div>
-        <FormItem label="提取方式：" prop="city">
-          <Select v-model="formValidate.city" placeholder="选择分类">
-            <Option value="beijing">免邮费</Option>
-            <Option value="shanghai">物流配送</Option>
+        <FormItem label="提取方式：" prop="isFreeMail">
+          <Select v-model="formValidate.isFreeMail" placeholder="选择分类">
+            <Option :value="1">免邮费</Option>
+            <Option :value="0">物流配送</Option>
           </Select>
+        </FormItem>
+        <FormItem v-if="formValidate.isFreeMail===0" label="物流信息：" prop="shippingMoney">
+          <input type="text" placeholder="物流名称">
+          <input v-model="formValidate.shippingMoney" type="text" placeholder="物流金额">元
         </FormItem>
 
         <div style="font-size:16px">售后服务</div>
@@ -116,11 +119,20 @@
         </FormItem>
 
         <div style="font-size:16px">分润支持</div>
-        <FormItem label="是否分润：" prop="city">
-          <Select v-model="formValidate.city" placeholder="选择分类">
-            <Option value="beijing">有分润</Option>
-            <Option value="shanghai">无分润</Option>
+        <FormItem label="是否分润：" prop="fenrun">
+          <Select v-model="formValidate.fenrun" placeholder="选择分类">
+            <Option value="0">有分润</Option>
+            <Option value="1">无分润</Option>
           </Select>
+        </FormItem>
+        <FormItem v-if="formValidate.fenrun==='0'" label="是否分润：">
+          <Select v-model="formValidate.city" placeholder="选择分类">
+            <Option value="0">按百分比分润</Option>
+            <Option value="1">按金额分润</Option>
+          </Select>
+        </FormItem>
+         <FormItem v-if="formValidate.fenrun==='0'" label="分润金额：">
+         <input type="text">元
         </FormItem>
 
         <FormItem>
@@ -259,6 +271,9 @@ export default {
   },
   mounted() {},
   methods: {
+    addChange(val){
+      this.formValidate.amountStock=val
+    },
     // async ok() {
     //   this.$refs.setGold.validate(async (valid) => {
     //     if (valid) {
