@@ -12,7 +12,7 @@
       </div>
       <!-- <Button type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
-    <Detail v-if="detailModal" :coachInfo="coachInfo" :onCancel="onCancel" />
+    <Detail  v-if="detailModal" :coachInfo="coachInfo" :onCancel="onCancel" />
     <Rzsx v-if="rzsxModal" :rzsxInfo="rzsxInfo" :onCancel="rzsxCancel" />
   </div>
 </template>
@@ -121,6 +121,7 @@ export default {
         },
       ],
       tableData: [],
+      
     };
   },
   methods: {

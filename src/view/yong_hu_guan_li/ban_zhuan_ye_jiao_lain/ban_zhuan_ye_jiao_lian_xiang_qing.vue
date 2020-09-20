@@ -1,6 +1,6 @@
 <template>
   <div>
-     <Modal v-model="modal2" :maskClosable="false" footer-hide width="750" @on-cancel="Cancel">
+    <Modal v-model="modal2" :maskClosable="false" footer-hide width="750" @on-cancel="Cancel">
       <p slot="header" style="text-align:center">
         <span>教练详情</span>
       </p>
@@ -123,6 +123,7 @@
 </template>
 
 <script>
+import untilMd5 from "../../../utils/md5";
 export default {
   props: {
     coachInfo: Object,
@@ -139,8 +140,26 @@ export default {
     };
   },
   methods: {
-     Cancel() {
+    Cancel() {
       this.onCancel();
+    },
+    getCoachById(params) {
+    
+      this.axios
+        .post("/api/api/v2/user/coach/getCoachById", {
+          ...params,
+          sign: untilMd5.toSign(
+            {
+              ...params,
+            },
+            "getCoachById"
+          ),
+        })
+        .then((res) => {
+          console.log(res.data, "半专业教练详情");
+          // this.tableData_all = res.data;
+          // this.tableData = res.data.data.list;
+        });
     },
     del() {
       this.modal_loading = true;
@@ -151,11 +170,13 @@ export default {
       }, 2000);
     },
   },
+  created(){
+    this.getCoachById({id:this.coachInfo.id.toString()})
+  }
 };
 </script>
 
 <style scoped lang='scss'>
-
 .div_content {
   margin-bottom: 10px;
   display: flex;

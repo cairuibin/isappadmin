@@ -10,7 +10,7 @@
       <tables v-model="tableData" :columns="columns" @on-delete="handleDelete" />
       <!-- <div style="margin-top:20px">
         <Page show-total :total="tableData.length" show-elevator></Page>
-      </div> -->
+      </div>-->
       <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
   </div>
@@ -18,7 +18,7 @@
 
 <script>
 import Tables from "_c/tables";
-import { getTableData } from "@/api/data";
+import untilMd5 from "../../../utils/md5";
 export default {
   name: "tables_page",
   components: {
@@ -33,7 +33,7 @@ export default {
           align: "center",
         },
         { title: "分类名称", key: "name", sortable: false },
-        { title: "状态", key: "email", editable: false },
+        { title: "状态", key: "status", editable: false },
 
         {
           title: "操作",
@@ -154,11 +154,29 @@ export default {
         filename: `table-${new Date().valueOf()}.csv`,
       });
     },
+    getGoodsPage(params) {
+      this.axios
+        .post("/api/api/v2/data/goods/getGoodsPage", {
+          ...params,
+          sign: untilMd5.toSign(
+            {
+              ...params,
+            },
+            "getGoodsPage"
+          ),
+        })
+        .then((res) => {
+          console.log(res.data, "商城管理列表");
+          this.tableData_all = res.data;
+          this.tableData = res.data.data.list;
+        });
+    },
   },
   mounted() {
-    getTableData().then((res) => {
-      this.tableData = res.data;
-    });
+   this.getGoodsPage({
+     pageNum:1,
+     pageSize:10
+   })
   },
 };
 </script>

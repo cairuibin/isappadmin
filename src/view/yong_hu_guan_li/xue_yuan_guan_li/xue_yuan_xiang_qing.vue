@@ -114,12 +114,13 @@ export default {
     },
   },
   created() {
+    console.log( this.studentInfo_id)
     this.getstudent_detail_c({
-      id: this.studentInfo_id.toString(),
+      id: this.studentInfo_id,
       coachId:null
     }).then((res) => {
-          console.log(res.data.data, "学员详情");
-          this.student_detail_c = res.data.data;
+          console.log(res, "学员详情");
+          // this.student_detail_c = res.data.data;
           // this.tableData = res.data.data.list;
         });
   },

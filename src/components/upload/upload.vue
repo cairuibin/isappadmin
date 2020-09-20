@@ -125,6 +125,8 @@ export default {
     },
     // 最多可上传多少张
     handleBeforeUpload (file) {
+
+      console.log(file,'129')
       const check = this.multiple && this.uploadList && this.uploadList.length >= this.uploadNum
       this.$refs.upload.fileList = []
       if (this.multiple) {
