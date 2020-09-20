@@ -93,7 +93,7 @@
         <Button>+增加介绍图</Button>
 
         <FormItem label="简介:" prop="introduce">
-          <editor ref="editor" v-model="formValidate.introduce"></editor>
+          <Editor ref="editor" v-model="formValidate.introduce"></Editor>
         </FormItem>
         <div style="font-size:16px">付款方式</div>
         <div>付款信息：一口价/买家拍下减库存</div>
