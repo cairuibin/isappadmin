@@ -42,13 +42,16 @@
 <script>
 export default {
   name: "AddItem",
+  props:{
+    addChange:Function,
+  },
   data() {
     return {
       index: 1,
       formDynamic: {
         items: [
           {
-             value1: "",
+            value1: "",
             value2: "",
             value3: "",
             index: 1,
@@ -72,14 +75,24 @@ export default {
       this.$refs[name].resetFields();
     },
     handleAdd() {
+      let data=[...this.formDynamic.items]
       this.index++;
-      this.formDynamic.items.push({
-         value1: "",
-            value2: "",
-            value3: "",
+      data.push({
+        value1: "",
+        value2: "",
+        value3: "",
         index: this.index,
         status: 1,
-      });
+      })
+      // this.formDynamic.items.push({
+      //   value1: "",
+      //   value2: "",
+      //   value3: "",
+      //   index: this.index,
+      //   status: 1,
+      // });
+      this.formDynamic.items=data;
+      this.$emit('addChange',data)
     },
     handleRemove(index) {
       this.formDynamic.items[index].status = 0;
@@ -99,7 +112,7 @@ export default {
        
 }
  .ivu-col-span-16{
-          width: 40%;
+          width: 50%;
         }
         .ivu-col-offset-1{
           margin-left:0;
