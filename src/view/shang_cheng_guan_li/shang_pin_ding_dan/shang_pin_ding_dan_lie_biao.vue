@@ -119,35 +119,24 @@ export default {
         filename: `table-${new Date().valueOf()}.csv`,
       });
     },
-  },
-  mounted() {
+    getGoodsOrdersPage(params) {
       this.axios
-      .post("/api/api/v2/business/goodsOrder/getGoodsOrdersPage", {
-        // code: "xy-week-1",
-        // goodsId: 11,  //商品id
-        // userId:11,  //用户id
-        // stauts: 13, //订单状态  全部状态
-        // isDelete: 0,  // 删除标记
-        pageNum: 1,
-        pageSize: 10,
-        sign: untilMd5.toSign(
-          {
-            // code: "xy-week-1",
-            isUseTemplate: 0,
-            isMemberGoods: 0,
-            status: 1,
-            pageNum: 1,
-            pageSize: 10,
-          },
-          "getGoodsOrdersPage"
-        ),
-      })
-      .then((res) => {
-        console.log(res.data,'商品列表管理数据')
-        // this.tableData = res.data.data.list
-      });
+        .post("/api/api/v2/business/order/getGoodsOrdersPage", {
+          ...params,
+          sign: untilMd5.toSign({ ...params }, "getGoodsOrdersPage"),
+        })
+        .then((res) => {
+          console.log(res.data, "查询商品订单列表接口");
+          this.tableData = res.data.data.list;
+        });
+    },
   },
-};
+ mounted(){
+   this.getGoodsOrdersPage({
+      pageNum: 1,
+      pageSize: 10,
+   })
+ }};
 </script>
 
 <style scoped lang='scss'>

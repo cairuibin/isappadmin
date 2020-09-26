@@ -1,13 +1,23 @@
 <template>
   <div>
     <Card>
-      <div style="margin-bottom:10px;">
-        <Input search enter-button="搜索" style="width:200px" placeholder="学员账号/手机账号/账号昵称" />
+      <div style="margin-bottom: 10px">
+        <Input
+          search
+          enter-button="搜索"
+          style="width: 200px"
+          placeholder="学员账号/手机账号/账号昵称"
+        />
       </div>
       <!-- editable 表格可编辑 -->
       <!-- searchable search-place="top" 搜索框-->
-      <tables ref="tables" v-model="tableData" :columns="columns" @on-delete="handleDelete" />
-      <div style="margin-top:20px">
+      <tables
+        ref="tables"
+        v-model="tableData"
+        :columns="columns"
+        @on-delete="handleDelete"
+      />
+      <div style="margin-top: 20px">
         <Page show-total :total="tableData.length" show-elevator></Page>
       </div>
       <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
@@ -20,7 +30,7 @@
 <script>
 import Tables from "_c/tables";
 import Detail from "./zhuan_ye_jiao_lain_xiang_qing";
-import Rzsx from './zhuan_ye_jiao_lain_shen_he'
+import Rzsx from "./zhuan_ye_jiao_lain_shen_he";
 import untilMd5 from "../../../utils/md5";
 export default {
   name: "tables_page",
@@ -117,9 +127,9 @@ export default {
     onCancel() {
       this.detailModal = false;
     },
-    rzsx(row){
-      this.rzxsInfo = row
-      this.rzsxModal=true;
+    rzsx(row) {
+      this.rzxsInfo = row;
+      this.rzsxModal = true;
     },
     rzsxCancel() {
       this.rzsxModal = false;
@@ -132,7 +142,7 @@ export default {
         filename: `table-${new Date().valueOf()}.csv`,
       });
     },
-       gettabledata_c(params) {
+    gettabledata_c(params) {
       this.axios
         .post("/api/api/v2/user/coach/getCoachPage", {
           ...params,
@@ -145,7 +155,7 @@ export default {
     },
   },
   mounted() {
-   this.gettabledata_c({
+    this.gettabledata_c({
       workType: 1,
       gender: 0,
       pageNum: 1,
