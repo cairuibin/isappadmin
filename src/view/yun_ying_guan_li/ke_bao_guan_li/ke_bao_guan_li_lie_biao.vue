@@ -13,7 +13,7 @@
       </div>
       <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
-    <Xzkb v-if="xzkbModal" :onCancel="onCancel" />
+    <Xzkb v-if="xzkbModal" :rowInfo="row" :edit="edit" :onCancel="onCancel" />
   </div>
 </template>
 
@@ -31,6 +31,8 @@ export default {
   data() {
     return {
       xzkbModal: false,
+      row:{},
+      edit: false,
       columns: [
         {
           type: "selection",
@@ -42,7 +44,7 @@ export default {
         { title: "应收(元)", key: "price" },
         { title: "实收(元)", key: "specialPrice" },
         { title: "状态", key: "status" },
-        { title: "关联门店", key: "rinkId" },
+        { title: "关联门店", key: "rinkName" },
         { title: "创建者", key: "createUser" },
         { title: "报名总数", key: "createTime" },
         {
@@ -66,7 +68,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.look(params.index);
+                      this.look(params.row);
                     }
                   }
                 },
@@ -89,7 +91,7 @@ export default {
 
                   on: {
                     click: () => {
-                      this.editBus(params.row, params.index);
+                      this.editBus(params.row);
                     }
                   }
                 },
@@ -105,13 +107,23 @@ export default {
   },
   methods: {
     handlAdd() {
+      this.row = {};
+      this.edit = false;
       this.xzkbModal = true;
     },
     onCancel() {
       this.xzkbModal = false;
     },
-    editBus(item, index) {},
-    look(params) {},
+    editBus(params) {
+      this.row = params;
+      this.edit = false;
+      this.xzkbModal = true;
+    },
+    look(params) {
+      this.row = params;
+      this.edit = true;
+      this.xzkbModal = true;
+    },
     handleDelete(params) {
       console.log(params);
     },
@@ -148,7 +160,7 @@ export default {
     }
   },
   mounted() {
-    // this.getList();
+    this.getList();
   }
 };
 </script>

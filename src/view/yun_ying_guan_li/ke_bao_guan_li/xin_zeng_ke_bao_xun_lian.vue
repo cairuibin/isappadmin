@@ -11,26 +11,27 @@
     >
       <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
         <FormItem label="课包名称:" prop="title">
-          <Input v-model="formValidate.title" placeholder="请输入课包名陈"></Input>
+          <Input :disabled="edit" v-model="formValidate.title" placeholder="请输入课包名陈"></Input>
         </FormItem>
         <FormItem label="封面图片" prop="imageUrl">
           <Row>
             <Col span="10">
-              <Input v-model="formValidate.imageUrl" placeholder="图片地址"></Input>
+              <Input :disabled="edit" v-model="formValidate.imageUrl" placeholder="图片地址"></Input>
             </Col>
             <Col span="6" style="text-align: center">
               <Upload action="//jsonplaceholder.typicode.com/posts/">
-                <Button icon="ios-cloud-upload-outline">上传图片</Button>
+                <Button :disabled="edit" icon="ios-cloud-upload-outline">上传图片</Button>
               </Upload>
             </Col>
             <Col span="6">
-              <Button icon="ios-cloud-upload-outline">图库</Button>
+              <Button :disabled="edit" icon="ios-cloud-upload-outline">图库</Button>
             </Col>
           </Row>
         </FormItem>
 
         <FormItem label="课包摘要:" prop="subTitle">
           <Input
+           :disabled="edit"
             v-model="formValidate.subTitle"
             type="textarea"
             :autosize="{minRows: 2,maxRows: 5}"
@@ -42,7 +43,7 @@
           <Editor />
         </FormItem>
         <FormItem label="课程安排" prop="anpai">
-          <Select v-model="formValidate.anpai" placeholder="请选择课程安排">
+          <Select :disabled="edit" v-model="formValidate.anpai" placeholder="请选择课程安排">
             <Option value="0">选择安排</Option>
             <Option value="1">无安排</Option>
             <Option value="2">训练计划</Option>
@@ -51,6 +52,7 @@
         </FormItem>
         <FormItem label="训练计划:" prop="ji_hua">
           <Input
+           :disabled="edit"
             v-model="formValidate.ji_hua"
             type="textarea"
             :autosize="{minRows: 2,maxRows: 5}"
@@ -58,7 +60,7 @@
           />
         </FormItem>
         <FormItem label="附加内容:" prop="fu_jia">
-          <Button v-if="isFujiaAdd" @click="handleFujiaAdd">+</Button>
+          <Button :disabled="edit" v-if="isFujiaAdd" @click="handleFujiaAdd">+</Button>
           <Table v-if="!isFujiaAdd" border :columns="columns12" :data="formValidate.fu_jia">
             <template slot-scope="{ row, index }" slot="xuhao">
               <span>{{index+1}}</span>
@@ -71,7 +73,7 @@
           </Table>
         </FormItem>
         <FormItem label="赠送内容:" prop="zeng_song">
-          <Button v-if="isZsAdd" @click="handleZsAdd">+</Button>
+          <Button :disabled="edit" v-if="isZsAdd" @click="handleZsAdd">+</Button>
           <Table v-if="!isZsAdd" border :columns="columns13" :data="formValidate.zeng_song">
             <template slot-scope="{ row, index }" slot="xuhao">
               <span>{{index+1}}</span>
@@ -84,24 +86,24 @@
           </Table>
         </FormItem>
         <FormItem label="应收总价:" prop="cost">
-          <Input v-model="formValidate.cost" style="width:80px" />元
+          <Input :disabled="edit" v-model="formValidate.cost" style="width:80px" />元
         </FormItem>
         <FormItem label="实收总价:" prop="specialPrice">
-          <Input v-model="formValidate.specialPrice" style="width:80px" />元
+          <Input :disabled="edit" v-model="formValidate.specialPrice" style="width:80px" />元
         </FormItem>
         <FormItem label="关联门店" prop="departmentId">
-          <Select v-model="formValidate.departmentId" placeholder="选择门店">
+          <Select :disabled="edit" v-model="formValidate.departmentId" placeholder="选择门店">
             <Option :value="1">机构-冰场</Option>
           </Select>
         </FormItem>
         <FormItem label="关联教练" prop="teachingCoach">
-          <Select multiple v-model="formValidate.teachingCoach" placeholder="选择教练">
+          <Select :disabled="edit" multiple v-model="formValidate.teachingCoach" placeholder="选择教练">
             <Option value="1">尤硕</Option>
             <Option value="2">春熙</Option>
           </Select>
         </FormItem>
         <FormItem label="状态" prop="status">
-          <Select v-model="formValidate.status" placeholder="选择状态">
+          <Select :disabled="edit" v-model="formValidate.status" placeholder="选择状态">
             <Option :value="0">无效</Option>
             <Option :value="1">有效</Option>
             <Option :value="2">暂停</Option>
@@ -109,11 +111,10 @@
         </FormItem>
         <FormItem>
           <Button type="primary" @click="cancel">取消</Button>
-          <Button @click="handleSubmit('formValidate')" style="margin-left: 8px">保存</Button>
+          <Button :disabled="edit" @click="handleSubmit('formValidate')" style="margin-left: 8px">保存</Button>
         </FormItem>
       </Form>
       <div slot="footer">
-        <!-- <Button type="error" size="large" long :loading="modal_loading" @click="del">Delete</Button> -->
       </div>
     </Modal>
   </div>
@@ -123,7 +124,9 @@ import Editor from "@/view/components/editor/editor.vue";
 import { isEmpty } from "lodash";
 export default {
   props: {
-    onCancel: Function
+    onCancel: Function,
+    rowInfo: Object,
+    edit: Boolean,
   },
   data() {
     return {
@@ -180,9 +183,7 @@ export default {
       //     }
       //   ]
       // },
-      formValidate: {
-        departmentId: "0"
-      },
+      formValidate: this.rowInfo,
       ruleValidate: {
         title: [
           {
@@ -209,21 +210,18 @@ export default {
           {
             required: true,
             message: "Please select the departmentId",
-            trigger: "change"
           }
         ],
         teachingCoach: [
           {
             required: true,
             message: "Please select teachingCoach",
-            trigger: "change"
           }
         ],
         status: [
           {
             required: true,
             message: "Please select status",
-            trigger: "change"
           }
         ]
       }
@@ -231,6 +229,11 @@ export default {
   },
   components: {
     Editor
+  },
+  watch:{
+    rowInfo:function(val){
+      this.formValidate = row;
+    }
   },
   mounted() {},
   computed: {
