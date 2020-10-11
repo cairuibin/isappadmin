@@ -16,7 +16,7 @@
           <Select v-model="formValidate.goodsCategoryId" placeholder="选择分类">
             <!-- <Option value="1">1</Option>
             <Option value="2">2</Option>
-            <Option value="3">3</Option> -->
+            <Option value="3">3</Option>-->
           </Select>
         </FormItem>
         <FormItem label="商品标题" prop="name">
@@ -29,7 +29,7 @@
           <Select v-model="formValidate.supplierId" placeholder="选择品牌">
             <!-- <Option value="1">1</Option>
             <Option value="2">2</Option>
-            <Option value="3">3</Option> -->
+            <Option value="3">3</Option>-->
           </Select>
         </FormItem>
         <FormItem label="适用人群：" prop="name">
@@ -44,10 +44,10 @@
         <div style="font-size:16px">销售信息:</div>
         <!-- <AddItem lab="颜色" />
 
-        <AddItem lab="尺码" /> -->
+        <AddItem lab="尺码" />-->
 
         <FormItem label="规格库存" prop="amountStock">
-          <AddItem @addChange="addChange"/>
+          <AddItem @addChange="addChange" />
         </FormItem>
 
         <FormItem label="一口价" prop="name">
@@ -105,8 +105,8 @@
           </Select>
         </FormItem>
         <FormItem v-if="formValidate.isFreeMail===0" label="物流信息：" prop="shippingMoney">
-          <input type="text" placeholder="物流名称">
-          <input v-model="formValidate.shippingMoney" type="text" placeholder="物流金额">元
+          <input type="text" placeholder="物流名称" />
+          <input v-model="formValidate.shippingMoney" type="text" placeholder="物流金额" />元
         </FormItem>
 
         <div style="font-size:16px">售后服务</div>
@@ -131,8 +131,8 @@
             <Option value="1">按金额分润</Option>
           </Select>
         </FormItem>
-         <FormItem v-if="formValidate.fenrun==='0'" label="分润金额：">
-         <input type="text">元
+        <FormItem v-if="formValidate.fenrun==='0'" label="分润金额：">
+          <input type="text" />元
         </FormItem>
 
         <FormItem>
@@ -148,11 +148,11 @@
   </div>
 </template>
 <script>
-import Editor from '_c/editor'
+import Editor from "_c/editor";
 import AddItem from "./add_item";
 export default {
-    props: {
-    onCancel: Function,
+  props: {
+    onCancel: Function
   },
   data() {
     return {
@@ -166,9 +166,9 @@ export default {
             type: "string",
             pattern: /^[0-9]*$/,
             message: "汇率格式不正确",
-            trigger: "blur",
-          },
-        ],
+            trigger: "blur"
+          }
+        ]
       },
       formValidate: {
         // name: "",
@@ -186,37 +186,37 @@ export default {
           {
             required: true,
             message: "The name cannot be empty",
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ],
         introduce: [
           {
             required: true,
             message: "请输入图文介绍",
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ],
         mail: [
           {
             required: true,
             message: "Mailbox cannot be empty",
-            trigger: "blur",
+            trigger: "blur"
           },
-          { type: "email", message: "Incorrect email format", trigger: "blur" },
+          { type: "email", message: "Incorrect email format", trigger: "blur" }
         ],
         city: [
           {
             required: true,
             message: "Please select the city",
-            trigger: "change",
-          },
+            trigger: "change"
+          }
         ],
         gender: [
           {
             required: true,
             message: "Please select gender",
-            trigger: "change",
-          },
+            trigger: "change"
+          }
         ],
         interest: [
           {
@@ -224,91 +224,71 @@ export default {
             type: "array",
             min: 1,
             message: "Choose at least one hobby",
-            trigger: "change",
+            trigger: "change"
           },
           {
             type: "array",
             max: 2,
             message: "Choose two hobbies at best",
-            trigger: "change",
-          },
+            trigger: "change"
+          }
         ],
         date: [
           {
             required: true,
             type: "date",
             message: "Please select the date",
-            trigger: "change",
-          },
+            trigger: "change"
+          }
         ],
         time: [
           {
             required: true,
             type: "string",
             message: "Please select time",
-            trigger: "change",
-          },
+            trigger: "change"
+          }
         ],
         desc: [
           {
             required: false,
             message: "请输入课包摘要",
-            trigger: "blur",
+            trigger: "blur"
           },
           {
             type: "string",
             min: 20,
             message: "Introduce no less than 20 words",
-            trigger: "blur",
-          },
-        ],
-      },
+            trigger: "blur"
+          }
+        ]
+      }
     };
   },
   components: {
     Editor,
-    AddItem,
+    AddItem
   },
   mounted() {},
   methods: {
-    addChange(val){
-      this.formValidate.amountStock=val
+    addChange(val) {
+      this.formValidate.amountStock = val;
     },
-    // async ok() {
-    //   this.$refs.setGold.validate(async (valid) => {
-    //     if (valid) {
-    //       let res = await this.$ajax.post("/xx/xx", {});
-    //       if (res.cd === 0) {
-    //         // doSomething..
-    //       } else {
-    //         this.$Message.info(res.msg);
-    //       }
-    //     } else {
-    //       // 对话框校验失败，取消loading状态
-    //       // this.loading = false
-    //       // setTimeout(() => {
-    //       //  this.$nextTick(() => {
-    //       //     this.loading = true
-    //       //   })
-    //       // }, 100)
-    //     }
-    //   });
-    // },
     cancel() {
       // 取消后，重置表单
       this.$refs["formValidate"].resetFields();
-      this.onCancel()
+      this.onCancel();
     },
     handleSubmit(name) {
       console.log(this.formValidate);
-      this.$refs[name].validate((valid) => {
+      this.$refs[name].validate(valid => {
         if (valid) {
           this.$Message.success("Success!");
         } else {
           this.$Message.error("Fail!");
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>

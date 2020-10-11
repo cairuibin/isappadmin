@@ -6,18 +6,17 @@
       :scrollable="true"
       :mask-closable="false"
       :loading="loading"
-      @on-ok="ok"
       @on-cancel="cancel"
       width='60%'
     >
       <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-        <FormItem label="课包名称:" prop="name">
-          <Input v-model="formValidate.name" placeholder="请输入课包名陈"></Input>
+        <FormItem label="课包名称:" prop="title">
+          <Input v-model="formValidate.title" placeholder="请输入课包名陈"></Input>
         </FormItem>
-        <FormItem label="封面图片" prop="mail">
+        <FormItem label="封面图片" prop="imageUrl">
           <Row>
             <Col span="10">
-              <Input v-model="formValidate.mail" placeholder="图片地址"></Input>
+              <Input v-model="formValidate.imageUrl" placeholder="图片地址"></Input>
             </Col>
             <Col span="6" style="text-align: center">
               <Upload action="//jsonplaceholder.typicode.com/posts/">
@@ -30,23 +29,24 @@
           </Row>
         </FormItem>
 
-        <FormItem label="课包摘要:" prop="desc">
+        <FormItem label="课包摘要:" prop="imageUrl">
           <Input
-            v-model="formValidate.desc"
+            v-model="formValidate.imageUrl"
             type="textarea"
             :autosize="{minRows: 2,maxRows: 5}"
             placeholder="请输入课程摘要"
-          ></Input>
+          />
         </FormItem>
-        <FormItem label=" 图文介绍:" prop="editText">
+        <FormItem label=" 图文介绍:" prop="introduce">
           <!-- <Input v-model="formValidate.editText" placeholder="图片地址"></Input> -->
           <Editor />
         </FormItem>
-        <FormItem label="课程安排" prop="city">
-          <Select v-model="formValidate.city" placeholder="请选择课程安排">
-            <Option value="beijing">选择安排</Option>
-            <Option value="shanghai">训练计划</Option>
-            <Option value="shenzhen">自定义课节</Option>
+        <FormItem label="课程安排" prop="anpai">
+          <Select v-model="formValidate.anpai" placeholder="请选择课程安排">
+            <Option value="0">选择安排</Option>
+            <Option value="1">无安排</Option>
+            <Option value="2">训练计划</Option>
+            <Option value="3">自定义课节</Option>
           </Select>
         </FormItem>
         <FormItem label="训练计划:" prop="ji_hua">
@@ -55,15 +55,10 @@
             type="textarea"
             :autosize="{minRows: 2,maxRows: 5}"
             placeholder="请输入课程摘要"
-          ></Input>
+          />
         </FormItem>
-              <FormItem label="附加内容:" prop="fu_jia">
-          <Input
-            v-model="formValidate.fu_jia"
-            type="textarea"
-            :autosize="{minRows: 2,maxRows: 5}"
-            placeholder="请输入课程摘要"
-          ></Input>
+        <FormItem label="附加内容:" prop="fu_jia">
+          <Button @click="handleContent">+</Button>
         </FormItem>
               <FormItem label="赠送内容:" prop="zeng_song">
           <Input
@@ -143,8 +138,8 @@
         </FormItem>-->
 
         <FormItem>
-          <Button type="primary" @click="handleSubmit('formValidate')">Submit</Button>
-          <Button @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button>
+          <Button type="primary" @click="cancel">取消</Button>
+          <Button @click="handleSubmit('formValidate')" style="margin-left: 8px">保存</Button>
         </FormItem>
       </Form>
       <div slot="footer">
@@ -156,6 +151,9 @@
 <script>
 import Editor from "@/view/components/editor/editor.vue";
 export default {
+  props: {
+    onCancel: Function,
+  },
   data() {
     return {
       modal: true,
@@ -172,17 +170,7 @@ export default {
           },
         ],
       },
-      formValidate: {
-        name: "",
-        mail: "",
-        city: "",
-        gender: "",
-        interest: [],
-        date: "",
-        time: "",
-        desc: "",
-        editText: "",
-      },
+      formValidate: {},
       ruleValidate: {
         name: [
           {
@@ -272,29 +260,13 @@ export default {
   },
   mounted() {},
   methods: {
-    async ok() {
-      this.$refs.setGold.validate(async (valid) => {
-        if (valid) {
-          let res = await this.$ajax.post("/xx/xx", {});
-          if (res.cd === 0) {
-            // doSomething..
-          } else {
-            this.$Message.info(res.msg);
-          }
-        } else {
-          // 对话框校验失败，取消loading状态
-          // this.loading = false
-          // setTimeout(() => {
-          //  this.$nextTick(() => {
-          //     this.loading = true
-          //   })
-          // }, 100)
-        }
-      });
+    handleContent(){
+      //附加内容
     },
     cancel() {
       // 取消后，重置表单
-      this.$refs["setGold"].resetFields();
+      this.$refs["formValidate"].resetFields();
+      this.onCancel();
     },
     handleSubmit(name) {
       this.$refs[name].validate((valid) => {
@@ -304,9 +276,6 @@ export default {
           this.$Message.error("Fail!");
         }
       });
-    },
-    handleReset(name) {
-      this.$refs[name].resetFields();
     },
   },
 };
