@@ -18,7 +18,7 @@
 
 <script>
 import Tables from '_c/tables'
-import { getTableData } from '@/api/data'
+import untilMd5 from '../../../utils/md5'
 export default {
   name: 'tables_page',
   components: {
@@ -110,12 +110,25 @@ export default {
       this.$refs.tables.exportCsv({
         filename: `table-${new Date().valueOf()}.csv`
       })
-    }
+    },
+     getPaymentPageByUserId(params) {
+      this.axios
+        .post("/api/api/v2/user/payment/getPaymentPageByUserId", {
+          ...params,
+          sign: untilMd5.toSign({ ...params }, "getPaymentPageByUserId"),
+        })
+        .then((res) => {
+          console.log(res.data, "查询退款申请列表接口(分页)");
+          this.tableData = res.data.data.list;
+        });
+    },
   },
   mounted () {
-    getTableData().then((res) => {
-      this.tableData = res.data
-    })
+    this.getPaymentPageByUserId({
+      pageNum: 1,
+      pageSize: 10,
+      userId:JSON.parse(localStorage.getItem('user').id)
+    });
   }
 }
 </script>
