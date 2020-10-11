@@ -108,8 +108,6 @@ export default {
       this.xzkbModal = true;
     },
     onCancel() {
-      console.log('asdasdsdasds');
-      
       this.xzkbModal = false;
     },
     editBus(item, index) {},
