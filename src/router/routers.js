@@ -101,34 +101,36 @@ export default [
 
           },
           component: () => import('@/view//yun_ying_guan_li/ke_cheng_ding_dan/ke_cheng_ding_dan_lie_biao.vue')
-        }, {
-          path: 'ding_dan_xiang_qing',
-          name: 'ding_dan_xiang_qing',
-          meta: {
-            icon: 'md-clipboard',
-            title: '订单详情'
+        },
+        //  {
+        //   path: 'ding_dan_xiang_qing',
+        //   name: 'ding_dan_xiang_qing',
+        //   meta: {
+        //     icon: 'md-clipboard',
+        //     title: '订单详情'
 
-          },
-          component: () => import('@/view/yun_ying_guan_li/ke_cheng_ding_dan/ding_dan_xiang_qing.vue')
-        }, {
-          path: 'shen_qing_qu_xiao',
-          name: 'shen_qing_qu_xiao',
-          meta: {
-            icon: 'md-clipboard',
-            title: '订单详情-申请取消'
+        //   },
+        //   component: () => import('@/view/yun_ying_guan_li/ke_cheng_ding_dan/ding_dan_xiang_qing.vue')
+        // }, {
+        //   path: 'shen_qing_qu_xiao',
+        //   name: 'shen_qing_qu_xiao',
+        //   meta: {
+        //     icon: 'md-clipboard',
+        //     title: '订单详情-申请取消'
 
-          },
-          component: () => import('@/view/yun_ying_guan_li/ke_cheng_ding_dan/shen_qing_qu_xiao.vue')
-        }, {
-          path: 'shen_qing_tui_kuan',
-          name: 'shen_qing_tui_kuan',
-          meta: {
-            icon: 'md-clipboard',
-            title: '订单详情-申请退款'
+        //   },
+        //   component: () => import('@/view/yun_ying_guan_li/ke_cheng_ding_dan/shen_qing_qu_xiao.vue')
+        // }, {
+        //   path: 'shen_qing_tui_kuan',
+        //   name: 'shen_qing_tui_kuan',
+        //   meta: {
+        //     icon: 'md-clipboard',
+        //     title: '订单详情-申请退款'
 
-          },
-          component: () => import('@/view/yun_ying_guan_li/ke_cheng_ding_dan/shen_qing_tui_kuan')
-        }]
+        //   },
+        //   component: () => import('@/view/yun_ying_guan_li/ke_cheng_ding_dan/shen_qing_tui_kuan')
+        // }
+      ]
       }, {
         path: 'chong_zhi_ding_dan',
         name: 'chong_zhi_ding_dan',
@@ -177,7 +179,7 @@ export default [
           title: '学员管理',
         },
         component: () => import('@/view/yong_hu_guan_li/xue_yuan_guan_li/xue_yuan_lie_baio.vue'),
-      },{
+      }, {
         path: 'ban_zhuan_ye_jiao_lain',
         name: 'ban_zhuan_ye_jiao_lain',
         meta: {
@@ -275,7 +277,7 @@ export default [
           },
           component: () => import('@/view/nei_rong_guan_li/xun_lian_ji_hua_mo_ban/xun_lian_ji_hua_mo_ban_lie_biao.vue')
         },
-         {
+        {
           path: 'ke_jie_guan_li',
           name: 'ke_jie_guan_li',
           meta: {
@@ -535,7 +537,7 @@ export default [
 
         },
         component: () => import('@/view/xi_tong_guan_li/cai_dan_guan_li/cai_dan_guan_li.vue'),
-       
+
       },
     ]
   },
