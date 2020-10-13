@@ -146,7 +146,7 @@ export default {
     getCoachById(params) {
     
       this.axios
-        .post("/api/api/v2/user/coach/getCoachById", {
+        .post("/api/v2/user/coach/getCoachById", {
           ...params,
           sign: untilMd5.toSign(
             {

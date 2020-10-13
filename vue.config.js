@@ -43,10 +43,10 @@ module.exports = {
     proxy: {
       '/api': {
         target: 'https://test.iskatesports.com',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api': ''
-        }
+        changeOrigin: true
+        // pathRewrite: {
+        //   '^/api': ''
+        // }
 
       }
     }

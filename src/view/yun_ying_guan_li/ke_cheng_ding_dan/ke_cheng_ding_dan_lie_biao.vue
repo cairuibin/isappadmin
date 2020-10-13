@@ -166,7 +166,7 @@ export default {
     },
     getTrainCampOrdersPage(params) {
       this.axios
-        .post("/api/api/v2/business/trainOrder/getTrainCampOrdersPage", {
+        .post("/api/v2/business/trainOrder/getTrainCampOrdersPage", {
           ...params,
           sign: untilMd5.toSign({ ...params }, "getTrainCampOrdersPage"),
         })

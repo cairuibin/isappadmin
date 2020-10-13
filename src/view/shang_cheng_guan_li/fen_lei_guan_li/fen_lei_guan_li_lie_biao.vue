@@ -166,7 +166,7 @@ export default {
     },
     getGoodsPage(params) {
       this.axios
-        .post("/api/api/v2/data/goods/getGoodsPage", {
+        .post("/api/v2/data/goods/getGoodsPage", {
           ...params,
           sign: untilMd5.toSign(
             {
