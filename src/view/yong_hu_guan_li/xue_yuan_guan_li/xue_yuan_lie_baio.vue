@@ -125,7 +125,7 @@ export default {
     },
     gettabledata_c(params){
       this.axios
-      .post("/api/api/v2/user/student/getStudentPage", {
+      .post("/api/v2/user/student/getStudentPage", {
        ...params,
         sign: untilMd5.toSign(
           {

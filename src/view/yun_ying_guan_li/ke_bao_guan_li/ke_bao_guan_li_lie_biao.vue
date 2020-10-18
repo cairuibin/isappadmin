@@ -146,7 +146,7 @@ export default {
     },
     getList() {
       this.axios
-        .post("/api/api/v2/data/course/getCoursePacketPage", {
+        .post("/api/v2/data/course/getCoursePacketPage", {
           // code: "xy-week-1",
           isUseTemplate: 0,
           isMemberGoods: 0,

@@ -102,7 +102,7 @@ export default {
     },
     getstudent_detail_c(params) {
      return this.axios
-        .post("/api/api/v2/user/student/getStudentInfo", {
+        .post("/api/v2/user/student/getStudentInfo", {
           ...params,
           sign: untilMd5.toSign(
             {

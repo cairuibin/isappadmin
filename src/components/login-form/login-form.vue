@@ -98,7 +98,7 @@ export default {
           );
        
           this.axios
-            .post("/api/api/v2/manage/system/userLogin", {
+            .post("/api/v2/manage/system/userLogin", {
                username: this.formCustom.userName,
               password: Md5(this.formCustom.password),
               picCode: this.formCustom.picCode,
