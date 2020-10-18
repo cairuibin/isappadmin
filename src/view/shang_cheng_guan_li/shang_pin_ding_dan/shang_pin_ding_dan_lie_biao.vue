@@ -54,19 +54,24 @@
       </div>
       <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
+    <LookModal v-if="lookVisible" :onCancel="onCancel" />
   </div>
 </template>
 
 <script>
 import Tables from "_c/tables";
 import untilMd5 from "../../../utils/md5";
+import LookModal from './ding_dan_xiang_qing_dai_shou_huo';
+
 export default {
   name: "tables_page",
   components: {
     Tables,
+    LookModal,
   },
   data() {
     return {
+      lookVisible:false,
       columns: [
         {
           type: "selection",
@@ -85,18 +90,13 @@ export default {
         { title: "状态", key: "createTime" },
         {
           title: "操作",
-
           key: "action",
-
           width: 150,
-
           align: "center",
-
           render: (h, params) => {
             return h("div", [
               h(
                 "Button",
-
                 {
                   props: {
                     type: "primary",
@@ -108,7 +108,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.look(params.index);
+                      this.look(params.row);
                     },
                   },
                 },
@@ -119,14 +119,19 @@ export default {
           },
         },
       ],
-      tableData: [],
+      tableData: [{name:'as'}],
       lei_xing: "全部类型",
       zhuang_tai: "全部状态",
     };
   },
   methods: {
     editBus(item, index) {},
-    look(params) {},
+    look(params) {
+      this.lookVisible=true;
+    },
+    onCancel() {
+      this.lookVisible = false;
+    },
     handleDelete(params) {
       console.log(params);
     },
@@ -148,11 +153,11 @@ export default {
     },
   },
   mounted() {
-    this.getGoodsOrdersPage({
-      isDelete: 0,
-      pageNum: 1,
-      pageSize: 10,
-    });
+    // this.getGoodsOrdersPage({
+    //   isDelete: 0,
+    //   pageNum: 1,
+    //   pageSize: 10,
+    // });
   },
 };
 </script>
