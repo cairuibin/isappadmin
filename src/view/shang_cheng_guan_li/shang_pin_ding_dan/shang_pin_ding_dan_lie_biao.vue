@@ -1,18 +1,12 @@
 <template>
   <div>
     <Card>
-      <div style="margin-bottom: 10px" class="header_wrap">
-        <!-- <span>订单类型</span>
-        <Select v-model="lei_xing" placeholder="全部类型" style="width:100px">
-          <Option value="quan_bu_lei_xing">全部类型</Option>
-          <Option value="ke_bao">课包</Option>
-          <Option value="qing_xun_ying">青训营</Option>
-        </Select> -->
-        <span>订单状态</span>
+      <div class="header_wrap">
+        <span style="margin-right: 5px;">订单状态</span>
         <Select
           v-model="zhuang_tai"
           placeholder="全部状态"
-          style="width: 100px"
+          style="margin-right: 5px;width: 100px"
         >
           <Option value="quan_bu_zhuang_tai">全部状态</Option>
           <Option value="dai_fu_kuan">代付款</Option>
@@ -30,20 +24,20 @@
         <Input
           type="text"
           placeholder="手机账号/平台订单号"
-          style="width: 200px"
+          style="margin-right: 5px;width: 200px"
         />
-        <div style="margin-bottom: 10px">
+        <div style="margin-right: 5px;">
           支付时间:
           <DatePicker
             type="datetime"
             placeholder="请选择开始时间"
-            style="width: 130px"
+            style="margin-right: 5px;width: 130px"
           ></DatePicker>
-          至:
+          至
           <DatePicker
             type="datetime"
             placeholder="请选择结束时间"
-            style="width: 130px"
+            style="margin-right: 5px;margin-left: 5px;width: 130px"
           ></DatePicker>
           <i-button type="primary">搜索</i-button>
           &emsp;
@@ -155,6 +149,7 @@ export default {
   },
   mounted() {
     this.getGoodsOrdersPage({
+      isDelete: 0,
       pageNum: 1,
       pageSize: 10,
     });
@@ -165,7 +160,7 @@ export default {
 <style scoped lang='scss'>
 .header_wrap {
   display: flex;
-  justify-content: space-around;
   align-items: center;
+  margin-bottom: 10px;
 }
 </style>

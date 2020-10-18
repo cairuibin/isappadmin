@@ -3,7 +3,7 @@
     <Card>
       <div style="margin-bottom:10px;">
         <i-button type="primary" @click="handlAdd">新增</i-button>&emsp;
-        <i-button type="error">删除</i-button>
+        <i-button type="error" @click="handlRemove">删除</i-button>
       </div>
       <!-- editable 表格可编辑 -->
       <!-- searchable search-place="top" 搜索框-->
@@ -110,6 +110,18 @@ export default {
       this.row = {};
       this.edit = false;
       this.xzkbModal = true;
+    },
+    handlRemove(){
+      this.$Modal.confirm({
+                    title: '提示',
+                    content: '<h3>确定删除该课包吗？</h3>',
+                    onOk: () => {
+                        this.$Message.info('删除成功');
+                    },
+                    onCancel: () => {
+                        // this.$Message.info('Clicked cancel');
+                    }
+                });
     },
     onCancel() {
       this.xzkbModal = false;
