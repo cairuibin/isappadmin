@@ -3,7 +3,7 @@
     <Card>
       <div style="margin-bottom:10px;" class="header_wrap">
 
-         <i-button type="primary">新增</i-button>&emsp;
+         <i-button type="primary" @click="handlAdd">新增</i-button>&emsp;
           <i-button type="primary">删除</i-button>
       </div>
       <tables ref="tables" v-model="tableData" :columns="columns" @on-delete="handleDelete" />
@@ -12,45 +12,67 @@
       </div>
       <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
+    <Xzkj
+        v-if="xzkjModal"
+        :rowInfo="row"
+        :edit="edit"
+        :onCancel="onCancel"
+    />
   </div>
 </template>
 
 <script>
 import Tables from "_c/tables";
 import { getTableData } from "@/api/data";
+import Xzkj from './xin_zeng_ke_jie';
+
 export default {
   name: "tables_page",
   components: {
-      Tables
+      Tables,
+      Xzkj,
   },
   data() {
     return {
+      xzkjModal:false,
+      row:{},
+      edit: false,
       columns: [
         {
           type: "selection",
           width: 60,
           align: "center",
         },
-        { title: "动作名称", key: "name", sortable: false },
-        { title: "动作配图", key: "email", editable: false },
-        { title: "标签", key: "createTime" },
-        { title: "状态", key: "createTime" },
-        { title: "排序", key: "createTime" },
-    
+        {
+          title: "课程形式",
+          key: "form",
+          render: (_, params)=>{
+            switch(params.row.form){
+              case 1:
+                return <span>冰上</span>;
+              case 2:
+                return <span>陆地</span>;
+              case 3:
+                return <span>冰上+陆地</span>;
+            }
+          }
+        },
+        { title: "课程名称", key: "title", sortable: false },
+        { title: "教学重点", key: "tag", editable: false },
+        { title: "版权", key: "copyright" },
+        { title: "创建者", key: "createUser" },
+        { title: "课节安排", key: "content" },
+        { title: "课后训练", key: "after_class_train" },
+        { title: "排序", key: "sortIndex" },
         {
           title: "操作",
-
           key: "action",
-
           width: 150,
-
           align: "center",
-
           render: (h, params) => {
             return h("div", [
               h(
                 "Button",
-
                 {
                   props: {
                     type: "primary",
@@ -62,19 +84,16 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.look(params.index);
+                      this.look(params.row);
                     },
                   },
                 },
-
                 "查看"
               ), h(
                 "Button",
-
                 {
                   props: {
                     type: "primary",
-
                     size: "small",
                   },
                   style: {
@@ -82,25 +101,44 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.look(params.index);
+                      this.editBus(params.row);
                     },
                   },
                 },
-
                 "编辑"
               )
             ]);
           },
         },
       ],
-      tableData: [],
+      tableData: [
+        {
+          form:1
+        }
+      ],
       lei_xing:"全部类型",
       zhuang_tai:"全部状态"
     };
   },
   methods: {
-    editBus(item, index) {},
-    look(params) {},
+    handlAdd() {
+      this.row = {};
+      this.edit = false;
+      this.xzkjModal = true;
+    },
+    onCancel() {
+      this.xzkjModal = false;
+    },
+    look(params) {
+      this.row = params;
+      this.edit = true;
+      this.xzkjModal = true;
+    },
+    editBus(params) {
+      this.row = params;
+      this.edit = false;
+      this.xzkjModal = true;
+    },
     handleDelete(params) {
       console.log(params);
     },

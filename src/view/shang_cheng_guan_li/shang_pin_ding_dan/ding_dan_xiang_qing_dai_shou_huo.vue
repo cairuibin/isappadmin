@@ -119,7 +119,7 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style scoped lang="scss">
 .content_item {
   font-size: 16px;
   line-height: 24px;
