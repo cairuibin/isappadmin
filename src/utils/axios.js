@@ -2,13 +2,16 @@
 
 import Vue from 'vue';
 import axios from "axios";
-
-const _axios = axios.create({});
+console.log(process.env.NODE_ENV)
+const _axios = axios.create({
+    baseURL:'',
+    baseURL:process.env.NODE_ENV==='development'?"":"https://test.iskatesports.com"
+});
 
 _axios.interceptors.request.use(
 
     (config) => {
-        console.log(config.data)
+        console.log(config)
         config.headers.Authorization = 'Bearer' + " " + localStorage.token
         // Do something before request is sent
         return config;

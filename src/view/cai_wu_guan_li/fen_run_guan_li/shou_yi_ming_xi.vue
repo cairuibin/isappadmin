@@ -20,7 +20,7 @@
 
 <script>
 import Tables from '_c/tables'
-import { getTableData } from '@/api/data'
+import untilMd5 from '../../../utils/md5'
 export default {
   name: 'tables_page',
   components: {
@@ -40,64 +40,7 @@ export default {
         { title: '收益类型', key: 'createTime' },
         { title: '付款金额', key: 'createTime' },
           { title: '付款状态', key: 'createTime' },
-        // {
-        //   title: '操作',
-
-        //   key: 'action',
-
-        //   width: 350,
-
-        //   align: 'center',
-
-        //   render: (h, params) => {
-        //     return h('div', [
-        //       h(
-        //         'Button',
-
-        //         {
-        //           props: {
-        //             type: 'primary',
-
-        //             size: 'small'
-        //           },
-        //           style: {
-        //             marginRight: '5px'
-        //           },
-        //           on: {
-        //             click: () => {
-        //               this.look(params.index)
-        //             }
-        //           }
-        //         },
-
-        //         '收益明细'
-        //       ),
-        //       h(
-        //         'Button',
-
-        //         {
-        //           props: {
-        //             type: 'warning',
-
-        //             size: 'small'
-        //           },
-
-        //           style: {
-        //             marginRight: '5px'
-        //           },
-
-        //           on: {
-        //             click: () => {
-        //               this.editBus(params.row, params.index)
-        //             }
-        //           }
-        //         },
-
-        //         ' 提现历史'
-        //       )
-        //     ])
-        //   }
-        // }
+       
       ],
       tableData: []
     }
@@ -112,12 +55,25 @@ export default {
       this.$refs.tables.exportCsv({
         filename: `table-${new Date().valueOf()}.csv`
       })
-    }
+    },
+     getPaymentPageByUserId(params) {
+      this.axios
+        .post("/api/v2/user/payment/getPaymentPageByUserId", {
+          ...params,
+          sign: untilMd5.toSign({ ...params }, "getPaymentPageByUserId"),
+        })
+        .then((res) => {
+          console.log(res.data, "shou_yi_ming_xi(分页)");
+          this.tableData = res.data.data?res.data.data.list:[];
+        });
+    },
   },
   mounted () {
-    getTableData().then((res) => {
-      this.tableData = res.data
-    })
+    this.getPaymentPageByUserId({
+      pageNum: 1,
+      pageSize: 10,
+      // userId:JSON.parse(localStorage.getItem('user').id)
+    });
   }
 }
 </script>

@@ -23,7 +23,7 @@
 
 <script>
 import Tables from "_c/tables";
-import { getTableData } from "@/api/data";
+import untilMd5 from '../../../utils/md5'
 import Xzkj from './xin_zeng_ke_jie';
 
 export default {
@@ -147,10 +147,23 @@ export default {
         filename: `table-${new Date().valueOf()}.csv`,
       });
     },
+      getCoursePage(params) {
+      this.axios
+        .post("/api/v2/data/course/getCoursePage", {
+          ...params,
+          sign: untilMd5.toSign({ ...params }, "getCoursePage"),
+        })
+        .then((res) => {
+          console.log(res.data, "课节(分页)");
+          this.tableData = res.data.data.list;
+        });
+    },
   },
   mounted() {
-    getTableData().then((res) => {
-      this.tableData = res.data;
+    this.getCoursePage({
+      pageNum: 1,
+      pageSize: 10,
+      // userId:JSON.parse(localStorage.getItem('user').id)
     });
   },
 };

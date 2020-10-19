@@ -23,6 +23,7 @@
 
 <script>
 import Tables from "_c/tables";
+import untilMd5 from '../../../utils/md5'
 import Xzxly from './xin_zeng_xun_lian_ying_xun_lian_ji_hua';
 
 export default {
@@ -144,8 +145,25 @@ export default {
         filename: `table-${new Date().valueOf()}.csv`,
       });
     },
+     getTrainCampPage(params) {
+      this.axios
+        .post("/api/v2/data/train/getTrainCampPage", {
+          ...params,
+          sign: untilMd5.toSign({ ...params }, "getTrainCampPage"),
+        })
+        .then((res) => {
+          console.log(res.data, "课节(分页)");
+          this.tableData = res.data.data.list;
+        });
+    },
   },
-//   mounted() { },
+  mounted() { 
+     this.getTrainCampPage({
+      pageNum: 1,
+      pageSize: 10,
+      // userId:JSON.parse(localStorage.getItem('user').id)
+    });
+  },
 };
 </script>
 
