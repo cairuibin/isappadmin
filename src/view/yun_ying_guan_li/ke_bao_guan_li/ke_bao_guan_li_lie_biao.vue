@@ -234,7 +234,7 @@ export default {
     },
     onselectallcancel(select) {},
     onselectionchange(select) {
-      console.log(select, "11");
+   
       this.deleteSelectIds = select.map((v) => v.id);
     },
   },

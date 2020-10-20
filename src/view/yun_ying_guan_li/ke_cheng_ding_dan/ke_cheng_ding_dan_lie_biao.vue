@@ -45,18 +45,21 @@
           <DatePicker
             type="datetime"
             placeholder="请选择开始时间"
-            :confirm='false'
+            :confirm="false"
             style="width: 130px"
-            on-change="DatePickerchange"
+            v-model="DatePickerStart"
+            on-change="DatePickerchangeStart"
           ></DatePicker
           >至:
           <DatePicker
             type="datetime"
             placeholder="请选择结束时间"
             style="width: 130px"
-            :confirm='false'
+            :confirm="false"
+             v-model="DatePickerEnd"
+             on-change="DatePickerchangeEnd"
           ></DatePicker>
-          <i-button type="primary">搜索</i-button>&emsp;
+          <i-button type="primary" @click="timeSearch">搜索</i-button>&emsp;
         </div>
       </div>
       <tables
@@ -151,6 +154,8 @@ export default {
       tableData: [],
       lei_xing: "全部类型",
       zhuang_tai: "全部状态",
+      DatePickerStart:'',
+      DatePickerEnd:''
     };
   },
   methods: {
@@ -176,7 +181,6 @@ export default {
         });
     },
     lei_xingchange(e) {
-      console.log(this.lei_xing, "1111");
       this.getTrainCampOrdersPage({
         pageNum: 1,
         pageSize: 10,
@@ -185,9 +189,9 @@ export default {
         // userId:JSON.parse(localStorage.getItem('user').id)
       });
     },
-    zhuang_tai_select(){
-          this.getTrainCampOrdersPage({
-        stauts:this.zhuang_tai,
+    zhuang_tai_select() {
+      this.getTrainCampOrdersPage({
+        stauts: this.zhuang_tai,
         pageNum: 1,
         pageSize: 10,
         orderType: this.lei_xing,
@@ -195,24 +199,28 @@ export default {
         // userId:JSON.parse(localStorage.getItem('user').id)
       });
     },
-    searchenter(e){
- console.log(e.target.value)
- if(e.target.value){
-       this.getTrainCampOrdersPage({
-        studentName:e.target.value,
-        stauts:this.zhuang_tai,
-        pageNum: 1,
-        pageSize: 10,
-        orderType: this.lei_xing,
-        isDelete: 0,
-        // userId:JSON.parse(localStorage.getItem('user').id)
-      });
- }
+    searchenter(e) {
+      if (e.target.value) {
+        this.getTrainCampOrdersPage({
+          studentName: e.target.value,
+          stauts: this.zhuang_tai,
+          pageNum: 1,
+          pageSize: 10,
+          orderType: this.lei_xing,
+          isDelete: 0,
+          // userId:JSON.parse(localStorage.getItem('user').id)
+        });
+      }
     },
-    DatePickerchange(e){
-      console.log()
+    DatePickerchangeStart() {
+      console.log(this.DatePickerStart);
     },
-
+     DatePickerchangeEnd() {
+      console.log(this.DatePickerEnd);
+    },
+    timeSearch(){
+      console.log(2122)
+    }
   },
   mounted() {
     this.getTrainCampOrdersPage({

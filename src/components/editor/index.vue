@@ -39,7 +39,7 @@ import myUp from '_c/upload'
 import sprite from '@/assets/images/device-sprite.jpg'
 
 // why use this cdn, customerDetail see https://github.com/PanJiaChen/tinymce-all-in-one
-const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js'
+const tinymceCDN =  'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js'
 
 export default {
   name: 'Editor',
@@ -145,7 +145,7 @@ export default {
       // dynamic load tinymce from cdn
       load(tinymceCDN, (err) => {
         if (err) {
-          this.$Message.error(err.message)
+          // this.$Message.error(err.message)
           return
         }
         this.initTinymce()
