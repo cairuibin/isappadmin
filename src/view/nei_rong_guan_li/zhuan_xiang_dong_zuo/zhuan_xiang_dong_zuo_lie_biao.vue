@@ -30,8 +30,9 @@
       v-model="AddAndEditvisible"
       @on-ok="ok"
       @on-cancel="cancel"
-      loading	
+      loading
       title=" 新增动作"
+      :width="750"
     >
       <div><span>父类ID：</span>花样滑冰/滑行</div>
       <Form
@@ -43,20 +44,20 @@
         <FormItem label=" 动作名称" prop="name">
           <Input v-model="formValidate.name" placeholder=" 动作名称" />
         </FormItem>
-        <FormItem label="动作标签" prop="tags">
-          <Input v-model="formValidate.tags" placeholder="动作标签" />
+        <FormItem label="动作标签" prop="tag">
+          <Input v-model="formValidate.tag" placeholder="动作标签" />
         </FormItem>
-        <FormItem label="动作描述" prop="desc">
+        <FormItem label="动作描述" prop="description">
           <Input
-            v-model="formValidate.desc"
+            v-model="formValidate.description"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 5 }"
             placeholder="请输入动作描述"
           />
         </FormItem>
-        <FormItem label="分解练习：" prop="fenjie">
+        <FormItem label="分解练习：" prop="content">
           <Input
-            v-model="formValidate.fenjie"
+            v-model="formValidate.content"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 5 }"
             placeholder="请输入分解练习"
@@ -79,8 +80,12 @@
           />
         </FormItem>
 
-        <FormItem label="动作配图" prop="pics">
-          <Input type="url" v-model="formValidate.pics" placeholder=" 动作配图" />
+        <FormItem label="动作配图" prop="imageUrl">
+          <Input
+            type="url"
+            v-model="formValidate.imageUrl"
+            placeholder=" 动作配图"
+          />
           <div>
             <Upload
               :before-upload="handleUpload"
@@ -97,8 +102,8 @@
             </div>
           </div>
         </FormItem>
-        <FormItem label=" 动作视频" prop="videos">
-          <Input v-model="formValidate.videos" placeholder=" 动作视频" />
+        <FormItem label=" 动作视频" prop="videoUrl">
+          <Input v-model="formValidate.videoUrl" placeholder=" 动作视频" />
           <div>
             <Upload
               :before-upload="handleUpload"
@@ -114,36 +119,34 @@
             </div>
           </div>
         </FormItem>
-        <FormItem label="动作分类：" prop="classify">
-          <Select v-model="formValidate.classify" placeholder="动作分类">
-            <Option value="1">滑行</Option>
-            <Option value="2">跳跃、旋转、步法</Option>
-            <Option value="3">原地动作</Option>
-             <Option value="4">行进动作</Option>
+        <FormItem label="动作分类：" prop="actionType">
+          <Select v-model="formValidate.actionType" placeholder="动作分类">
+            <Option :value="1">滑行</Option>
+            <Option :value="2">跳跃、旋转、步法</Option>
+            <Option :value="3">原地动作</Option>
+            <Option :value="4">行进动作</Option>
           </Select>
         </FormItem>
-        <FormItem label="练习分类" prop="lian_xi_class">
-          <Select v-model="formValidate.lian_xi_class" placeholder="练习分类">
-            <Option value="beijing">圈</Option>
-            <Option value="shanghai">次数(成功/失败)</Option>
-            <Option value="shenzhen">次数(是否完成)</Option>
-            <Option value="shenzhen">分钟</Option>
-            
+        <FormItem label="练习分类" prop="trainUnit">
+          <Select v-model="formValidate.trainUnit" placeholder="练习分类">
+            <Option :value="1">圈</Option>
+            <Option :value="2">次数(成功/失败)</Option>
+            <Option :value="3">次数(是否完成)</Option>
+            <Option :value="4">分钟</Option>
           </Select>
         </FormItem>
         <FormItem label="练习时长" prop="times">
           <Select v-model="formValidate.times" placeholder="练习时长">
-            <Option value="1">15</Option>
-            <Option value="2">30</Option>
-            <Option value="3">45</Option>
-             <Option value="4">60</Option>
+            <Option :value="1">15</Option>
+            <Option :value="2">30</Option>
+            <Option :value="3">45</Option>
+            <Option :value="4">60</Option>
           </Select>
         </FormItem>
         <FormItem label=" 状态" prop="status">
           <Select v-model="formValidate.status" placeholder="请选择状态">
-            <Option value="beijing">有效</Option>
-            <Option value="shanghai">无效</Option>
-          
+            <Option :value="1">有效</Option>
+            <Option :value="2">无效</Option>
           </Select>
         </FormItem>
       </Form>
@@ -222,7 +225,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.look(params.index);
+                      this.look(params.row);
                     },
                   },
                 },
@@ -243,7 +246,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.look(params.index);
+                      this.edit(params.index);
                     },
                   },
                 },
@@ -267,20 +270,20 @@ export default {
       loadingStatus: false,
       formValidate: {
         name: "",
-        tags: "",
+        tag: "",
         city: "",
         gender: "",
         interest: [],
         date: "",
         time: "",
-        desc: "",
-        fenjie:'',
-        imports:'',
-        errors:'',
-        pics:'',
-        videos:'',
-        classify:'',
-        lian_xi_class:''
+        description: "",
+        content: "",
+        imports: "",
+        errors: "",
+        imageUrl: "",
+        videoUrl: "",
+        actionType: "",
+        trainUnit: "",
       },
       ruleValidate: {
         name: [
@@ -290,14 +293,14 @@ export default {
             trigger: "blur",
           },
         ],
-        tags: [
+        tag: [
           {
             required: true,
             message: "请输入动作标签",
             trigger: "blur",
           },
         ],
-         fenjie: [
+        content: [
           {
             required: true,
             message: "请输入分解练习",
@@ -311,87 +314,56 @@ export default {
             trigger: "blur",
           },
         ],
-         errors: [
+        errors: [
           {
             required: true,
             message: "请输入易犯错误",
             trigger: "blur",
           },
         ],
-         errors: [
+        errors: [
           {
             required: true,
             message: "请输入图片地址",
             trigger: "blur",
           },
         ],
-         videos: [
+        videoUrl: [
           {
             required: true,
             message: "请输入视频地址",
             trigger: "blur",
           },
         ],
-        classify: [
+        actionType: [
           {
             required: true,
             message: "请输入动作分类",
             trigger: "change",
           },
         ],
-        lian_xi_class: [
+        trainUnit: [
           {
             required: true,
             message: "请输入练习分类",
             trigger: "change",
           },
         ],
-        times:[
+        times: [
           {
             required: true,
             message: "请输入练习分类",
             trigger: "change",
           },
         ],
-        status:[
+        status: [
           {
             required: true,
             message: "请输入练习分类",
             trigger: "change",
           },
         ],
-        // interest: [
-        //   {
-        //     required: true,
-        //     type: "array",
-        //     min: 1,
-        //     message: "Choose at least one hobby",
-        //     trigger: "change",
-        //   },
-        //   {
-        //     type: "array",
-        //     max: 2,
-        //     message: "Choose two hobbies at best",
-        //     trigger: "change",
-        //   },
-        // ],
-        // date: [
-        //   {
-        //     required: true,
-        //     type: "date",
-        //     message: "Please select the date",
-        //     trigger: "change",
-        //   },
-        // ],
-        // time: [
-        //   {
-        //     required: true,
-        //     type: "string",
-        //     message: "Please select time",
-        //     trigger: "change",
-        //   },
-        // ],
-        desc: [
+        description: [
           {
             required: true,
             message: "请输入动作描述",
@@ -408,8 +380,17 @@ export default {
     };
   },
   methods: {
-    editBus(item, index) {},
-    look(params) {},
+    async look({ id }) {
+      let{ data} = await this.getTechniqueActionInfo({
+        id: id,
+      });
+      this.AddAndEditvisible = true;
+    
+      this.formValidate = data.data;
+    },
+    edit(params) {
+      console.log(params);
+    },
     handleDelete(params) {
       console.log(params);
     },
@@ -430,10 +411,15 @@ export default {
         });
     },
     deleteTableInId(params) {
-      console.log(params);
       return this.axios.post("/api/v2/data/action/deleteTechniqueAction", {
         ...params,
         sign: untilMd5.toSign({ ...params }, "deleteTechniqueAction"),
+      });
+    },
+    getTechniqueActionInfo(params) {
+      return this.axios.post("/api/v2/data/action/getTechniqueActionInfo", {
+        ...params,
+        sign: untilMd5.toSign({ ...params }, "getTechniqueActionInfo"),
       });
     },
     Pageonchange(pageNum) {
@@ -491,7 +477,6 @@ export default {
       if (handleSubmitres === 1) {
         this.$Message.info("表单校验成功");
       } else {
-
       }
     },
     cancel() {
