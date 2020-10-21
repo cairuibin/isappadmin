@@ -40,47 +40,47 @@
         :rules="ruleValidate"
         :label-width="100"
       >
-        <FormItem label="* 动作名称" prop="name">
-          <Input v-model="formValidate.name" placeholder="* 动作名称" />
+        <FormItem label=" 动作名称" prop="name">
+          <Input v-model="formValidate.name" placeholder=" 动作名称" />
         </FormItem>
-        <FormItem label="动作标签" prop="mail">
-          <Input v-model="formValidate.mail" placeholder="动作标签" />
+        <FormItem label="动作标签" prop="tags">
+          <Input v-model="formValidate.tags" placeholder="动作标签" />
         </FormItem>
         <FormItem label="动作描述" prop="desc">
           <Input
             v-model="formValidate.desc"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 5 }"
-            placeholder="Enter something..."
+            placeholder="请输入动作描述"
           />
         </FormItem>
-        <FormItem label="分解练习：" prop="desc">
+        <FormItem label="分解练习：" prop="fenjie">
           <Input
-            v-model="formValidate.desc"
+            v-model="formValidate.fenjie"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 5 }"
-            placeholder="Enter something..."
+            placeholder="请输入分解练习"
           />
         </FormItem>
-        <FormItem label="教学重点" prop="desc">
+        <FormItem label="教学重点" prop="imports">
           <Input
-            v-model="formValidate.desc"
+            v-model="formValidate.imports"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 5 }"
-            placeholder="Enter something..."
+            placeholder="请输入教学重点"
           />
         </FormItem>
-        <FormItem label="易犯错误" prop="desc">
+        <FormItem label="易犯错误" prop="errors">
           <Input
-            v-model="formValidate.desc"
+            v-model="formValidate.errors"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 5 }"
-            placeholder="Enter something..."
+            placeholder="请输入易犯错误"
           />
         </FormItem>
 
-        <FormItem label="动作配图" prop="name">
-          <Input v-model="formValidate.name" placeholder="* 动作配图" />
+        <FormItem label="动作配图" prop="pics">
+          <Input type="url" v-model="formValidate.pics" placeholder=" 动作配图" />
           <div>
             <Upload
               :before-upload="handleUpload"
@@ -97,8 +97,8 @@
             </div>
           </div>
         </FormItem>
-        <FormItem label="* 动作视频" prop="name">
-          <Input v-model="formValidate.name" placeholder="* 动作视频" />
+        <FormItem label=" 动作视频" prop="videos">
+          <Input v-model="formValidate.videos" placeholder=" 动作视频" />
           <div>
             <Upload
               :before-upload="handleUpload"
@@ -114,16 +114,16 @@
             </div>
           </div>
         </FormItem>
-        <FormItem label="动作分类：" prop="city">
-          <Select v-model="formValidate.city" placeholder="动作分类">
+        <FormItem label="动作分类：" prop="classify">
+          <Select v-model="formValidate.classify" placeholder="动作分类">
             <Option value="1">滑行</Option>
             <Option value="2">跳跃、旋转、步法</Option>
             <Option value="3">原地动作</Option>
              <Option value="4">行进动作</Option>
           </Select>
         </FormItem>
-        <FormItem label="练习分类" prop="city">
-          <Select v-model="formValidate.city" placeholder="Select your city">
+        <FormItem label="练习分类" prop="lian_xi_class">
+          <Select v-model="formValidate.lian_xi_class" placeholder="练习分类">
             <Option value="beijing">圈</Option>
             <Option value="shanghai">次数(成功/失败)</Option>
             <Option value="shenzhen">次数(是否完成)</Option>
@@ -131,16 +131,16 @@
             
           </Select>
         </FormItem>
-        <FormItem label="练习时长" prop="city">
-          <Select v-model="formValidate.city" placeholder="Select your city">
+        <FormItem label="练习时长" prop="times">
+          <Select v-model="formValidate.times" placeholder="练习时长">
             <Option value="1">15</Option>
             <Option value="2">30</Option>
             <Option value="3">45</Option>
              <Option value="4">60</Option>
           </Select>
         </FormItem>
-        <FormItem label="* 状态" prop="city">
-          <Select v-model="formValidate.city" placeholder="Select your city">
+        <FormItem label=" 状态" prop="status">
+          <Select v-model="formValidate.status" placeholder="请选择状态">
             <Option value="beijing">有效</Option>
             <Option value="shanghai">无效</Option>
           
@@ -267,13 +267,20 @@ export default {
       loadingStatus: false,
       formValidate: {
         name: "",
-        mail: "",
+        tags: "",
         city: "",
         gender: "",
         interest: [],
         date: "",
         time: "",
         desc: "",
+        fenjie:'',
+        imports:'',
+        errors:'',
+        pics:'',
+        videos:'',
+        classify:'',
+        lian_xi_class:''
       },
       ruleValidate: {
         name: [
@@ -283,58 +290,107 @@ export default {
             trigger: "blur",
           },
         ],
-        mail: [
+        tags: [
           {
             required: true,
             message: "请输入动作标签",
             trigger: "blur",
           },
         ],
-        city: [
+         fenjie: [
+          {
+            required: true,
+            message: "请输入分解练习",
+            trigger: "blur",
+          },
+        ],
+        imports: [
+          {
+            required: true,
+            message: "请输入教学重点",
+            trigger: "blur",
+          },
+        ],
+         errors: [
+          {
+            required: true,
+            message: "请输入易犯错误",
+            trigger: "blur",
+          },
+        ],
+         errors: [
+          {
+            required: true,
+            message: "请输入图片地址",
+            trigger: "blur",
+          },
+        ],
+         videos: [
+          {
+            required: true,
+            message: "请输入视频地址",
+            trigger: "blur",
+          },
+        ],
+        classify: [
           {
             required: true,
             message: "请输入动作分类",
             trigger: "change",
           },
         ],
-        gender: [
+        lian_xi_class: [
           {
             required: true,
-            message: "请输入分解练习json",
+            message: "请输入练习分类",
             trigger: "change",
           },
         ],
-        interest: [
+        times:[
           {
             required: true,
-            type: "array",
-            min: 1,
-            message: "Choose at least one hobby",
-            trigger: "change",
-          },
-          {
-            type: "array",
-            max: 2,
-            message: "Choose two hobbies at best",
+            message: "请输入练习分类",
             trigger: "change",
           },
         ],
-        date: [
+        status:[
           {
             required: true,
-            type: "date",
-            message: "Please select the date",
+            message: "请输入练习分类",
             trigger: "change",
           },
         ],
-        time: [
-          {
-            required: true,
-            type: "string",
-            message: "Please select time",
-            trigger: "change",
-          },
-        ],
+        // interest: [
+        //   {
+        //     required: true,
+        //     type: "array",
+        //     min: 1,
+        //     message: "Choose at least one hobby",
+        //     trigger: "change",
+        //   },
+        //   {
+        //     type: "array",
+        //     max: 2,
+        //     message: "Choose two hobbies at best",
+        //     trigger: "change",
+        //   },
+        // ],
+        // date: [
+        //   {
+        //     required: true,
+        //     type: "date",
+        //     message: "Please select the date",
+        //     trigger: "change",
+        //   },
+        // ],
+        // time: [
+        //   {
+        //     required: true,
+        //     type: "string",
+        //     message: "Please select time",
+        //     trigger: "change",
+        //   },
+        // ],
         desc: [
           {
             required: true,
