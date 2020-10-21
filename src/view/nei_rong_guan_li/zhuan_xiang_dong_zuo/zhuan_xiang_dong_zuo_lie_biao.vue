@@ -25,7 +25,129 @@
           show-elevator
         ></Page>
       </div>
-      </Card>
+    </Card>
+    <Modal
+      v-model="AddAndEditvisible"
+      @on-ok="ok"
+      @on-cancel="cancel"
+      loading	
+      title=" 新增动作"
+    >
+      <div><span>父类ID：</span>花样滑冰/滑行</div>
+      <Form
+        ref="formValidate"
+        :model="formValidate"
+        :rules="ruleValidate"
+        :label-width="100"
+      >
+        <FormItem label="* 动作名称" prop="name">
+          <Input v-model="formValidate.name" placeholder="* 动作名称" />
+        </FormItem>
+        <FormItem label="动作标签" prop="mail">
+          <Input v-model="formValidate.mail" placeholder="动作标签" />
+        </FormItem>
+        <FormItem label="动作描述" prop="desc">
+          <Input
+            v-model="formValidate.desc"
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 5 }"
+            placeholder="Enter something..."
+          />
+        </FormItem>
+        <FormItem label="分解练习：" prop="desc">
+          <Input
+            v-model="formValidate.desc"
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 5 }"
+            placeholder="Enter something..."
+          />
+        </FormItem>
+        <FormItem label="教学重点" prop="desc">
+          <Input
+            v-model="formValidate.desc"
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 5 }"
+            placeholder="Enter something..."
+          />
+        </FormItem>
+        <FormItem label="易犯错误" prop="desc">
+          <Input
+            v-model="formValidate.desc"
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 5 }"
+            placeholder="Enter something..."
+          />
+        </FormItem>
+
+        <FormItem label="动作配图" prop="name">
+          <Input v-model="formValidate.name" placeholder="* 动作配图" />
+          <div>
+            <Upload
+              :before-upload="handleUpload"
+              action="//jsonplaceholder.typicode.com/posts/"
+            >
+              <Button icon="ios-cloud-upload-outline">上传图片</Button>
+            </Upload>
+            <Button>图库</Button>
+            <div v-if="file !== null">
+              图片: {{ file.name }}
+              <Button type="text" @click="upload" :loading="loadingStatus">{{
+                loadingStatus ? "Uploading" : "Click to upload"
+              }}</Button>
+            </div>
+          </div>
+        </FormItem>
+        <FormItem label="* 动作视频" prop="name">
+          <Input v-model="formValidate.name" placeholder="* 动作视频" />
+          <div>
+            <Upload
+              :before-upload="handleUpload"
+              action="//jsonplaceholder.typicode.com/posts/"
+            >
+              <Button icon="ios-cloud-upload-outline">上传视频</Button>
+            </Upload>
+            <div v-if="file !== null">
+              图片: {{ file.name }}
+              <Button type="text" @click="upload" :loading="loadingStatus">{{
+                loadingStatus ? "Uploading" : "Click to upload"
+              }}</Button>
+            </div>
+          </div>
+        </FormItem>
+        <FormItem label="动作分类：" prop="city">
+          <Select v-model="formValidate.city" placeholder="动作分类">
+            <Option value="1">滑行</Option>
+            <Option value="2">跳跃、旋转、步法</Option>
+            <Option value="3">原地动作</Option>
+             <Option value="4">行进动作</Option>
+          </Select>
+        </FormItem>
+        <FormItem label="练习分类" prop="city">
+          <Select v-model="formValidate.city" placeholder="Select your city">
+            <Option value="beijing">圈</Option>
+            <Option value="shanghai">次数(成功/失败)</Option>
+            <Option value="shenzhen">次数(是否完成)</Option>
+            <Option value="shenzhen">分钟</Option>
+            
+          </Select>
+        </FormItem>
+        <FormItem label="练习时长" prop="city">
+          <Select v-model="formValidate.city" placeholder="Select your city">
+            <Option value="1">15</Option>
+            <Option value="2">30</Option>
+            <Option value="3">45</Option>
+             <Option value="4">60</Option>
+          </Select>
+        </FormItem>
+        <FormItem label="* 状态" prop="city">
+          <Select v-model="formValidate.city" placeholder="Select your city">
+            <Option value="beijing">有效</Option>
+            <Option value="shanghai">无效</Option>
+          
+          </Select>
+        </FormItem>
+      </Form>
+    </Modal>
   </div>
 </template>
 
@@ -139,6 +261,94 @@ export default {
       pageNum: 1,
       pageSize: 10,
       deleteSelectIds: [],
+      AddAndEditvisible: false,
+
+      file: null,
+      loadingStatus: false,
+      formValidate: {
+        name: "",
+        mail: "",
+        city: "",
+        gender: "",
+        interest: [],
+        date: "",
+        time: "",
+        desc: "",
+      },
+      ruleValidate: {
+        name: [
+          {
+            required: true,
+            message: "请输入动作名陈",
+            trigger: "blur",
+          },
+        ],
+        mail: [
+          {
+            required: true,
+            message: "请输入动作标签",
+            trigger: "blur",
+          },
+        ],
+        city: [
+          {
+            required: true,
+            message: "请输入动作分类",
+            trigger: "change",
+          },
+        ],
+        gender: [
+          {
+            required: true,
+            message: "请输入分解练习json",
+            trigger: "change",
+          },
+        ],
+        interest: [
+          {
+            required: true,
+            type: "array",
+            min: 1,
+            message: "Choose at least one hobby",
+            trigger: "change",
+          },
+          {
+            type: "array",
+            max: 2,
+            message: "Choose two hobbies at best",
+            trigger: "change",
+          },
+        ],
+        date: [
+          {
+            required: true,
+            type: "date",
+            message: "Please select the date",
+            trigger: "change",
+          },
+        ],
+        time: [
+          {
+            required: true,
+            type: "string",
+            message: "Please select time",
+            trigger: "change",
+          },
+        ],
+        desc: [
+          {
+            required: true,
+            message: "请输入动作描述",
+            trigger: "blur",
+          },
+          {
+            type: "string",
+            min: 20,
+            message: "Introduce no less than 20 words",
+            trigger: "blur",
+          },
+        ],
+      },
     };
   },
   methods: {
@@ -163,7 +373,7 @@ export default {
           this.tableData = res.data.data.list;
         });
     },
-     deleteTableInId(params) {
+    deleteTableInId(params) {
       console.log(params);
       return this.axios.post("/api/v2/data/action/deleteTechniqueAction", {
         ...params,
@@ -216,7 +426,49 @@ export default {
         },
       });
     },
-    handlAdd() {},
+    handlAdd() {
+      this.AddAndEditvisible = true;
+    },
+
+    ok() {
+      let handleSubmitres = this.handleSubmit("formValidate");
+      if (handleSubmitres === 1) {
+        this.$Message.info("表单校验成功");
+      } else {
+
+      }
+    },
+    cancel() {
+      this.handleReset("formValidate");
+      this.$Message.info("您取消了此次操作");
+    },
+
+    handleSubmit(name) {
+      this.$refs[name].validate((valid) => {
+        if (valid) {
+          // this.$Message.success("表单校验成功!");
+          return 0;
+        } else {
+          // this.$Message.error("表单校验失败!");
+          return 1;
+        }
+      });
+    },
+    handleReset(name) {
+      this.$refs[name].resetFields();
+    },
+    handleUpload(file) {
+      this.file = file;
+      return false;
+    },
+    upload() {
+      this.loadingStatus = true;
+      setTimeout(() => {
+        this.file = null;
+        this.loadingStatus = false;
+        this.$Message.success("Success");
+      }, 1500);
+    },
   },
   mounted() {
     this.getTechniqueActionPage({
