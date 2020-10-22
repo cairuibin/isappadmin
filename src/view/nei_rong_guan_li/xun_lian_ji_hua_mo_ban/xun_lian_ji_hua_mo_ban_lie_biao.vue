@@ -65,7 +65,6 @@
           >
         </FormItem>
       </Form>
-    
     </Modal>
   </div>
 </template>
@@ -263,9 +262,16 @@ export default {
   },
   methods: {
     editBus(item, index) {},
-    look(params) {},
-     look(params) {},
-      look(params) {},
+    look(params) {
+      this.modal = true;
+    },
+    add(params) {
+      this.modal = true;
+    },
+    delet(params) {
+      this.modal = true;
+    },
+    ok() {},
     handleDelete(params) {
       console.log(params);
     },
@@ -284,6 +290,20 @@ export default {
           console.log(res.data, "查询退款申请列表接口(分页)");
           this.tableData = res.data.data.list;
         });
+    },
+    addTrainPlanTemplateCourse(params) {
+      this.axios
+        .post("/api/v2/data/train/addTrainPlanTemplateCourse", {
+          ...params,
+          sign: untilMd5.toSign({ ...params }, "addTrainPlanTemplateCourse"),
+        })
+        .then((res) => {
+          console.log(res.data, "训练计划模板添加课程接口");
+        });
+    },
+    cancel() {
+      // 取消后，重置表单
+      this.$refs["formValidate"].resetFields();
     },
   },
   mounted() {
