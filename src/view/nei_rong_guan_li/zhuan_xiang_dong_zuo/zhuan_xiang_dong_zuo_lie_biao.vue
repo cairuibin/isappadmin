@@ -30,9 +30,10 @@
       v-model="AddAndEditvisible"
       @on-ok="ok"
       @on-cancel="cancel"
-      loading
+      :loading='isModalloading'
       title=" 新增动作"
       :width="750"
+      :mask-closable="false"
     >
       <div><span>父类ID：</span>花样滑冰/滑行</div>
       <Form
@@ -40,15 +41,17 @@
         :model="formValidate"
         :rules="ruleValidate"
         :label-width="100"
+        :disabled="islook"
+        :show-message="isshowmessage"
       >
         <FormItem label=" 动作名称" prop="name">
-          <Input v-model="formValidate.name" placeholder=" 动作名称" />
+          <Input :disabled='isEdit===3' v-model="formValidate.name" placeholder=" 动作名称" />
         </FormItem>
         <FormItem label="动作标签" prop="tag">
-          <Input v-model="formValidate.tag" placeholder="动作标签" />
+          <Input :disabled='isEdit===3' v-model="formValidate.tag" placeholder="动作标签" />
         </FormItem>
         <FormItem label="动作描述" prop="description">
-          <Input
+          <Input :disabled='isEdit===3'
             v-model="formValidate.description"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 5 }"
@@ -56,7 +59,7 @@
           />
         </FormItem>
         <FormItem label="分解练习：" prop="content">
-          <Input
+          <Input :disabled='isEdit===3'
             v-model="formValidate.content"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 5 }"
@@ -64,7 +67,7 @@
           />
         </FormItem>
         <FormItem label="教学重点" prop="imports">
-          <Input
+          <Input :disabled='isEdit===3'
             v-model="formValidate.imports"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 5 }"
@@ -72,7 +75,7 @@
           />
         </FormItem>
         <FormItem label="易犯错误" prop="errors">
-          <Input
+          <Input :disabled='isEdit===3'
             v-model="formValidate.errors"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 5 }"
@@ -81,7 +84,7 @@
         </FormItem>
 
         <FormItem label="动作配图" prop="imageUrl">
-          <Input
+          <Input :disabled='isEdit===3'
             type="url"
             v-model="formValidate.imageUrl"
             placeholder=" 动作配图"
@@ -91,9 +94,9 @@
               :before-upload="handleUpload"
               action="//jsonplaceholder.typicode.com/posts/"
             >
-              <Button icon="ios-cloud-upload-outline">上传图片</Button>
+              <Button :disabled='isEdit===3' icon="ios-cloud-upload-outline">上传图片</Button>
             </Upload>
-            <Button>图库</Button>
+            <Button :disabled='isEdit===3'>图库</Button>
             <div v-if="file !== null">
               图片: {{ file.name }}
               <Button type="text" @click="upload" :loading="loadingStatus">{{
@@ -103,13 +106,13 @@
           </div>
         </FormItem>
         <FormItem label=" 动作视频" prop="videoUrl">
-          <Input v-model="formValidate.videoUrl" placeholder=" 动作视频" />
+          <Input :disabled='isEdit===3' v-model="formValidate.videoUrl" placeholder=" 动作视频" />
           <div>
             <Upload
               :before-upload="handleUpload"
               action="//jsonplaceholder.typicode.com/posts/"
             >
-              <Button icon="ios-cloud-upload-outline">上传视频</Button>
+              <Button :disabled='isEdit===3' icon="ios-cloud-upload-outline">上传视频</Button>
             </Upload>
             <div v-if="file !== null">
               图片: {{ file.name }}
@@ -120,33 +123,33 @@
           </div>
         </FormItem>
         <FormItem label="动作分类：" prop="actionType">
-          <Select v-model="formValidate.actionType" placeholder="动作分类">
-            <Option :value="1">滑行</Option>
-            <Option :value="2">跳跃、旋转、步法</Option>
-            <Option :value="3">原地动作</Option>
-            <Option :value="4">行进动作</Option>
+          <Select :disabled="isEdit===3" v-model="formValidate.actionType" placeholder="动作分类">
+            <Option value="1">滑行</Option>
+            <Option value="2">跳跃、旋转、步法</Option>
+            <Option value="3">原地动作</Option>
+            <Option value="4">行进动作</Option>
           </Select>
         </FormItem>
         <FormItem label="练习分类" prop="trainUnit">
-          <Select v-model="formValidate.trainUnit" placeholder="练习分类">
-            <Option :value="1">圈</Option>
-            <Option :value="2">次数(成功/失败)</Option>
-            <Option :value="3">次数(是否完成)</Option>
-            <Option :value="4">分钟</Option>
+          <Select :disabled="isEdit===3" v-model="formValidate.trainUnit" placeholder="练习分类">
+            <Option value="1">圈</Option>
+            <Option value="2">次数(成功/失败)</Option>
+            <Option value="3">次数(是否完成)</Option>
+            <Option value="4">分钟</Option>
           </Select>
         </FormItem>
         <FormItem label="练习时长" prop="times">
-          <Select v-model="formValidate.times" placeholder="练习时长">
-            <Option :value="1">15</Option>
-            <Option :value="2">30</Option>
-            <Option :value="3">45</Option>
-            <Option :value="4">60</Option>
+          <Select :disabled="isEdit===3" v-model="formValidate.times" placeholder="练习时长">
+            <Option value="1">15</Option>
+            <Option value="2">30</Option>
+            <Option value="3">45</Option>
+            <Option value="4">60</Option>
           </Select>
         </FormItem>
         <FormItem label=" 状态" prop="status">
-          <Select v-model="formValidate.status" placeholder="请选择状态">
-            <Option :value="1">有效</Option>
-            <Option :value="2">无效</Option>
+          <Select :disabled="isEdit===3" v-model="formValidate.status" placeholder="请选择状态">
+            <Option value="1">有效</Option>
+            <Option value="2">无效</Option>
           </Select>
         </FormItem>
       </Form>
@@ -246,7 +249,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.edit(params.index);
+                      this.edit(params.row);
                     },
                   },
                 },
@@ -271,9 +274,6 @@ export default {
       formValidate: {
         name: "",
         tag: "",
-        city: "",
-        gender: "",
-        interest: [],
         date: "",
         time: "",
         description: "",
@@ -302,35 +302,22 @@ export default {
         ],
         content: [
           {
-            required: true,
+            required: false,
             message: "请输入分解练习",
             trigger: "blur",
           },
         ],
-        imports: [
+
+        imageUrl: [
           {
-            required: true,
-            message: "请输入教学重点",
-            trigger: "blur",
-          },
-        ],
-        errors: [
-          {
-            required: true,
-            message: "请输入易犯错误",
-            trigger: "blur",
-          },
-        ],
-        errors: [
-          {
-            required: true,
+            required: false,
             message: "请输入图片地址",
             trigger: "blur",
           },
         ],
         videoUrl: [
           {
-            required: true,
+            required: false,
             message: "请输入视频地址",
             trigger: "blur",
           },
@@ -351,45 +338,57 @@ export default {
         ],
         times: [
           {
-            required: true,
-            message: "请输入练习分类",
+            required: false,
+            message: "请输入练习时长",
             trigger: "change",
           },
         ],
         status: [
           {
             required: true,
-            message: "请输入练习分类",
+            message: "请输入状态",
             trigger: "change",
           },
         ],
         description: [
           {
-            required: true,
+            required: false,
             message: "请输入动作描述",
-            trigger: "blur",
-          },
-          {
-            type: "string",
-            min: 20,
-            message: "Introduce no less than 20 words",
             trigger: "blur",
           },
         ],
       },
+      islook: true,
+      isEdit: 1, //1表示编辑 2表示添加 3表示查看
+      isshowmessage: true,
+      isModalloading:true
     };
   },
   methods: {
     async look({ id }) {
-      let{ data} = await this.getTechniqueActionInfo({
+      let { data } = await this.getTechniqueActionInfo({
         id: id,
       });
+      this.isEdit = 3;
+      this.isshowmessage = false;
       this.AddAndEditvisible = true;
-    
-      this.formValidate = data.data;
+      this.islook = true;
+      data.data.actionType=data.data.actionType+''
+        data.data.trainUnit=data.data.trainUnit+''
+          data.data.status=data.data.status+''
+      this.formValidate = JSON.parse(JSON.stringify(data.data));
     },
-    edit(params) {
-      console.log(params);
+    async edit({ id }) {
+      let { data } = await this.getTechniqueActionInfo({
+        id: id,
+      });
+      this.isEdit = 1;
+      this.AddAndEditvisible = true;
+      this.islook = false;
+         data.data.actionType=data.data.actionType*1
+        data.data.trainUnit=data.data.trainUnit*1
+          data.data.status=data.data.status*1
+      this.formValidate = JSON.parse(JSON.stringify(data.data));
     },
     handleDelete(params) {
       console.log(params);
@@ -420,6 +419,12 @@ export default {
       return this.axios.post("/api/v2/data/action/getTechniqueActionInfo", {
         ...params,
         sign: untilMd5.toSign({ ...params }, "getTechniqueActionInfo"),
+      });
+    },
+    modifyTechniqueAction(params) {
+      return this.axios.post("api/v2/data/action/modifyTechniqueAction", {
+        ...params,
+        sign: untilMd5.toSign({ ...params }, "modifyTechniqueAction"),
       });
     },
     Pageonchange(pageNum) {
@@ -464,19 +469,36 @@ export default {
           }
         },
         onCancel: () => {
+          this.AddAndEditvisible = false;
           this.$Message.info("取消删除");
         },
       });
     },
     handlAdd() {
+      this.isEdit = 2;
       this.AddAndEditvisible = true;
+      this.islook = false;
     },
 
-    ok() {
-      let handleSubmitres = this.handleSubmit("formValidate");
-      if (handleSubmitres === 1) {
+    async ok() {
+      let handleSubmitres = await this.handleSubmit("formValidate");
+      console.log(handleSubmitres);
+      // this.AddAndEditvisible=false
+      this.isModalloading=false
+      if (handleSubmitres && this.isEdit !== 3) {
+        //  console.log(this.formValidate,this.isEdit);
+        if (this.isEdit === 1) {
+          console.log(this.formValidate);
+          this.modifyTechniqueAction(this.formValidate);
+        } else if (this.isEdit === 2) {
+          this.modifyTechniqueAction(this.formValidate);
+        }
         this.$Message.info("表单校验成功");
+      } else if (this.isEdit === 3) {
+        this.AddAndEditvisible = false;
+        this.$Message.success("查看完毕");
       } else {
+        this.$Message.info("表单校验失败");
       }
     },
     cancel() {
@@ -485,13 +507,14 @@ export default {
     },
 
     handleSubmit(name) {
-      this.$refs[name].validate((valid) => {
+      if(this.isEdit===3){
+        return false
+      }
+      return this.$refs[name].validate((valid) => {
         if (valid) {
-          // this.$Message.success("表单校验成功!");
-          return 0;
-        } else {
-          // this.$Message.error("表单校验失败!");
           return 1;
+        } else {
+          return 0;
         }
       });
     },

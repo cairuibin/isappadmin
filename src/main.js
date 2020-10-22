@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 import iView from 'iview'
+// import ViewUI from 'view-design'
 import i18n from '@/locale'
 import config from '@/config'
 import importDirective from '@/directive'
@@ -23,6 +24,7 @@ if (process.env.NODE_ENV !== 'production') require('@/mock')
 Vue.use(iView, {
   i18n: (key, value) => i18n.t(key, value)
 })
+// Vue.use(ViewUI)
 Vue.use(axios)
 Vue.use(TreeTable)
 Vue.use(VOrgTree)
