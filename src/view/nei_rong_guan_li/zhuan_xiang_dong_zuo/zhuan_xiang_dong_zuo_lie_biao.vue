@@ -30,7 +30,7 @@
       v-model="AddAndEditvisible"
       @on-ok="ok"
       @on-cancel="cancel"
-      :loading='isModalloading'
+      :loading="isModalloading"
       title=" 新增动作"
       :width="750"
       :mask-closable="false"
@@ -45,29 +45,40 @@
         :show-message="isshowmessage"
       >
         <FormItem label=" 动作名称" prop="name">
-          <Input :disabled='isEdit===3' v-model="formValidate.name" placeholder=" 动作名称" />
+          <Input
+            :disabled="isEdit === 3"
+            v-model="formValidate.name"
+            placeholder=" 动作名称 String"
+          />
         </FormItem>
         <FormItem label="动作标签" prop="tag">
-          <Input :disabled='isEdit===3' v-model="formValidate.tag" placeholder="动作标签" />
+          <Input
+            :disabled="isEdit === 3"
+            v-model="formValidate.tag"
+            placeholder="动作标签String"
+          />
         </FormItem>
         <FormItem label="动作描述" prop="description">
-          <Input :disabled='isEdit===3'
+          <Input
+            :disabled="isEdit === 3"
             v-model="formValidate.description"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 5 }"
-            placeholder="请输入动作描述"
+            placeholder="请输入动作描述String"
           />
         </FormItem>
         <FormItem label="分解练习：" prop="content">
-          <Input :disabled='isEdit===3'
+          <Input
+            :disabled="isEdit === 3"
             v-model="formValidate.content"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 5 }"
-            placeholder="请输入分解练习"
+            placeholder="请输入分解练习内容json，格式[{“title”:””,”describe”:””},{“title”:””,”describe”:””}…]"
           />
         </FormItem>
         <FormItem label="教学重点" prop="imports">
-          <Input :disabled='isEdit===3'
+          <Input
+            :disabled="isEdit === 3"
             v-model="formValidate.imports"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 5 }"
@@ -75,7 +86,8 @@
           />
         </FormItem>
         <FormItem label="易犯错误" prop="errors">
-          <Input :disabled='isEdit===3'
+          <Input
+            :disabled="isEdit === 3"
             v-model="formValidate.errors"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 5 }"
@@ -84,7 +96,8 @@
         </FormItem>
 
         <FormItem label="动作配图" prop="imageUrl">
-          <Input :disabled='isEdit===3'
+          <Input
+            :disabled="isEdit === 3"
             type="url"
             v-model="formValidate.imageUrl"
             placeholder=" 动作配图"
@@ -94,9 +107,11 @@
               :before-upload="handleUpload"
               action="//jsonplaceholder.typicode.com/posts/"
             >
-              <Button :disabled='isEdit===3' icon="ios-cloud-upload-outline">上传图片</Button>
+              <Button :disabled="isEdit === 3" icon="ios-cloud-upload-outline"
+                >上传图片</Button
+              >
             </Upload>
-            <Button :disabled='isEdit===3'>图库</Button>
+            <Button :disabled="isEdit === 3">图库</Button>
             <div v-if="file !== null">
               图片: {{ file.name }}
               <Button type="text" @click="upload" :loading="loadingStatus">{{
@@ -106,13 +121,19 @@
           </div>
         </FormItem>
         <FormItem label=" 动作视频" prop="videoUrl">
-          <Input :disabled='isEdit===3' v-model="formValidate.videoUrl" placeholder=" 动作视频" />
+          <Input
+            :disabled="isEdit === 3"
+            v-model="formValidate.videoUrl"
+            placeholder=" 动作视频"
+          />
           <div>
             <Upload
               :before-upload="handleUpload"
               action="//jsonplaceholder.typicode.com/posts/"
             >
-              <Button :disabled='isEdit===3' icon="ios-cloud-upload-outline">上传视频</Button>
+              <Button :disabled="isEdit === 3" icon="ios-cloud-upload-outline"
+                >上传视频</Button
+              >
             </Upload>
             <div v-if="file !== null">
               图片: {{ file.name }}
@@ -123,7 +144,11 @@
           </div>
         </FormItem>
         <FormItem label="动作分类：" prop="actionType">
-          <Select :disabled="isEdit===3" v-model="formValidate.actionType" placeholder="动作分类">
+          <Select
+            :disabled="isEdit === 3"
+            v-model="formValidate.actionType"
+            placeholder="动作分类"
+          >
             <Option value="1">滑行</Option>
             <Option value="2">跳跃、旋转、步法</Option>
             <Option value="3">原地动作</Option>
@@ -131,7 +156,11 @@
           </Select>
         </FormItem>
         <FormItem label="练习分类" prop="trainUnit">
-          <Select :disabled="isEdit===3" v-model="formValidate.trainUnit" placeholder="练习分类">
+          <Select
+            :disabled="isEdit === 3"
+            v-model="formValidate.trainUnit"
+            placeholder="练习分类"
+          >
             <Option value="1">圈</Option>
             <Option value="2">次数(成功/失败)</Option>
             <Option value="3">次数(是否完成)</Option>
@@ -139,7 +168,11 @@
           </Select>
         </FormItem>
         <FormItem label="练习时长" prop="times">
-          <Select :disabled="isEdit===3" v-model="formValidate.times" placeholder="练习时长">
+          <Select
+            :disabled="isEdit === 3"
+            v-model="formValidate.times"
+            placeholder="练习时长"
+          >
             <Option value="1">15</Option>
             <Option value="2">30</Option>
             <Option value="3">45</Option>
@@ -147,7 +180,11 @@
           </Select>
         </FormItem>
         <FormItem label=" 状态" prop="status">
-          <Select :disabled="isEdit===3" v-model="formValidate.status" placeholder="请选择状态">
+          <Select
+            :disabled="isEdit === 3"
+            v-model="formValidate.status"
+            placeholder="请选择状态"
+          >
             <Option value="1">有效</Option>
             <Option value="2">无效</Option>
           </Select>
@@ -185,7 +222,17 @@ export default {
             );
           },
         },
-        { title: "标签", key: "tag" },
+        {
+          title: "标签",
+          key: "tag",
+          render: (h, params) => {
+            return JSON.parse(params.row.tag).map((v, i) => (
+              <span>
+                {v} {i !== JSON.parse(params.row.tag).length - 1 ? " | " : ""}
+              </span>
+            ));
+          },
+        },
         {
           title: "状态",
           key: "status",
@@ -361,7 +408,7 @@ export default {
       islook: true,
       isEdit: 1, //1表示编辑 2表示添加 3表示查看
       isshowmessage: true,
-      isModalloading:true
+      isModalloading: true,
     };
   },
   methods: {
@@ -373,10 +420,15 @@ export default {
       this.isshowmessage = false;
       this.AddAndEditvisible = true;
       this.islook = true;
-      data.data.actionType=data.data.actionType+''
-        data.data.trainUnit=data.data.trainUnit+''
-          data.data.status=data.data.status+''
+
+      data.data.actionType = data.data.actionType + "";
+      data.data.trainUnit = data.data.trainUnit + "";
+      data.data.status = data.data.status + "";
+      data.data.tag = JSON.parse(data.data.tag).join();
       this.formValidate = JSON.parse(JSON.stringify(data.data));
+      this.formValidate.content = JSON.parse(data.data.content)["分解练习"];
+      this.formValidate.imports = JSON.parse(data.data.content)["教学重点"];
+      this.formValidate.errors = JSON.parse(data.data.content)["易犯错误"];
     },
     async edit({ id }) {
       let { data } = await this.getTechniqueActionInfo({
@@ -385,10 +437,14 @@ export default {
       this.isEdit = 1;
       this.AddAndEditvisible = true;
       this.islook = false;
-         data.data.actionType=data.data.actionType*1
-        data.data.trainUnit=data.data.trainUnit*1
-          data.data.status=data.data.status*1
+      data.data.actionType = data.data.actionType + "";
+      data.data.trainUnit = data.data.trainUnit + "";
+      data.data.status = data.data.status + "";
+      data.data.tag = JSON.parse(data.data.tag).join();
       this.formValidate = JSON.parse(JSON.stringify(data.data));
+      this.formValidate.content = JSON.parse(data.data.content)["分解练习"];
+      this.formValidate.imports = JSON.parse(data.data.content)["教学重点"];
+      this.formValidate.errors = JSON.parse(data.data.content)["易犯错误"];
     },
     handleDelete(params) {
       console.log(params);
@@ -405,8 +461,9 @@ export default {
           sign: untilMd5.toSign({ ...params }, "getTechniqueActionPage"),
         })
         .then((res) => {
-          console.log(res.data, "查询退款申请列表接口(分页)");
+          console.log(res.data, "查询专项动作接口(分页)");
           this.tableData = res.data.data.list;
+          this.total = res.data.data.total;
         });
     },
     deleteTableInId(params) {
@@ -422,9 +479,15 @@ export default {
       });
     },
     modifyTechniqueAction(params) {
-      return this.axios.post("api/v2/data/action/modifyTechniqueAction", {
+      return this.axios.post("/api/v2/data/action/modifyTechniqueAction", {
         ...params,
         sign: untilMd5.toSign({ ...params }, "modifyTechniqueAction"),
+      });
+    },
+    createTechniqueAction(params) {
+      return this.axios.post("/api/v2/data/action/createTechniqueAction", {
+        ...params,
+        sign: untilMd5.toSign({ ...params }, "createTechniqueAction"),
       });
     },
     Pageonchange(pageNum) {
@@ -482,19 +545,45 @@ export default {
 
     async ok() {
       let handleSubmitres = await this.handleSubmit("formValidate");
-      console.log(handleSubmitres);
-      // this.AddAndEditvisible=false
-      this.isModalloading=false
+      this.isModalloading = false;
       if (handleSubmitres && this.isEdit !== 3) {
-        //  console.log(this.formValidate,this.isEdit);
         if (this.isEdit === 1) {
-          console.log(this.formValidate);
-          this.modifyTechniqueAction(this.formValidate);
+          let obj = JSON.parse(JSON.stringify(this.formValidate));
+
+          obj.actionType = this.formValidate.actionType * 1;
+          obj.status = this.formValidate.status * 1;
+          obj.trainUnit = this.formValidate.trainUnit * 1;
+          obj.tag = JSON.stringify(this.formValidate.tag.split());
+          console.log(obj, "编辑");
+          let content = {
+            分解练习: obj.content,
+            教学重点: obj.description,
+            易犯错误: obj.errors,
+          };
+
+          obj.content = JSON.stringify(content);
+          this.modifyTechniqueAction(obj);
         } else if (this.isEdit === 2) {
-          this.modifyTechniqueAction(this.formValidate);
+          let obj = JSON.parse(JSON.stringify(this.formValidate));
+
+          obj.actionType = this.formValidate.actionType * 1;
+          obj.status = this.formValidate.status * 1;
+          obj.trainUnit = this.formValidate.trainUnit * 1;
+          obj.tag = JSON.stringify(this.formValidate.tag.split());
+          console.log(this.formValidate, "新增");
+          let content = {
+            分解练习: this.formValidate.content,
+            动作描述: this.formValidate.description,
+            易犯错误: this.formValidate.errors,
+          };
+
+          obj.content = JSON.stringify(content);
+
+          this.createTechniqueAction(obj);
         }
         this.$Message.info("表单校验成功");
       } else if (this.isEdit === 3) {
+        console.log("查看");
         this.AddAndEditvisible = false;
         this.$Message.success("查看完毕");
       } else {
@@ -507,8 +596,8 @@ export default {
     },
 
     handleSubmit(name) {
-      if(this.isEdit===3){
-        return false
+      if (this.isEdit === 3) {
+        return false;
       }
       return this.$refs[name].validate((valid) => {
         if (valid) {
