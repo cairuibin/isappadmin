@@ -414,7 +414,7 @@ export default [
           icon: 'ios-document',
           title: 'i滑精选管理'
         },
-        component: () => import('@/view/update/update-table.vue'),
+        component:parentView,
         children: [{
           path: 'i_hua_jing_xuan_da_ka_jia_tang',
           name: 'i_hua_jing_xuan_da_ka_jia_tang',
@@ -422,7 +422,8 @@ export default [
             icon: 'md-clipboard',
             title: 'i滑精选-大咖讲堂'
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view/nei_rong_guan_li/i_hua_jing_xuan_guan_li/i_hua_jing_xuan_da_ka_jiang_tang.vue')
+     
         }, {
           path: 'i_hua_jing_xuan_xin_zeng_nei_rong',
           name: 'i_hua_jing_xuan_xin_zeng_nei_rong',
@@ -430,7 +431,7 @@ export default [
             icon: 'md-clipboard',
             title: 'i滑精选-新增内容'
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view/nei_rong_guan_li/i_hua_jing_xuan_guan_li/i_hua_jing_xuan_xin_zeng_nei_rong.vue')
         }]
       }
     ]
