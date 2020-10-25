@@ -22,7 +22,7 @@
           <Option value="h5">h5</Option>
         </Select>
         
-        <Input type="text" placeholder="支付宝/手机账号/学员姓名" style="width:170px" />
+        <Input type="text" placeholder="手机账号" style="width:170px" />
         <div style="margin-bottom:10px;">
           支付时间
           <DatePicker type="datetime" placeholder="请选择开始时间" style="width: 130px"></DatePicker>至
@@ -56,51 +56,14 @@ export default {
           width: 60,
           align: "center",
         },
-        { title: "支付时间", key: "name", sortable: false },
-        { title: "订单标题", key: "email", editable: false },
+        { title: "创建时间", key: "name", sortable: false },
+        { title: "订单内容", key: "email", editable: false },
         { title: "类型", key: "createTime" },
-        { title: "支付渠道", key: "createTime" },
-        { title: "实收金额(元)", key: "createTime" },
+        { title: "支付金额(i币)", key: "createTime" },
+        { title: "支付时间", key: "createTime" },
+        { title: "系统类型", key: "createTime" },
         { title: "用户信息", key: "createTime" },
-        { title: "学员信息", key: "createTime" },
-        { title: "教练信息", key: "createTime" },
-        { title: "联系信息", key: "createTime" },
-        { title: "状态", key: "createTime" },
-        {
-          title: "操作",
-
-          key: "action",
-
-          width: 150,
-
-          align: "center",
-
-          render: (h, params) => {
-            return h("div", [
-              h(
-                "Button",
-
-                {
-                  props: {
-                    type: "primary",
-
-                    size: "small",
-                  },
-                  style: {
-                    marginRight: "5px",
-                  },
-                  on: {
-                    click: () => {
-                      this.look(params.index);
-                    },
-                  },
-                },
-
-                "查看"
-              ),
-            ]);
-          },
-        },
+        { title: "支付结果", key: "createTime" },
       ],
       tableData: [],
       lei_xing: "全部类型",
