@@ -1,6 +1,10 @@
 <template>
   <div>
-    <Modal v-model="modal2" width="660">
+    <Modal
+        v-model="modal2"
+        width="660"
+        @on-cancel="cancel"
+    >
       <p slot="header" style="color:#f60;text-align:center">
         <Icon type="ios-information-circle"></Icon>
         <span>订单详情</span>
@@ -105,6 +109,10 @@
 import Tables from "_c/tables";
 import { getTableData } from "@/api/data";
 export default {
+  props: {
+    onCancel: Function,
+    rowInfo: Object,
+  },
   components: {
     Tables,
   },
@@ -229,6 +237,9 @@ export default {
     };
   },
   methods: {
+    cancel() {
+      this.onCancel();
+    },
     handleDelete(params) {
       console.log(params);
     },

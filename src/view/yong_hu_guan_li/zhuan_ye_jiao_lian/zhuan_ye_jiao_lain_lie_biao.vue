@@ -51,13 +51,19 @@ export default {
           width: 60,
           align: "center",
         },
-        { title: "ID", key: "name", sortable: false, width: 90 },
-        { title: "真实姓名", key: "email", editable: false, width: 90 },
-        { title: "教练照", key: "createTime", width: 90 },
-        { title: "手机账号", key: "createTime", width: 90 },
-        { title: "专项", key: "createTime", width: 90 },
-        { title: "专项运动开始时间", key: "createTime", width: 90 },
-        { title: "专项教学开始时间", key: "createTime", width: 90 },
+        { title: "ID", key: "id", sortable: false, width: 90 },
+        { title: "真实姓名", key: "name", editable: false, width: 90 },
+        { title: "教练照", key: "createTime", width: 90, render: (h, params) => {
+            return (
+              <div>
+                <img style={{ width: "30px" }} src={params.row.logoUrl} />
+              </div>
+            );
+          }, },
+        { title: "手机账号", key: "mobile	", width: 90 },
+        { title: "专项", key: "specialType", width: 90 },
+        { title: "专项运动开始时间", key: "coachStartYear", width: 90 },
+        { title: "专项教学开始时间", key: "professionalCoachStartYear", width: 90 },
         { title: "认证提交时间", key: "createTime", width: 119 },
         { title: "账户余额(i币)", key: "createTime", width: 119 },
         { title: "消费总金额(元)", key: "createTime", width: 119 },
