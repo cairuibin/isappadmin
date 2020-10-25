@@ -119,7 +119,7 @@ export default {
           },
         },
       ],
-      tableData: [{name:'as'}],
+      tableData: [],
       lei_xing: "全部类型",
       zhuang_tai: "全部状态",
     };
@@ -153,11 +153,11 @@ export default {
     },
   },
   mounted() {
-    // this.getGoodsOrdersPage({
-    //   isDelete: 0,
-    //   pageNum: 1,
-    //   pageSize: 10,
-    // });
+    this.getGoodsOrdersPage({
+      isDelete: 0,
+      pageNum: 1,
+      pageSize: 10,
+    });
   },
 };
 </script>

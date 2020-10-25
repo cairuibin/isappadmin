@@ -132,14 +132,14 @@ export default [
         // }
       ]
       }, {
-        path: 'chong_zhi_ding_dan',
-        name: 'chong_zhi_ding_dan',
+        path: 'zhi_fu_ding_dan',
+        name: 'zhi_fu_ding_dan',
         meta: {
           icon: 'md-clipboard',
           title: '支付订单'
 
         },
-        component: () => import('@/view/yun_ying_guan_li/chong_zhi_ding_dan.vue')
+        component: () => import('@/view/yun_ying_guan_li/zhi_fu_ding_dan.vue')
       }, {
         path: 'xu_ni_ding_dan',
         name: 'xu_ni_ding_dan',

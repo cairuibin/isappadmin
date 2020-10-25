@@ -45,7 +45,6 @@
           <DatePicker
             type="datetime"
             placeholder="请选择开始时间"
-
             style="width: 130px"
             v-model="DatePickerStart"
             on-change="DatePickerchangeStart"
@@ -55,7 +54,6 @@
             type="datetime"
             placeholder="请选择结束时间"
             style="width: 130px"
-           
              v-model="DatePickerEnd"
              on-change="DatePickerchangeEnd"
           ></DatePicker>
