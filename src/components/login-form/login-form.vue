@@ -14,18 +14,35 @@
       </Input>
     </FormItem>
     <FormItem prop="password">
-      <Input type="password" v-model="formCustom.password" placeholder="请输入密码">
+      <Input
+        type="password"
+        v-model="formCustom.password"
+        placeholder="请输入密码"
+      >
         <span slot="prepend">
           <Icon :size="14" type="md-lock"></Icon>
         </span>
       </Input>
     </FormItem>
     <FormItem prop="picCode">
-      <Input placeholder="请输入验证码" class="yanzhengma" type="text" v-model="formCustom.picCode" />
-      <img class="yanzhengma-img" src="https://test.iskatesports.com/api/v2/message/sms/getPicCode?username=IskateAdmin" @click="()=>updata()" alt />
+      <Input
+        placeholder="请输入验证码"
+        class="yanzhengma"
+        type="text"
+        v-model="formCustom.picCode"
+      />
+      <img
+        class="yanzhengma-img"
+        id="picimg"
+        src="https://test.iskatesports.com/api/v2/message/sms/getPicCode?username=IskateAdmin"
+        @click="() => updata()"
+        alt
+      />
     </FormItem>
     <FormItem>
-      <Button @click="handleSubmit('formCustom')" type="primary" long>登录</Button>
+      <Button @click="handleSubmit('formCustom')" type="primary" long
+        >登录</Button
+      >
     </FormItem>
   </Form>
 </template>
@@ -80,10 +97,9 @@ export default {
       this.getPicCode();
     },
     getPicCode() {
-      return (
-        "https://test.iskatesports.com/api/v2/message/sms/getPicCode?username=" +
-        this.formCustom.userName
-      );
+      let picnode = document.getElementById("picimg");
+      picnode.src =
+        "https://test.iskatesports.com/api/v2/message/sms/getPicCode?username=IskateAdmin";
     },
     handleSubmit(name) {
       this.$refs[name].validate((valid) => {
@@ -96,10 +112,10 @@ export default {
             },
             "userLogin"
           );
-       
+
           this.axios
             .post("/api/v2/manage/system/userLogin", {
-               username: this.formCustom.userName,
+              username: this.formCustom.userName,
               password: Md5(this.formCustom.password),
               picCode: this.formCustom.picCode,
               sign: aa,
@@ -110,14 +126,14 @@ export default {
                 if (res.data.code == 200) {
                   this.$Message.success("登录成功");
                   localStorage.token = res.data.data.token;
-                  localStorage.username=res.data.data.username;
-                localStorage.mobile=res.data.data.mobile
-               localStorage.roleName=res.data.data.roleName
+                  localStorage.username = res.data.data.username;
+                  localStorage.mobile = res.data.data.mobile;
+                  localStorage.roleName = res.data.data.roleName;
                   this.$router.push("/home");
                 } else {
                   this.$Message.error("登录失败");
                 }
-                localStorage.setItem('user',JSON.stringify(res.data.data))
+                localStorage.setItem("user", JSON.stringify(res.data.data));
                 console.log(res.data);
               },
               (e) => {
@@ -133,7 +149,6 @@ export default {
 };
 </script>
 <style lang="less">
-
 .yanzhengma {
   width: 50%;
 }

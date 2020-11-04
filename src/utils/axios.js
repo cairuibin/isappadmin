@@ -4,7 +4,7 @@ import Vue from 'vue';
 import axios from "axios";
 console.log(process.env.NODE_ENV)
 const _axios = axios.create({
-    baseURL:'',
+    // baseURL:'',
     baseURL:process.env.NODE_ENV==='development'?"":"https://test.iskatesports.com"
 });
 

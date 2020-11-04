@@ -3,16 +3,16 @@
     <Card>
       <div style="margin-bottom: 10px" class="header_wrap">
         <span>订单类型</span>
-        <Select
+        <!-- <Select
           v-model="lei_xing"
           @on-change="lei_xingchange()"
           placeholder="全部类型"
           style="width: 100px"
         >
-          <!-- <Option value="quan_bu_lei_xing">全部类型</Option> -->
+
           <Option value="1">课包</Option>
           <Option value="2">青训营</Option>
-        </Select>
+        </Select> -->
         <span>订单状态</span>
         <Select
           v-model="zhuang_tai"

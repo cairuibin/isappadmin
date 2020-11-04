@@ -100,7 +100,16 @@ export default [
             title: '课程订单列表'
 
           },
-          component: () => import('@/view//yun_ying_guan_li/ke_cheng_ding_dan/ke_cheng_ding_dan_lie_biao.vue')
+          component: () => import('@/view/yun_ying_guan_li/ke_cheng_ding_dan/ke_cheng_ding_dan_lie_biao.vue')
+        },{
+          path: 'ke_bao_ding_dan_ye_mian',
+          name: 'ke_bao_ding_dan_ye_mian',
+          meta: {
+            icon: 'md-clipboard',
+            title: '课包订单页面'
+
+          },
+          component: () => import('@/view/yun_ying_guan_li/ke_bao_ding_dan_ye_mian/ke_bao_ding_dan_ye_mian_lie_biao.vue')
         },
         //  {
         //   path: 'ding_dan_xiang_qing',
@@ -423,7 +432,7 @@ export default [
             title: 'i滑精选-大咖讲堂'
           },
           component: () => import('@/view/nei_rong_guan_li/i_hua_jing_xuan_guan_li/i_hua_jing_xuan_da_ka_jiang_tang.vue')
-     
+
         }, {
           path: 'i_hua_jing_xuan_xin_zeng_nei_rong',
           name: 'i_hua_jing_xuan_xin_zeng_nei_rong',
