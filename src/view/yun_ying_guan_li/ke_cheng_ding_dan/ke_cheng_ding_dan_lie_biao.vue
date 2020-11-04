@@ -3,16 +3,16 @@
     <Card>
       <div style="margin-bottom: 10px" class="header_wrap">
         <span>订单类型</span>
-        <Select
+        <!-- <Select
           v-model="lei_xing"
           @on-change="lei_xingchange()"
           placeholder="全部类型"
           style="width: 100px"
         >
-          <!-- <Option value="quan_bu_lei_xing">全部类型</Option> -->
+
           <Option value="1">课包</Option>
           <Option value="2">青训营</Option>
-        </Select>
+        </Select> -->
         <span>订单状态</span>
         <Select
           v-model="zhuang_tai"
@@ -45,7 +45,6 @@
           <DatePicker
             type="datetime"
             placeholder="请选择开始时间"
-
             style="width: 130px"
             v-model="DatePickerStart"
             on-change="DatePickerchangeStart"
@@ -55,7 +54,6 @@
             type="datetime"
             placeholder="请选择结束时间"
             style="width: 130px"
-           
              v-model="DatePickerEnd"
              on-change="DatePickerchangeEnd"
           ></DatePicker>
@@ -73,6 +71,11 @@
       </div>
       <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
+     <Kcddxq
+        v-if="kcddxqModal"
+        :rowInfo="row"
+        :onCancel="onCancel"
+    />
   </div>
 </template>
 
@@ -80,13 +83,17 @@
 import Tables from "_c/tables";
 // import { getTableData } from "@/api/data";
 import untilMd5 from "../../../utils/md5";
+import Kcddxq from './ding_dan_xiang_qing';
 export default {
   name: "tables_page",
   components: {
     Tables,
+    Kcddxq,
   },
   data() {
     return {
+      kcddxqModal: false,
+      row: {},
       columns: [
         {
           type: "selection",
@@ -105,7 +112,7 @@ export default {
           title: "联系信息",
           key: "contacts",
           render: (h, params) => {
-            console.log(JSON.parse(params.row.contacts).name);
+            // console.log(JSON.parse(params.row.contacts).name);
             return h("div", [
               h(
                 "span",
@@ -140,7 +147,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.look(params.index);
+                      this.look(params.row);
                     },
                   },
                 },
@@ -159,8 +166,13 @@ export default {
     };
   },
   methods: {
-    editBus(item, index) {},
-    look(params) {},
+    onCancel() {
+      this.kcddxqModal = false;
+    },
+    look(params) {
+      this.row = params;
+      this.kcddxqModal = true;
+    },
     handleDelete(params) {
       console.log(params);
     },

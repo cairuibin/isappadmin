@@ -1,10 +1,17 @@
+// achievement	是	String	成就(多个)，存储格式[1,2,3,4]   可以不传
+
 <template>
   <div>
+    
     <Card>
       <div style="margin-bottom: 10px" class="header_wrap">
         <i-button @click="handlAdd" type="primary">新增</i-button>&emsp;
         <i-button type="primary" @click="handlRemove">删除</i-button>
       </div>
+      <div :style="{display:'flex'}">
+          <Card>
+        <div :style="{minWidth:'100px',lineHeight:'27px',fontWeight:'bold',color:'#666'}" v-for="(v, i) in neirongContent" :key="i">{{ v }}</div>
+       </Card >
       <tables
         ref="tables"
         v-model="tableData"
@@ -16,6 +23,7 @@
         @on-select-all-cancel="onselectallcancel"
         @on-selection-change="onselectionchange"
       />
+      </div>
       <div style="margin-top: 20px">
         <Page
           show-total
@@ -35,7 +43,8 @@
       :width="750"
       :mask-closable="false"
     >
-      <div><span>父类ID：</span>花样滑冰/滑行</div>
+      <div><span></span> 
+      </div>
       <Form
         ref="formValidate"
         :model="formValidate"
@@ -44,6 +53,19 @@
         :disabled="islook"
         :show-message="isshowmessage"
       >
+      
+        <FormItem label=" 父类ID：" prop="name">
+          <Select
+            :disabled="isEdit === 3"
+            v-model="formValidate.actionType"
+            placeholder="父类ID："
+          >
+            <Option value="1">xxxxx</Option>
+            <Option value="2">dddddddddddddd</Option>
+          
+          </Select>
+        </FormItem>
+      
         <FormItem label=" 动作名称" prop="name">
           <Input
             :disabled="isEdit === 3"
@@ -204,6 +226,16 @@ export default {
   },
   data() {
     return {
+          neirongContent: [
+        "111",
+        "222",
+        "32342",
+        "422",
+        "44",
+        "434",
+        "34",
+        "34dsd",
+      ],
       columns: [
         {
           type: "selection",
@@ -409,6 +441,9 @@ export default {
       isEdit: 1, //1表示编辑 2表示添加 3表示查看
       isshowmessage: true,
       isModalloading: true,
+      //parentId
+      parentId:1,
+      categoryLevel:1
     };
   },
   methods: {
@@ -490,6 +525,7 @@ export default {
         sign: untilMd5.toSign({ ...params }, "createTechniqueAction"),
       });
     },
+    
     Pageonchange(pageNum) {
       this.getTechniqueActionPage({
         pageNum: pageNum,
@@ -570,6 +606,8 @@ export default {
           obj.status = this.formValidate.status * 1;
           obj.trainUnit = this.formValidate.trainUnit * 1;
           obj.tag = JSON.stringify(this.formValidate.tag.split());
+          obj.parentId=this.parentId
+          obj.categoryLevel=this.categoryLevel
           console.log(this.formValidate, "新增");
           let content = {
             分解练习: this.formValidate.content,

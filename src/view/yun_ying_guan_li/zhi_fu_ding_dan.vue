@@ -24,7 +24,7 @@
           <Option value="zhi_fu_shi_bai">支付失败</Option>
           
         </Select>
-        <Input type="text" placeholder="支付宝/手机账号/学员姓名" style="width:170px" />
+        <Input type="text" placeholder="手机账号" style="width:170px" />
         <div style="margin-bottom:10px;">
           支付时间
           <DatePicker type="datetime" placeholder="请选择开始时间" style="width: 130px"></DatePicker>至
@@ -32,11 +32,10 @@
           <i-button type="primary">搜索</i-button>&emsp;
         </div>
       </div>
-      <tables ref="tables" v-model="tableData" :columns="columns" @on-delete="handleDelete" />
+      <tables ref="tables" v-model="tableData" :columns="columns" />
       <div style="margin-top:20px">
         <Page show-total :total="tableData.length" show-elevator></Page>
       </div>
-      <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
   </div>
 </template>
@@ -57,69 +56,21 @@ export default {
           width: 60,
           align: "center",
         },
-        { title: "支付时间", key: "name", sortable: false },
-        { title: "订单标题", key: "email", editable: false },
-        { title: "类型", key: "createTime" },
+        { title: "创建时间", key: "name", sortable: false },
+        { title: "业务类型", key: "email", editable: false },
+        { title: "支付金额(元)", key: "createTime" },
+        { title: "支付终端", key: "createTime" },
         { title: "支付渠道", key: "createTime" },
-        { title: "实收金额(元)", key: "createTime" },
+        { title: "渠道订单号", key: "createTime" },
         { title: "用户信息", key: "createTime" },
-        { title: "学员信息", key: "createTime" },
-        { title: "教练信息", key: "createTime" },
-        { title: "联系信息", key: "createTime" },
-        { title: "状态", key: "createTime" },
-        {
-          title: "操作",
-
-          key: "action",
-
-          width: 150,
-
-          align: "center",
-
-          render: (h, params) => {
-            return h("div", [
-              h(
-                "Button",
-
-                {
-                  props: {
-                    type: "primary",
-
-                    size: "small",
-                  },
-                  style: {
-                    marginRight: "5px",
-                  },
-                  on: {
-                    click: () => {
-                      this.look(params.index);
-                    },
-                  },
-                },
-
-                "查看"
-              ),
-            ]);
-          },
-        },
+        { title: "支付结果", key: "createTime" },
       ],
       tableData: [],
       lei_xing: "全部类型",
       zhuang_tai: "全部状态",
     };
   },
-  methods: {
-    editBus(item, index) {},
-    look(params) {},
-    handleDelete(params) {
-      console.log(params);
-    },
-    exportExcel() {
-      this.$refs.tables.exportCsv({
-        filename: `table-${new Date().valueOf()}.csv`,
-      });
-    },
-  },
+  methods: {},
   mounted() {
     getTableData().then((res) => {
       this.tableData = res.data;

@@ -165,7 +165,7 @@ export default {
           }else{
              this.$Message.info("删除失败");
           }
-         
+
         },
         onCancel: () => {
           this.$Message.info("取消删除");
@@ -234,7 +234,7 @@ export default {
     },
     onselectallcancel(select) {},
     onselectionchange(select) {
-   
+
       this.deleteSelectIds = select.map((v) => v.id);
     },
   },

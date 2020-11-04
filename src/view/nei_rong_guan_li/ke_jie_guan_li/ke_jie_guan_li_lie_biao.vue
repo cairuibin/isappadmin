@@ -21,7 +21,7 @@
       </div>
     </Card>
     <Xzkj
-      updataTable="updataTable"
+      :updataTable="updataTable"
       v-if="xzkjModal"
       :rowInfo="row"
       :edit="edit"

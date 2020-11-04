@@ -1,10 +1,6 @@
 <template>
   <div>
-    <Modal
-        v-model="modal2"
-        width="660"
-        @on-cancel="cancel"
-    >
+    <Modal v-model="modal2" width="660">
       <p slot="header" style="color:#f60;text-align:center">
         <Icon type="ios-information-circle"></Icon>
         <span>订单详情</span>
@@ -32,7 +28,7 @@
           {{'支付宝支付'}}
         </div>
         <div class="div_content">
-          <span>渠道订单号</span>
+          <span>渠道订单号:</span>
           {{220000019876543321}}
         </div>
         <div class="div_content">
@@ -70,7 +66,7 @@
           {{'待完结'}}
         </div>
         <div class="div_content">
-          <span>订单状态：</span>
+          <span>计划进度:</span>
         </div>
         <div class="div_content">
           <tables ref="tables" v-model="tableData" :columns="columns" @on-delete="handleDelete" />
@@ -97,9 +93,19 @@
             @on-delete="handleDelete"
           />
         </div>
+        <div class="div_content">
+          <span>应退金额:</span>&emsp;
+          <Input style="width:90px" value="92000.00" />&emsp;
+          <span style="color:#ccc">实退金额需再扣除30%手续费</span>
+        </div>
+        <div class="div_content">
+          <span>实退金额:</span>&emsp;
+          <Input style="width:90px" value="6400.00" />
+        </div>
       </div>
       <div slot="footer">
-        <!-- <Button type="error" size="large" long :loading="modal_loading" @click="del">Delete</Button> -->
+        <Button type="primary">取消</Button>
+        <Button type="primary">申请退款(6440.00元)</Button>
       </div>
     </Modal>
   </div>
@@ -109,10 +115,6 @@
 import Tables from "_c/tables";
 import { getTableData } from "@/api/data";
 export default {
-  props: {
-    onCancel: Function,
-    rowInfo: Object,
-  },
   components: {
     Tables,
   },
@@ -128,12 +130,10 @@ export default {
       columns: [
         { title: "序号", key: "name", sortable: false },
         { title: "课程名称", key: "email", editable: false },
-        { title: "课程安排", key: "name" },
-        { title: "课后训练", key: "name" },
-        { title: "订单进度", key: "name" },
-
+        { title: "金额(元)", key: "name" },
+        { title: "状态", key: "name" },
         {
-          title: "操作",
+          title: "是否可退",
           key: "action",
           width: 150,
           align: "center",
@@ -157,7 +157,6 @@ export default {
                     },
                   },
                 },
-
                 "查看"
               ),
             ]);
@@ -179,9 +178,7 @@ export default {
 
                 {
                   props: {
-                    type: "primary",
                     value: "11",
-                    size: "small",
                   },
                   style: {
                     marginRight: "5px",
@@ -194,6 +191,35 @@ export default {
                 },
 
                 "查看"
+              ),
+            ]);
+          },
+        },
+        {
+          title: "是否可退",
+          key: "action",
+          width: 150,
+          align: "center",
+          render: (h, params) => {
+            return h("div", [
+              h(
+                "Checkbox",
+
+                {
+                  props: {
+                    type: "primary",
+                    value: "11",
+                    size: "small",
+                  },
+                  style: {
+                    marginRight: "5px",
+                  },
+                  on: {
+                    click: () => {
+                      this.look(params.index);
+                    },
+                  },
+                }
               ),
             ]);
           },
@@ -210,14 +236,9 @@ export default {
           render: (h, params) => {
             return h("div", [
               h(
-                "Input",
+                "b",
 
                 {
-                  props: {
-                    type: "primary",
-  value: "1331",
-                    size: "small",
-                  },
                   style: {
                     marginRight: "5px",
                   },
@@ -228,7 +249,7 @@ export default {
                   },
                 },
 
-                "查看"
+                "无法退款"
               ),
             ]);
           },
@@ -237,9 +258,6 @@ export default {
     };
   },
   methods: {
-    cancel() {
-      this.onCancel();
-    },
     handleDelete(params) {
       console.log(params);
     },
