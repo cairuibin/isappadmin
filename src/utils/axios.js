@@ -8,7 +8,7 @@ const _axios = axios.create({
     baseURL:process.env.NODE_ENV==='development'?"":"https://test.iskatesports.com"
 });
 
-_axios.interceptors.request.use(
+_axios.interceptor3s.request.use(
 
     (config) => {
         console.log(config)
