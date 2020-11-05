@@ -30,7 +30,13 @@
         @on-delete="handleDelete"
       />
       <div style="margin-top: 20px">
-        <Page show-total :total="tableData.length" show-elevator></Page>
+        <Page
+          show-total
+          :total="total"
+          show-elevator
+          @on-change="Pageonchange"
+          @on-page-size-change="onpagesizechange"
+        ></Page>
       </div>
     </Card>
     <Modal
@@ -53,54 +59,55 @@
         :rules="ruleValidate"
         :label-width="130"
       >
-        <FormItem label="选择课包" prop="city">
-          <Select v-model="formValidate.city" placeholder="请选择课包">
-            <Option value="v" v-for="(v, i) in kebao" :key="i">{{ v }}</Option>
+        <FormItem label="选择课包" prop="packetName">
+          <Select v-model="formValidate.packetName" placeholder="请选择课包">
+            <Option
+              :value="JSON.stringify(v)"
+              v-for="(v, i) in ke_bao_data"
+              :key="i"
+              >{{ v.name }}</Option
+            >
           </Select>
         </FormItem>
-        <FormItem label="选择学员" prop="name">
-          <Select v-model="formValidate.city" placeholder="请选择课包">
-            <Option value="v" v-for="(v, i) in xueyaun" :key="i">{{
-              v
-            }}</Option>
+        <FormItem label="选择学员" prop="studentName">
+          <Select v-model="formValidate.studentName" placeholder="请选择学员">
+            <Option
+              :value="JSON.stringify(v)"
+              v-for="(v, i) in xue_yuan_data"
+              :key="i"
+              >{{ v.studentName }}</Option
+            >
           </Select>
         </FormItem>
-        <FormItem label="选择教练" prop="name">
-          <Select v-model="formValidate.city" placeholder="请选择课包">
-            <Option value="v" v-for="(v, i) in jiaolian" :key="i">{{
-              v
-            }}</Option>
+        <FormItem label="选择教练" prop="coachName">
+          <Select v-model="formValidate.coachName" placeholder="请选择教练">
+            <Option
+              :value="JSON.stringify(v)"
+              v-for="(v, i) in jiao_lian_data"
+              :key="i"
+              >{{ v.coachName }}</Option
+            >
           </Select>
         </FormItem>
-        <FormItem label="实付金额" prop="city">
+        <FormItem label="实付金额" prop="price">
           <Input value="0.00" disabled placeholder="请输入实付金额" />
         </FormItem>
-        <FormItem label="实付金额" prop="city">
-          <Input v-model="formValidate.name" placeholder="请输入实付金额" />
+        <FormItem label="实付金额" prop="money">
+          <Input v-model="formValidate.money" placeholder="请输入实付金额" />
         </FormItem>
-        <FormItem label="选择状态" prop="city">
-          <Select v-model="formValidate.city" placeholder="请选择状态">
-            <Option value="beijing">1</Option>
-            <Option value="shanghai">2</Option>
-            <Option value="shanghai">3</Option>
-          </Select>
-        </FormItem>
-        <FormItem label="备注" prop="city">
-          <Input v-model="formValidate.name" placeholder="请输入备注" />
+
+        <FormItem label="备注" prop="remark">
+          <Input v-model="formValidate.remark" placeholder="请输入备注" />
         </FormItem>
         <FormItem>
-          <Button @click="handleReset2('formValidate')" style="margin-left: 8px"
+          <Button @click="handleReset2('setGold')" style="margin-left: 8px"
             >取消</Button
           >
           &emsp;
-          <Button type="primary" @click="handleSubmit2('formValidate')"
-            >保存</Button
-          >
+          <Button type="primary" @click="handleSubmit2('setGold')">保存</Button>
         </FormItem>
       </Form>
-      <div slot="footer">
-        <!-- <Button type="error" size="large" long :loading="modal_loading" @click="del">Delete</Button> -->
-      </div>
+      <div slot="footer"></div>
     </Modal>
   </div>
 </template>
@@ -123,7 +130,7 @@ const statusobj = {
   15: "结束订单",
 };
 import Tables from "_c/tables";
-// import { getTableData } from "@/api/data";
+
 import untilMd5 from "../../../utils/md5";
 import Kcddxq from "./ke_bao_ding_dan_ye_mian_xiang_qing";
 export default {
@@ -132,39 +139,22 @@ export default {
     Tables,
     Kcddxq,
   },
-  computed: {
-    kebao() {
-      return this.ke_bao_data.map((v) => {
-        return v.rinkName;
-      });
-    },
-    xueyaun() {
-      return this.ke_bao_data.map((v) => {
-        return v.studentName;
-      });
-    },
-    jiaolian() {
-      return this.ke_bao_data.map((v) => {
-        return v.coachName;
-      });
-    },
-  },
   data() {
     return {
+      xue_yuan_data: [],
+      jiao_lian_data: [],
       kcddxqModal: false,
       row: {},
       modal2: false,
+
       loading2: true,
       formValidate: {
-        name: "",
-        mail: "",
-        city: "",
-        gender: "",
-        interest: [],
-        date: "",
-        time: "",
-        desc: "",
-        editText: "",
+        packetName: "",
+        studentName: "",
+        coachName: "",
+        price: "0.00",
+        money: "",
+        remark: "",
       },
       ruleValidate: {
         packetName: [
@@ -317,7 +307,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.look(params.row);
+                      // this.edit(params.row);
                     },
                   },
                 },
@@ -338,7 +328,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.look(params.row);
+                      // this.delete(params.row);
                     },
                   },
                 },
@@ -350,6 +340,9 @@ export default {
         },
       ],
       tableData: [],
+      pageNum: 1,
+      total: 0,
+      pageSize: 10,
       lei_xing: "全部类型",
       zhuang_tai: "全部状态",
       DatePickerStart: "",
@@ -358,59 +351,80 @@ export default {
     };
   },
   methods: {
-    async ok2() {
-      this.$refs.setGold.validate(async (valid) => {
-        if (valid) {
-          let res = await this.$ajax.post("/xx/xx", {});
-          if (res.cd === 0) {
-            // doSomething..
-          } else {
-            this.$Message.info(res.msg);
-          }
-        } else {
-          // 对话框校验失败，取消loading状态
-          // this.loading = false
-          // setTimeout(() => {
-          //  this.$nextTick(() => {
-          //     this.loading = true
-          //   })
-          // }, 100)
-        }
-      });
-    },
+    async ok2() {},
     cancel2() {
       // 取消后，重置表单
       this.$refs["setGold"].resetFields();
     },
     handleSubmit2(name) {
-      this.$refs[name].validate((valid) => {
+      this.$refs.setGold.validate(async (valid) => {
         if (valid) {
-          this.$Message.success("Success!");
+          let r = await this.bindingCoursePacketOrder({
+            rinkId: JSON.parse(localStorage.user).rinkId,
+            rinkName: JSON.parse(localStorage.user).rinkName,
+            userId: JSON.parse(localStorage.user).id,
+            packetId: JSON.parse(this.formValidate.packetName).packetId,
+            studentName: JSON.parse(this.formValidate.studentName).studentName,
+            studentId: JSON.parse(this.formValidate.studentName).studentId,
+            coachName: JSON.parse(this.formValidate.coachName).coachName,
+            coachId: JSON.parse(this.formValidate.coachName).coachId,
+          });
+          console.log(r.data, "rrrrrr");
+          if (r.data.code === 200) {
+            this.getTrainCampOrdersPage({
+              pageNum: this.pageNum,
+              pageSize: this.pageSize,
+              orderType: 1,
+              isDelete: 0,
+              // userId:JSON.parse(localStorage.getItem('user').id)
+            });
+            this.$Message.info("添加成功");
+            this.$refs[name].resetFields();
+            this.modal2 = false;
+          } else {
+            this.$Message.info("添加失败");
+          }
         } else {
-          this.$Message.error("Fail!");
+          // 对话框校验失败，取消loading状态
+          this.loading = false;
+          setTimeout(() => {
+            this.$nextTick(() => {
+              this.loading = true;
+            });
+          }, 100);
         }
       });
     },
     handleReset2(name) {
       this.$refs[name].resetFields();
+      this.modal2 = false;
     },
-    add_order() {
+    async add_order() {
       //获取所有课包
+      this.modal2Typeflag = "add";
       this.modal2 = true;
-      this.getCoursePacketPage({
-        isUseTemplate: 0,
-        isMemberGoods: 0,
-        status: 1,
-        pageNum: 1,
-        pageSize: 30,
-      });
     },
     onCancel() {
       this.kcddxqModal = false;
     },
     look(params) {
-      this.row = params;
-      this.kcddxqModal = true;
+      this.modal2 = true;
+      console.log(params);
+      this.formValidate = JSON.parse(
+        JSON.stringify({
+          packetName: params.packetName,
+          studentName: params.studentName,
+          coachName: params.coachName,
+          price: params.price,
+          money: params.money,
+          remark: params.remark,
+        })
+      );
+      // this.formValidate.packetName= params.packetName
+      // this.ke_bao_data = [
+      //   { name: "2", packetId: "11" },
+      // ];
+      console.log(this.formValidate);
     },
     handleDelete(params) {
       console.log(params);
@@ -427,8 +441,9 @@ export default {
           sign: untilMd5.toSign({ ...params }, "getPacketOrdersPage"),
         })
         .then((res) => {
-          console.log(res.data.data.list, "查询训练课包订单列表接口(分页)");
+          console.log(res.data.data, "查询训练课包订单列表接口(分页)");
           this.tableData = res.data.data.list;
+          this.total = res.data.data.total;
         });
     },
     getCoursePacketPage(params) {
@@ -438,9 +453,83 @@ export default {
           sign: untilMd5.toSign({ ...params }, "getCoursePacketPage"),
         })
         .then((res) => {
-          this.ke_bao_data = [...res.data.data.list];
-          console.log(JSON.stringify(this.ke_bao_data[0]), "课包列表");
+          let arr = [];
+          [...res.data.data.list].forEach((v) => {
+            let obj = {
+              packetId: v.id,
+              name: v.title,
+            };
+            arr.push(obj);
+          });
+
+          this.ke_bao_data = arr;
+
+          console.log([...res.data.data.list], arr, "课包");
         });
+    },
+    getStudentPage(params) {
+      this.axios
+        .post("/api/v2/user/student/getStudentPage", {
+          ...params,
+          sign: untilMd5.toSign(
+            {
+              ...params,
+            },
+            "getStudentPage"
+          ),
+        })
+        .then((res) => {
+          console.log(res.data, "学员列表");
+          let arr = [];
+          [...res.data.data.list].forEach((v) => {
+            let obj = {
+              studentId: v.id,
+              studentName: v.name,
+            };
+            arr.push(obj);
+          });
+
+          this.xue_yuan_data = arr;
+        });
+    },
+    getCoachPage(params) {
+      this.axios
+        .post("/api/v2/user/coach/getCoachPage", {
+          ...params,
+          sign: untilMd5.toSign(
+            {
+              ...params,
+            },
+            "getCoachPage"
+          ),
+        })
+        .then((res) => {
+          console.log(res.data, "教练列表");
+          let arr = [];
+          [...res.data.data.list].forEach((v) => {
+            let obj = {
+              coachId: v.id,
+              coachName: v.name,
+            };
+            arr.push(obj);
+          });
+
+          this.jiao_lian_data = arr;
+        });
+    },
+    bindingCoursePacketOrder(params) {
+      return this.axios.post(
+        "/api/v2/business/trainOrder/bindingCoursePacketOrder",
+        {
+          ...params,
+          sign: untilMd5.toSign(
+            {
+              ...params,
+            },
+            "bindingCoursePacketOrder"
+          ),
+        }
+      );
     },
     lei_xingchange(e) {
       this.getTrainCampOrdersPage({
@@ -448,7 +537,6 @@ export default {
         pageSize: 10,
         orderType: this.lei_xing,
         isDelete: 0,
-        // userId:JSON.parse(localStorage.getItem('user').id)
       });
     },
     zhuang_tai_select() {
@@ -466,13 +554,26 @@ export default {
         this.getTrainCampOrdersPage({
           studentName: e.target.value,
           stauts: this.zhuang_tai,
-          pageNum: 1,
-          pageSize: 10,
+          pageNum: this.pageNum,
+          pageSize: this.pageSize,
           orderType: this.lei_xing,
           isDelete: 0,
           // userId:JSON.parse(localStorage.getItem('user').id)
         });
       }
+    },
+    Pageonchange(pageNum) {
+      this.pageNum = pageNum;
+      this.getTrainCampOrdersPage({
+        pageNum: pageNum,
+        pageSize: this.pageSize,
+        orderType: 1,
+        isDelete: 0,
+      });
+    },
+    onpagesizechange(pageNum) {
+      console.log(pageNum, "1");
+      this.Pageonchange(pageNum);
     },
     DatePickerchangeStart() {
       console.log(this.DatePickerStart);
@@ -484,10 +585,31 @@ export default {
       console.log(2122);
     },
   },
-  mounted() {
-    this.getTrainCampOrdersPage({
+  async created() {
+    await this.getCoursePacketPage({
+      isUseTemplate: 0,
+      isMemberGoods: 0,
+      status: 1,
+      pageNum: 1,
+      pageSize: 30,
+    });
+    await this.getStudentPage({
+      //  userId: '0',
       pageNum: 1,
       pageSize: 10,
+    });
+    await this.getCoachPage({
+      workType: 1,
+      gender: 0,
+      pageNum: 1,
+      pageSize: 30,
+      coachType: 2,
+    });
+  },
+  mounted() {
+    this.getTrainCampOrdersPage({
+      pageNum: this.pageNum,
+      pageSize: this.pageSize,
       orderType: 1,
       isDelete: 0,
       // userId:JSON.parse(localStorage.getItem('user').id)
