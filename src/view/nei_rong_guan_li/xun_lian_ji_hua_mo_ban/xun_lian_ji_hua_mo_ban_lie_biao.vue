@@ -3,7 +3,7 @@
     <Card>
       <div style="margin-bottom:10px;" class="header_wrap">
 
-         <i-button type="primary">新增</i-button>&emsp;
+         <i-button type="primary" @click="flag=true">新增</i-button>&emsp;
           <i-button type="primary">删除</i-button>
       </div>
       <tables ref="tables" v-model="tableData" :columns="columns" @on-delete="handleDelete" />
@@ -12,16 +12,19 @@
       </div>
       <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
+    <XunLianProgram @setflag="setflag" :flag="flag" />
   </div>
 </template>
 
 <script>
 import Tables from "_c/tables";
-import untilMd5 from '../../../utils/md5'
+import untilMd5 from '../../../utils/md5';
+import XunLianProgram from "./xin_zeng_mo_ban";
 export default {
   name: "tables_page",
   components: {
-      Tables
+      Tables,
+      XunLianProgram
   },
   data() {
     return {
@@ -95,7 +98,8 @@ export default {
       ],
       tableData: [],
       lei_xing:"全部类型",
-      zhuang_tai:"全部状态"
+      zhuang_tai:"全部状态",
+      flag: false,
     };
   },
   methods: {
@@ -119,6 +123,9 @@ export default {
           console.log(res.data, "查询退款申请列表接口(分页)");
           this.tableData = res.data.data.list;
         });
+    },
+    setflag() {
+      this.flag = false;
     },
   },
   mounted() {

@@ -2,7 +2,7 @@
   <div>
     <Modal
       v-model="modal"
-      title="新增商品"
+      title="新增模板"
       :scrollable="true"
       :mask-closable="false"
       :loading="loading"
@@ -17,21 +17,21 @@
        
   
         <FormItem label="动作类型" prop="city">
-          <Select v-model="formValidate.city" placeholder="选择分类">
+          <Select v-model="formValidate.city" placeholder="选择动作类型">
             <Option value="beijing">1</Option>
             <Option value="shanghai">2</Option>
               <Option value="shanghai">3</Option>
           </Select>
         </FormItem>
- <FormItem label="商品标题" prop="name">
-          <Input v-model="formValidate.name" placeholder="请输入商品标题" />
+ <FormItem label="计划标题" prop="name">
+          <Input v-model="formValidate.name" placeholder="请输入计划标题" />
         </FormItem>
         <FormItem label="计划描述：" prop="name">
-          <Input v-model="formValidate.name" placeholder="计划描述：" />
+          <Input v-model="formValidate.name" placeholder="请输入计划描述：" />
         </FormItem>
 
         <FormItem label="* 计划状态" prop="city">
-          <Select v-model="formValidate.city" placeholder="选择分类">
+          <Select v-model="formValidate.city" placeholder="有效">
             <Option value="beijing">1</Option>
             <Option value="shanghai">2</Option>
               <Option value="shanghai">3</Option>
