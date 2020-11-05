@@ -60,9 +60,13 @@
         :label-width="130"
       >
         <FormItem label="选择课包" prop="packetName">
-          <Select v-model="formValidate.packetName" placeholder="请选择课包">
+          <Select
+            :disabled="isLook === 'look'"
+            v-model="formValidate.packetName"
+            placeholder="请选择课包"
+          >
             <Option
-              :value="JSON.stringify(v)"
+              :value="v.packetId.toString()"
               v-for="(v, i) in ke_bao_data"
               :key="i"
               >{{ v.name }}</Option
@@ -70,9 +74,13 @@
           </Select>
         </FormItem>
         <FormItem label="选择学员" prop="studentName">
-          <Select v-model="formValidate.studentName" placeholder="请选择学员">
+          <Select
+            :disabled="isLook === 'look'"
+            v-model="formValidate.studentName"
+            placeholder="请选择学员"
+          >
             <Option
-              :value="JSON.stringify(v)"
+              :value="v.studentId.toString()"
               v-for="(v, i) in xue_yuan_data"
               :key="i"
               >{{ v.studentName }}</Option
@@ -80,9 +88,13 @@
           </Select>
         </FormItem>
         <FormItem label="选择教练" prop="coachName">
-          <Select v-model="formValidate.coachName" placeholder="请选择教练">
+          <Select
+            :disabled="isLook === 'look'"
+            v-model="formValidate.coachName"
+            placeholder="请选择教练"
+          >
             <Option
-              :value="JSON.stringify(v)"
+              :value="v.coachId.toString()"
               v-for="(v, i) in jiao_lian_data"
               :key="i"
               >{{ v.coachName }}</Option
@@ -93,11 +105,19 @@
           <Input value="0.00" disabled placeholder="请输入实付金额" />
         </FormItem>
         <FormItem label="实付金额" prop="money">
-          <Input v-model="formValidate.money" placeholder="请输入实付金额" />
+          <Input
+            :disabled="isLook === 'look'"
+            v-model="formValidate.money"
+            placeholder="请输入实付金额"
+          />
         </FormItem>
 
         <FormItem label="备注" prop="remark">
-          <Input v-model="formValidate.remark" placeholder="请输入备注" />
+          <Input
+            :disabled="isLook === 'look'"
+            v-model="formValidate.remark"
+            placeholder="请输入备注"
+          />
         </FormItem>
         <FormItem>
           <Button @click="handleReset2('setGold')" style="margin-left: 8px"
@@ -164,32 +184,39 @@ export default {
             trigger: "blur",
           },
         ],
-        editText: [
+        studentName: [
           {
             required: true,
             message: "学员不能为空",
             trigger: "blur",
           },
         ],
-        mail: [
+        coachName: [
           {
             required: true,
             message: "教练不能为空",
             trigger: "blur",
           },
-          { type: "email", message: "Incorrect email format", trigger: "blur" },
+          // { type: "email", message: "Incorrect email format", trigger: "blur" },
         ],
-        city: [
+        price: [
           {
             required: true,
-            message: "Please select the city",
+            message: "请输入应付金额",
             trigger: "change",
           },
         ],
-        gender: [
+        money: [
           {
             required: true,
             message: "请输入实付金额",
+            trigger: "change",
+          },
+        ],
+        remark: [
+          {
+            required: true,
+            message: "请输入备注",
             trigger: "change",
           },
         ],
@@ -307,7 +334,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      // this.edit(params.row);
+                      this.edit(params.row);
                     },
                   },
                 },
@@ -328,7 +355,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      // this.delete(params.row);
+                      this.deleteitem(params.row);
                     },
                   },
                 },
@@ -348,6 +375,8 @@ export default {
       DatePickerStart: "",
       DatePickerEnd: "",
       ke_bao_data: [],
+      //是否是查看还是编辑还是新增
+      isLook: "look",
     };
   },
   methods: {
@@ -359,30 +388,36 @@ export default {
     handleSubmit2(name) {
       this.$refs.setGold.validate(async (valid) => {
         if (valid) {
-          let r = await this.bindingCoursePacketOrder({
-            rinkId: JSON.parse(localStorage.user).rinkId,
-            rinkName: JSON.parse(localStorage.user).rinkName,
-            userId: JSON.parse(localStorage.user).id,
-            packetId: JSON.parse(this.formValidate.packetName).packetId,
-            studentName: JSON.parse(this.formValidate.studentName).studentName,
-            studentId: JSON.parse(this.formValidate.studentName).studentId,
-            coachName: JSON.parse(this.formValidate.coachName).coachName,
-            coachId: JSON.parse(this.formValidate.coachName).coachId,
-          });
-          console.log(r.data, "rrrrrr");
-          if (r.data.code === 200) {
-            this.getTrainCampOrdersPage({
-              pageNum: this.pageNum,
-              pageSize: this.pageSize,
-              orderType: 1,
-              isDelete: 0,
-              // userId:JSON.parse(localStorage.getItem('user').id)
+          if (this.isLook !== "look") {
+            let r = await this.bindingCoursePacketOrder({
+              rinkId: JSON.parse(localStorage.user).rinkId,
+              userId: JSON.parse(localStorage.user).id,
+              rinkName: JSON.parse(localStorage.user).rinkName,
+              packetId: this.formValidate.packetName,
+              studentName: this.xue_yuan_data.find(
+                (v) => v.studentId == this.formValidate.studentName
+              ).studentName,
+              studentId: this.formValidate.studentName,
+              coachName: this.jiao_lian_data.find(
+                (v) => v.coachId == this.formValidate.coachName
+              ).coachName,
+              coachId: this.formValidate.coachName,
             });
-            this.$Message.info("添加成功");
-            this.$refs[name].resetFields();
-            this.modal2 = false;
-          } else {
-            this.$Message.info("添加失败");
+            console.log(r.data, "rrrrrr");
+            if (r.data.code === 200) {
+              this.getTrainCampOrdersPage({
+                pageNum: this.pageNum,
+                pageSize: this.pageSize,
+                orderType: 1,
+                isDelete: 0,
+                // userId:JSON.parse(localStorage.getItem('user').id)
+              });
+              this.$Message.info("添加成功");
+              this.$refs[name].resetFields();
+              this.modal2 = false;
+            } else {
+              this.$Message.info("添加失败");
+            }
           }
         } else {
           // 对话框校验失败，取消loading状态
@@ -401,33 +436,49 @@ export default {
     },
     async add_order() {
       //获取所有课包
-      this.modal2Typeflag = "add";
+      this.isLook = "add";
       this.modal2 = true;
     },
     onCancel() {
       this.kcddxqModal = false;
     },
     look(params) {
+      this.isLook = "look";
       this.modal2 = true;
-      console.log(params);
+
       this.formValidate = JSON.parse(
         JSON.stringify({
-          packetName: params.packetName,
-          studentName: params.studentName,
-          coachName: params.coachName,
+          packetName: params.packetId,
+          studentName: params.studentId,
+          coachName: params.coachId,
           price: params.price,
           money: params.money,
           remark: params.remark,
         })
       );
-      // this.formValidate.packetName= params.packetName
-      // this.ke_bao_data = [
-      //   { name: "2", packetId: "11" },
-      // ];
-      console.log(this.formValidate);
+
+    },
+    edit(params){
+        this.isLook = "edit";
+      this.modal2 = true;
+
+      this.formValidate = JSON.parse(
+        JSON.stringify({
+          packetName: params.packetId,
+          studentName: params.studentId,
+          coachName: params.coachId,
+          price: params.price,
+          money: params.money,
+          remark: params.remark,
+        })
+      );
+
+    },
+    deleteitem(params){
+
     },
     handleDelete(params) {
-      console.log(params);
+
     },
     exportExcel() {
       this.$refs.tables.exportCsv({
@@ -587,9 +638,11 @@ export default {
   },
   async created() {
     await this.getCoursePacketPage({
-      isUseTemplate: 0,
-      isMemberGoods: 0,
+      // isUseTemplate: 0,
+      // isMemberGoods: 0,
       status: 1,
+      isDelete: 0,
+      rinkId: JSON.parse(localStorage.getItem("user")).rinkId,
       pageNum: 1,
       pageSize: 30,
     });
@@ -597,13 +650,19 @@ export default {
       //  userId: '0',
       pageNum: 1,
       pageSize: 10,
+      status: 1,
+      isDelete: 0,
+      rinkId: JSON.parse(localStorage.getItem("user")).rinkId,
     });
     await this.getCoachPage({
-      workType: 1,
-      gender: 0,
+      status: 1,
+      isDelete: 0,
+      rinkId: JSON.parse(localStorage.getItem("user")).rinkId,
+      // workType: 1,
+      // gender: 0,
       pageNum: 1,
       pageSize: 30,
-      coachType: 2,
+      // coachType: 2,
     });
   },
   mounted() {
