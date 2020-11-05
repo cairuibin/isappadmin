@@ -144,24 +144,24 @@ export default {
         editText: "",
       },
       ruleValidate: {
-        name: [
+        packetName: [
           {
             required: true,
-            message: "The name cannot be empty",
+            message: "课包不能为空",
             trigger: "blur",
           },
         ],
         editText: [
           {
             required: true,
-            message: "请输入图文介绍",
+            message: "学员不能为空",
             trigger: "blur",
           },
         ],
         mail: [
           {
             required: true,
-            message: "Mailbox cannot be empty",
+            message: "教练不能为空",
             trigger: "blur",
           },
           { type: "email", message: "Incorrect email format", trigger: "blur" },
@@ -176,7 +176,7 @@ export default {
         gender: [
           {
             required: true,
-            message: "Please select gender",
+            message: "请输入实付金额",
             trigger: "change",
           },
         ],
