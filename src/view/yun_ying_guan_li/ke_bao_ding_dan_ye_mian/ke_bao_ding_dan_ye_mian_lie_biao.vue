@@ -48,25 +48,31 @@
       </div>
 
       <Form
-        ref="formValidate"
+        ref="setGold"
         :model="formValidate"
         :rules="ruleValidate"
         :label-width="130"
       >
         <FormItem label="选择课包" prop="city">
           <Select v-model="formValidate.city" placeholder="请选择课包">
-            <Option value="beijing">1</Option>
-            <Option value="shanghai">2</Option>
-            <Option value="shanghai">3</Option>
+            <Option value="v" v-for="(v, i) in kebao" :key="i">{{ v }}</Option>
           </Select>
         </FormItem>
         <FormItem label="选择学员" prop="name">
-          <Input v-model="formValidate.name" placeholder="请选择学员" />
+          <Select v-model="formValidate.city" placeholder="请选择课包">
+            <Option value="v" v-for="(v, i) in xueyaun" :key="i">{{
+              v
+            }}</Option>
+          </Select>
         </FormItem>
         <FormItem label="选择教练" prop="name">
-          <Input v-model="formValidate.name" placeholder="请选择教练" />
+          <Select v-model="formValidate.city" placeholder="请选择课包">
+            <Option value="v" v-for="(v, i) in jiaolian" :key="i">{{
+              v
+            }}</Option>
+          </Select>
         </FormItem>
-      <FormItem label="实付金额" prop="city">
+        <FormItem label="实付金额" prop="city">
           <Input value="0.00" disabled placeholder="请输入实付金额" />
         </FormItem>
         <FormItem label="实付金额" prop="city">
@@ -126,11 +132,28 @@ export default {
     Tables,
     Kcddxq,
   },
+  computed: {
+    kebao() {
+      return this.ke_bao_data.map((v) => {
+        return v.rinkName;
+      });
+    },
+    xueyaun() {
+      return this.ke_bao_data.map((v) => {
+        return v.studentName;
+      });
+    },
+    jiaolian() {
+      return this.ke_bao_data.map((v) => {
+        return v.coachName;
+      });
+    },
+  },
   data() {
     return {
       kcddxqModal: false,
       row: {},
-      modal2: true,
+      modal2: false,
       loading2: true,
       formValidate: {
         name: "",
@@ -331,6 +354,7 @@ export default {
       zhuang_tai: "全部状态",
       DatePickerStart: "",
       DatePickerEnd: "",
+      ke_bao_data: [],
     };
   },
   methods: {
@@ -370,7 +394,17 @@ export default {
     handleReset2(name) {
       this.$refs[name].resetFields();
     },
-    add_order() {},
+    add_order() {
+      //获取所有课包
+      this.modal2 = true;
+      this.getCoursePacketPage({
+        isUseTemplate: 0,
+        isMemberGoods: 0,
+        status: 1,
+        pageNum: 1,
+        pageSize: 30,
+      });
+    },
     onCancel() {
       this.kcddxqModal = false;
     },
@@ -395,6 +429,17 @@ export default {
         .then((res) => {
           console.log(res.data.data.list, "查询训练课包订单列表接口(分页)");
           this.tableData = res.data.data.list;
+        });
+    },
+    getCoursePacketPage(params) {
+      this.axios
+        .post("/api/v2/data/course/getCoursePacketPage", {
+          ...params,
+          sign: untilMd5.toSign({ ...params }, "getCoursePacketPage"),
+        })
+        .then((res) => {
+          this.ke_bao_data = [...res.data.data.list];
+          console.log(JSON.stringify(this.ke_bao_data[0]), "课包列表");
         });
     },
     lei_xingchange(e) {
