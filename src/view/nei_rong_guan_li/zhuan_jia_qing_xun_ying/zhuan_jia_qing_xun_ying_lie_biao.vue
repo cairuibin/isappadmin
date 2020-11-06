@@ -1,6 +1,6 @@
 <template>
   <div>
-    
+
     <Card>
       <div style="margin-bottom:10px;" class="header_wrap">
 
@@ -11,14 +11,9 @@
       <div style="margin-top:20px">
         <Page show-total :total="tableData.length" show-elevator></Page>
       </div>
-    
+
     </Card>
-    <!-- <Xzxly
-        v-if="xzxlyModal"
-        :rowInfo="row"
-        :edit="edit"
-        :onCancel="onCancel"
-    /> -->
+
   </div>
 </template>
 
@@ -35,7 +30,7 @@ export default {
   },
   data() {
     return {
-    
+
       xzxlyModal:false,
       row:{},
       edit: false,
@@ -161,7 +156,7 @@ export default {
         });
     },
   },
-  mounted() { 
+  mounted() {
      this.getTrainCampPage({
       pageNum: this.pageNum,
       pageSize: this.pageSize,
