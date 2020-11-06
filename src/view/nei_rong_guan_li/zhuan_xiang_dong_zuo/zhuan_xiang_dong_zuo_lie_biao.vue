@@ -2,27 +2,37 @@
 
 <template>
   <div>
-    
     <Card>
       <div style="margin-bottom: 10px" class="header_wrap">
         <i-button @click="handlAdd" type="primary">新增</i-button>&emsp;
         <i-button type="primary" @click="handlRemove">删除</i-button>
       </div>
-      <div :style="{display:'flex'}">
-          <Card>
-        <div :style="{minWidth:'100px',lineHeight:'27px',fontWeight:'bold',color:'#666'}" v-for="(v, i) in neirongContent" :key="i">{{ v }}</div>
-       </Card >
-      <tables
-        ref="tables"
-        v-model="tableData"
-        :columns="columns"
-        @on-delete="handleDelete"
-        @on-select-all="onselectall"
-        @on-select="onselect"
-        @on-select-cancel="onselectcancel"
-        @on-select-all-cancel="onselectallcancel"
-        @on-selection-change="onselectionchange"
-      />
+      <div :style="{ display: 'flex' }">
+        <Card>
+          <div
+            :style="{
+              minWidth: '100px',
+              lineHeight: '27px',
+              fontWeight: 'bold',
+              color: '#666',
+            }"
+            v-for="(v, i) in neirongContent"
+            :key="i"
+          >
+            {{ v }}
+          </div>
+        </Card>
+        <tables
+          ref="tables"
+          v-model="tableData"
+          :columns="columns"
+          @on-delete="handleDelete"
+          @on-select-all="onselectall"
+          @on-select="onselect"
+          @on-select-cancel="onselectcancel"
+          @on-select-all-cancel="onselectallcancel"
+          @on-selection-change="onselectionchange"
+        />
       </div>
       <div style="margin-top: 20px">
         <Page
@@ -43,8 +53,7 @@
       :width="750"
       :mask-closable="false"
     >
-      <div><span></span> 
-      </div>
+      <div><span></span></div>
       <Form
         ref="formValidate"
         :model="formValidate"
@@ -53,7 +62,6 @@
         :disabled="islook"
         :show-message="isshowmessage"
       >
-      
         <FormItem label=" 父类ID：" prop="name">
           <Select
             :disabled="isEdit === 3"
@@ -62,10 +70,9 @@
           >
             <Option value="1">xxxxx</Option>
             <Option value="2">dddddddddddddd</Option>
-          
           </Select>
         </FormItem>
-      
+
         <FormItem label=" 动作名称" prop="name">
           <Input
             :disabled="isEdit === 3"
@@ -124,10 +131,15 @@
             v-model="formValidate.imageUrl"
             placeholder=" 动作配图"
           />
+
           <div>
             <Upload
               :before-upload="handleUpload"
-              action="//jsonplaceholder.typicode.com/posts/"
+              :action="osshost.Host || 'xxxxxxxxxxxxxx'"
+              @on-success="Uploadsuccess"
+              accept="image/png,image/gif,image/jpeg"
+              headers=''
+              :data='{}'
             >
               <Button :disabled="isEdit === 3" icon="ios-cloud-upload-outline"
                 >上传图片</Button
@@ -219,6 +231,7 @@
 <script>
 import Tables from "_c/tables";
 import untilMd5 from "../../../utils/md5";
+import OSS from "ali-oss";
 export default {
   name: "tables_page",
   components: {
@@ -226,7 +239,9 @@ export default {
   },
   data() {
     return {
-          neirongContent: [
+      //阿里云地址
+      osshost: "http://xx",
+      neirongContent: [
         "111",
         "222",
         "32342",
@@ -442,8 +457,8 @@ export default {
       isshowmessage: true,
       isModalloading: true,
       //parentId
-      parentId:1,
-      categoryLevel:1
+      parentId: 1,
+      categoryLevel: 1,
     };
   },
   methods: {
@@ -525,7 +540,13 @@ export default {
         sign: untilMd5.toSign({ ...params }, "createTechniqueAction"),
       });
     },
-    
+    // 获取OSS配置参数接口
+    getOssConfig(params) {
+      return this.axios.post("/api/v2/data/attachment/getOssConfig", {
+        ...params,
+        sign: untilMd5.toSign({ ...params }, "getOssConfig"),
+      });
+    },
     Pageonchange(pageNum) {
       this.getTechniqueActionPage({
         pageNum: pageNum,
@@ -606,8 +627,8 @@ export default {
           obj.status = this.formValidate.status * 1;
           obj.trainUnit = this.formValidate.trainUnit * 1;
           obj.tag = JSON.stringify(this.formValidate.tag.split());
-          obj.parentId=this.parentId
-          obj.categoryLevel=this.categoryLevel
+          obj.parentId = this.parentId;
+          obj.categoryLevel = this.categoryLevel;
           console.log(this.formValidate, "新增");
           let content = {
             分解练习: this.formValidate.content,
@@ -648,9 +669,26 @@ export default {
     handleReset(name) {
       this.$refs[name].resetFields();
     },
-    handleUpload(file) {
+    async handleUpload(file) {
       this.file = file;
-      return false;
+      console.log(file,'11111111111111')
+      // let client = new OSS({
+      //   AccessKeyId: data.data.AccessKeyId,
+      //   signature: data.data.Signature, //后台获取签名
+      //   "x-oss-security-token": data.data.SecurityToken,
+      //   policy: data.data.Policy, //后台获取超时时间
+      //   key: "stroeAs", //文件名
+      //   accessKeyId: data.data.AccessKeyId,
+      //   success_action_status: "200", //让服务端返回200
+      // });
+      // this.client = client;
+      // console.log(this.client,'212121212121');
+
+      // return false;
+    },
+    //图片上传陈工
+    Uploadsuccess(response, file, fileList) {
+      console.log(response, file, fileList);
     },
     upload() {
       this.loadingStatus = true;
@@ -666,6 +704,13 @@ export default {
       pageNum: this.pageNum,
       pageSize: this.pageSize,
     });
+  },
+  async created() {
+    let { data } = await this.getOssConfig({
+      ossType: 1,
+    });
+
+    this.osshost = data.data;
   },
 };
 </script>
