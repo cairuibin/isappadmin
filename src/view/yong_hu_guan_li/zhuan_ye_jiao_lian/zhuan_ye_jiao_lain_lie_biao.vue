@@ -23,7 +23,7 @@
       <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
     <Detail v-if="detailModal" :coachInfo="coachInfo" :onCancel="onCancel" />
-    <Rzsx v-if="rzsxModal" :rzsxInfo="rzsxInfo" :onCancel="rzsxCancel" />
+    <Rzsx v-if="rzsxModal" :rzxsInfo="rzxsInfo" :onCancel="rzsxCancel" />
   </div>
 </template>
 
@@ -44,31 +44,31 @@ export default {
       detailModal: false,
       coachInfo: {},
       rzsxModal: false,
-      rzsxInfo: {},
+      rzxsInfo: {},
       columns: [
         {
           type: "selection",
-          width: 60,
+          // width: 60,
           align: "center",
         },
-        { title: "ID", key: "id", sortable: false, width: 90 },
-        { title: "真实姓名", key: "name", editable: false, width: 90 },
-        { title: "教练照", key: "createTime", width: 90, render: (h, params) => {
+        { title: "ID", key: "id", sortable: false, },
+        { title: "真实姓名", key: "name", editable: false, },
+        { title: "教练照", key: "createTime",  render: (h, params) => {
             return (
               <div>
                 <img style={{ width: "30px" }} src={params.row.logoUrl} />
               </div>
             );
           }, },
-        { title: "手机账号", key: "mobile	", width: 90 },
-        { title: "专项", key: "specialType", width: 90 },
-        { title: "专项运动开始时间", key: "coachStartYear", width: 90 },
-        { title: "专项教学开始时间", key: "professionalCoachStartYear", width: 90 },
-        { title: "认证提交时间", key: "createTime", width: 119 },
-        { title: "账户余额(i币)", key: "createTime", width: 119 },
-        { title: "消费总金额(元)", key: "createTime", width: 119 },
-        { title: "收益总金额(元)", key: "createTime", width: 119 },
-        { title: "状态", key: "createTime", width: 119 },
+        { title: "手机账号", key: "mobile	", },
+        { title: "专项", key: "specialType", },
+        { title: "专项运动开始时间", key: "coachStartYear",width: 140 },
+        { title: "专项教学开始时间", key: "professionalCoachStartYear", width: 140},
+        { title: "认证提交时间", key: "createTime",  width: 130 },
+        { title: "账户余额(i币)", key: "createTime",   width: 130},
+        { title: "消费总金额(元)", key: "createTime", width: 120 },
+        { title: "收益总金额(元)", key: "createTime", width: 120 },
+        { title: "状态", key: "createTime",  },
 
         {
           title: "操作",
@@ -86,11 +86,12 @@ export default {
                   },
                   style: {
                     marginRight: "5px",
-                    marginBottom: "5px",
+                    // marginBottom: "5px",
                   },
                   on: {
                     click: () => {
                       this.look(params.row);
+                      console.log(params.row)
                     },
                   },
                 },
@@ -127,6 +128,7 @@ export default {
   },
   methods: {
     look(row) {
+      console.log(row)
       this.coachInfo = row;
       this.detailModal = true;
     },

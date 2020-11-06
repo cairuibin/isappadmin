@@ -13,69 +13,74 @@
       <div>
         <div class="div_content">
           <span>教练ID：</span>
-          {{'1101021987'}}
+          {{rzxsInfo.id}}
         </div>
         <div class="div_content">
           <span>手机账号：</span>
-          {{'18611587069'}}
+          {{rzxsInfo.mobile}}
         </div>
 
         <div class="div_content">
           <span>注册时间：</span>
-          {{'yyyy-MM-dd HH:mm:ss'}}
+          {{rzxsInfo.createTime}}
         </div>
         <div class="div_content">
           <span>账号状态：</span>
-          {{'审核通过(正常)'}}
+          {{rzxsInfo.authStatus===0?"等待审核":rzxsInfo.authStatus===1?"审核通过":"审核驳回"}}
         </div>
         <div class="div_content">
           <span>教练姓名：</span>
-          {{'尤硕'}}
+          {{rzxsInfo.name}}
         </div>
 
         <div class="div_content">
           <span>性别：</span>
-          男
+          {{rzxsInfo.gender===0?"女":rzxsInfo.gender===1?"男":"保密"}}
         </div>
         <div class="div_content">
-          <span>身份证号：</span>110108198805041111
+          <span>身份证号：</span>
+          {{rzxsInfo.idCard}}
         </div>
         <div class="div_content">
           <span>教练照：</span>
-          <img src alt />
+          <img :src="rzxsInfo.logoUrl" alt :style="{display:'block',width:'70px'}"/>
         </div>
         <div class="div_content">
-          <span>认证状态：</span>待认证
+          <span>认证状态：</span>
+          {{rzxsInfo.status}}
         </div>
         <div class="h1">认证资料</div>
         <div class="div_content">
           <span>提交时间：</span>
-          yyyy-MM-dd HH:mm:ss
+          {{rzxsInfo.updateTime}}
         </div>
         <div class="div_content">
-          <span>专业项目：</span>花样滑冰
+          <span>专业项目：</span>
+          {{rzxsInfo.specialType===1?"花样滑冰":"冰球"}}
         </div>
         <div class="div_content">
-          <span>专项运动开始时间：</span>2015-10
+          <span>专项运动开始时间：</span>
+          {{rzxsInfo.coachStartYear}}
         </div>
         <div class="div_content">
           <span>运动生涯成绩：</span>
-          <div>{{"教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容"}}</div>
+          <div>{{rzxsInfo.professionalIntroduce&&rzxsInfo.professionalIntroduce.athletic_achievement}}</div>
         </div>
          <div class="div_content">
           <span>专项教学开始时间：</span>
-          2015-10
+          {{rzxsInfo.professionalCoachStartYear}}
         </div>
          <div class="div_content">
           <span>教学特点：</span>
-          <div>{{"教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容"}}</div>
+          <div>{{rzxsInfo.professionalIntroduce&&rzxsInfo.professionalIntroduce.features}}</div>
         </div>
         <div class="div_content">
           <span>教学成果：</span>
-          <div>{{"教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容教练简介内容"}}</div>
+          <div>{{rzxsInfo.professionalIntroduce&&rzxsInfo.professionalIntroduce.teach_achievement}}</div>
         </div>
          <div class="div_content">
           <span>审核通过：</span>
+          {{rzxsInfo.authStatus===0?"等待审核":rzxsInfo.authStatus===1?"审核通过":"审核驳回"}}
           <Button type="primary" @click="onAdopt">审核通过</Button>
         </div>
         <div class="div_content">
@@ -102,7 +107,7 @@
 <script>
 export default {
    props:{
-    rzsxInfo:Object,
+    rzxsInfo:Object,
     onCancel:Function,
   },
   data() {

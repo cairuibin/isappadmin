@@ -7,7 +7,6 @@
       <div>
         <div class="div_content">
           <span>用户ID：</span>
-        
           {{student_detail_c.userId}}
         </div>
         <div class="div_content">
@@ -120,8 +119,8 @@ export default {
       coachId:null
     }).then((res) => {
           console.log(res, "学员详情");
-          // this.student_detail_c = res.data.data;
-          // this.tableData = res.data.data.list;
+          this.student_detail_c = res.data.data;
+          this.tableData = res.data.data.list;
         });
   },
 };

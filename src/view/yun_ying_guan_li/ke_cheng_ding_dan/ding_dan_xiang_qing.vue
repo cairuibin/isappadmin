@@ -1,79 +1,109 @@
 <template>
   <div>
-    <Modal
-        v-model="modal2"
-        width="660"
-        @on-cancel="cancel"
-    >
-      <p slot="header" style="color:#f60;text-align:center">
+    <Modal v-model="modal2" width="660" @on-cancel="cancel">
+
+      <p slot="header" style="color: #f60; text-align: center">
         <Icon type="ios-information-circle"></Icon>
         <span>订单详情</span>
       </p>
       <div>
         <div class="div_content">
           <span>平台订单ID：</span>
-          {{'1101021987'}}
+          {{ rowInfo.id }}
         </div>
         <div class="div_content">
           <span>订单标题：</span>
-          {{'2020年暑期专家青训营杭州站'}}
+          {{ rowInfo.trainCampName }}
         </div>
 
         <div class="div_content">
           <span>订单创建时间：</span>
-          {{'2020-05-03 12:00:01'}}
+          {{ rowInfo.createTime }}
         </div>
         <div class="div_content">
           <span>订单类型：</span>
-          {{'青训营'}}
+          {{ rowInfo.orderType == 1 ? "课包" : "训练营" }}
         </div>
         <div class="div_content">
           <span>支付渠道：</span>
-          {{'支付宝支付'}}
+          {{ "rowInfo.id" }}
         </div>
         <div class="div_content">
           <span>渠道订单号</span>
-          {{220000019876543321}}
+          {{ rowInfo.orderContent }}
         </div>
         <div class="div_content">
           <span>应付金额：</span>
-          {{'15800.00元'}}
+          {{ rowInfo.price }}
         </div>
         <div class="div_content">
           <span>实收金额：</span>
-          {{'15800.00元'}}
+          {{ rowInfo.money }}
         </div>
         <div class="div_content">
           <span>订单支付时间：</span>
-          {{'2020-05-03 12:00:01'}}
+          {{ rowInfo.payTime }}
         </div>
         <div class="div_content">
           <span>支付用户：</span>
-          {{'豆豆龙/18611587069'}}
+          {{ rowInfo.id }}
         </div>
         <div class="div_content">
           <span>联系方式：</span>
-          {{'豆豆龙/18611587069'}}
+          {{ rowInfo.studentName }}
         </div>
         <div class="div_content">
           <span>学员信息：</span>
-          {{'尤硕/18611587069'}}
+          {{ rowInfo.studentId }}
         </div>
 
         <div class="div_content">
           <span>教练信息：</span>
-          {{'李双/18611587069'}}
+          {{
+            rowInfo.type == "0"
+              ? "无推荐人"
+              : rowInfo.type == "1"
+              ? "教练"
+              : rowInfo.type == "2"
+              ? "客户"
+              : rowInfo.type == "3"
+              ? "系统"
+              : ""
+          }}
         </div>
 
         <div class="div_content">
           <span>订单状态：</span>
-          {{'待完结'}}
+          {{ rowInfo.id }}
         </div>
         <div class="div_content">
           <span>订单状态：</span>
+          {{
+            {
+              0: "待付款",
+              1: "申请取消",
+              2: "、已取消",
+              3: "取消驳回",
+              4: "已付款",
+              6: "申请退款",
+              7: "退款中",
+              8: "已退款",
+              9: "支付失败",
+              11: "待排课",
+              12: "待确认",
+              13: "待完结",
+              14: "待评价",
+              15: "结束订单",
+            }[rowInfo.status]
+          }}
         </div>
         <div class="div_content">
-          <tables ref="tables" v-model="tableData" :columns="columns" @on-delete="handleDelete" />
+          <tables
+            ref="tables"
+            v-model="tableData"
+            :columns="columns"
+            @on-delete="handleDelete"
+          />
         </div>
         <div class="div_content">
           <span>附加内容:</span>
@@ -215,7 +245,7 @@ export default {
                 {
                   props: {
                     type: "primary",
-  value: "1331",
+                    value: "1331",
                     size: "small",
                   },
                   style: {
@@ -254,7 +284,7 @@ export default {
   },
   mounted() {
     getTableData().then((res) => {
-      this.tableData = res.data;
+      this.tableData = [];
     });
   },
 };

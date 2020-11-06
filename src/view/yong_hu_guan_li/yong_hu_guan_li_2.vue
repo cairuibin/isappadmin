@@ -57,9 +57,13 @@ export default {
         { title: "账户余额(i币)", key: "score" },
         { title: "消费总金额(元)", key: "consumeAmounts" },
 
-        { title: "状态", key: "status" },
+        { title: "状态", key: "status" ,  render: (h, params) => {
+            return (
+             <span>{params.row.stauts==='1'?"正常":"冻结中"}</span>
+            );
+          },},
         { title: "注册时间", key: "createTime" },
-        { title: "最终登录时间", key: "last_login_time" },
+        { title: "最终登录时间", key: "lastLoginTime" },
       ],
       tableData: [],
       search_key: "1",

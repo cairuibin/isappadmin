@@ -2,7 +2,7 @@
   <div>
     <Card>
       <div style="margin-bottom: 10px" class="header_wrap">
-        <span>订单类型</span>
+        <!-- <span>订单类型</span> -->
         <!-- <Select
           v-model="lei_xing"
           @on-change="lei_xingchange()"

@@ -31,6 +31,7 @@ export default {
     return {
       detailModal:false,
       studentInfo_id:'',
+      row:{},
       columns: [
         {
           type: "selection",
@@ -93,6 +94,8 @@ export default {
                     click: () => {
                       // 参数为学员信息
                       this.look(params.row);
+                      console.log(params.row)
+
                     },
                   },
                 },
