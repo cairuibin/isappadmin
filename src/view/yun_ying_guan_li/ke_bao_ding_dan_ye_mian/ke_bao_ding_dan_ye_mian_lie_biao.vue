@@ -9,7 +9,8 @@
             placeholder="请选择开始时间"
             style="width: 130px"
             v-model="DatePickerStart"
-            on-change="DatePickerchangeStart"
+            @on-change="DatePickerchangeStart"
+
           ></DatePicker
           >至:
           <DatePicker
@@ -17,7 +18,8 @@
             placeholder="请选择结束时间"
             style="width: 130px"
             v-model="DatePickerEnd"
-            on-change="DatePickerchangeEnd"
+            @on-change="DatePickerchangeEnd"
+
           ></DatePicker>
           <i-button type="primary" @click="timeSearch">搜索</i-button>&emsp;
           <i-button type="primary" @click="add_order">新增订单</i-button>&emsp;
@@ -61,9 +63,11 @@
       >
         <FormItem label="选择课包" prop="packetName">
           <Select
-            :disabled="isLook === 'look'"
+            :disabled="isLook !== 'add'"
             v-model="formValidate.packetName"
             placeholder="请选择课包"
+            label-in-value
+            @on-change="packetNamechange"
           >
             <Option
               :value="v.packetId.toString()"
@@ -75,7 +79,7 @@
         </FormItem>
         <FormItem label="选择学员" prop="studentName">
           <Select
-            :disabled="isLook === 'look'"
+            :disabled="isLook !== 'add'"
             v-model="formValidate.studentName"
             placeholder="请选择学员"
           >
@@ -89,7 +93,7 @@
         </FormItem>
         <FormItem label="选择教练" prop="coachName">
           <Select
-            :disabled="isLook === 'look'"
+            :disabled="isLook !== 'add'"
             v-model="formValidate.coachName"
             placeholder="请选择教练"
           >
@@ -101,12 +105,16 @@
             >
           </Select>
         </FormItem>
-        <FormItem label="实付金额" prop="price">
-          <Input value="0.00" disabled placeholder="请输入实付金额" />
+        <FormItem label="应付金额" prop="price">
+          <Input
+            :value="formValidate.price"
+            disabled
+            placeholder="请输入实付金额"
+          />
         </FormItem>
         <FormItem label="实付金额" prop="money">
           <Input
-            :disabled="isLook === 'look'"
+            :disabled="isLook !== 'add'"
             v-model="formValidate.money"
             placeholder="请输入实付金额"
           />
@@ -124,7 +132,12 @@
             >取消</Button
           >
           &emsp;
-          <Button type="primary" @click="handleSubmit2('setGold')">保存</Button>
+          <Button
+            type="primary"
+            :disabled="isLook === 'look'"
+            @click="handleSubmit2('setGold')"
+            >保存</Button
+          >
         </FormItem>
       </Form>
       <div slot="footer"></div>
@@ -152,6 +165,7 @@ const statusobj = {
 import Tables from "_c/tables";
 
 import untilMd5 from "../../../utils/md5";
+import moment from "moment";
 import Kcddxq from "./ke_bao_ding_dan_ye_mian_xiang_qing";
 export default {
   name: "tables_page",
@@ -208,14 +222,14 @@ export default {
         ],
         money: [
           {
-            required: true,
+            required: false,
             message: "请输入实付金额",
             trigger: "change",
           },
         ],
         remark: [
           {
-            required: true,
+            required: false,
             message: "请输入备注",
             trigger: "change",
           },
@@ -377,10 +391,15 @@ export default {
       ke_bao_data: [],
       //是否是查看还是编辑还是新增
       isLook: "look",
+      //克鲍总数据
+      ke_bao_data_zong: [],
+      //当前编辑像
+      currentEditItem: {},
     };
   },
   methods: {
     async ok2() {},
+
     cancel2() {
       // 取消后，重置表单
       this.$refs["setGold"].resetFields();
@@ -389,34 +408,59 @@ export default {
       this.$refs.setGold.validate(async (valid) => {
         if (valid) {
           if (this.isLook !== "look") {
-            let r = await this.bindingCoursePacketOrder({
-              rinkId: JSON.parse(localStorage.user).rinkId,
-              userId: JSON.parse(localStorage.user).id,
-              rinkName: JSON.parse(localStorage.user).rinkName,
-              packetId: this.formValidate.packetName,
-              studentName: this.xue_yuan_data.find(
-                (v) => v.studentId == this.formValidate.studentName
-              ).studentName,
-              studentId: this.formValidate.studentName,
-              coachName: this.jiao_lian_data.find(
-                (v) => v.coachId == this.formValidate.coachName
-              ).coachName,
-              coachId: this.formValidate.coachName,
-            });
-            console.log(r.data, "rrrrrr");
-            if (r.data.code === 200) {
-              this.getTrainCampOrdersPage({
-                pageNum: this.pageNum,
-                pageSize: this.pageSize,
-                orderType: 1,
-                isDelete: 0,
-                // userId:JSON.parse(localStorage.getItem('user').id)
+            if (this.isLook == "add") {
+              let r = await this.bindingCoursePacketOrder({
+                rinkId: JSON.parse(localStorage.user).rinkId,
+                userId: JSON.parse(localStorage.user).id,
+                rinkName: JSON.parse(localStorage.user).rinkName,
+                packetId: this.formValidate.packetName,
+                studentName: this.xue_yuan_data.find(
+                  (v) => v.studentId == this.formValidate.studentName
+                ).studentName,
+                studentId: this.formValidate.studentName,
+                coachName: this.jiao_lian_data.find(
+                  (v) => v.coachId == this.formValidate.coachName
+                ).coachName,
+                coachId: this.formValidate.coachName,
               });
-              this.$Message.info("添加成功");
-              this.$refs[name].resetFields();
-              this.modal2 = false;
+
+              if (r.data.code === 200) {
+                this.getTrainCampOrdersPage({
+                  pageNum: this.pageNum,
+                  pageSize: this.pageSize,
+                  orderType: 1,
+                  isDelete: 0,
+                  // userId:JSON.parse(localStorage.getItem('user').id)
+                });
+                this.$Message.info("添加成功");
+                this.$refs[name].resetFields();
+                this.modal2 = false;
+              } else {
+                this.$Message.info("添加失败");
+              }
             } else {
-              this.$Message.info("添加失败");
+              this.modifyCoursePacketOrder({
+                id: this.currentEditItem.id,
+                coachId: this.currentEditItem.coachId,
+                coachName: this.currentEditItem.coachName,
+                remarks: this.formValidate.remark,
+              }).then((r) => {
+                if (r.data.code === 200) {
+                  this.modal2 = false;
+                  this.$refs[name].resetFields();
+                  this.currentEditItem = {};
+                  this.getTrainCampOrdersPage({
+                    pageNum: this.pageNum,
+                    pageSize: this.pageSize,
+                    orderType: 1,
+                    isDelete: 0,
+                    // userId:JSON.parse(localStorage.getItem('user').id)
+                  });
+                  this.$Message.info("编辑成功");
+                } else {
+                  this.$Message.info("编辑失败");
+                }
+              });
             }
           }
         } else {
@@ -456,12 +500,12 @@ export default {
           remark: params.remark,
         })
       );
-
     },
-    edit(params){
-        this.isLook = "edit";
+    edit(params) {
+      this.isLook = "edit";
       this.modal2 = true;
 
+      this.currentEditItem = params;
       this.formValidate = JSON.parse(
         JSON.stringify({
           packetName: params.packetId,
@@ -472,14 +516,35 @@ export default {
           remark: params.remark,
         })
       );
-
     },
-    deleteitem(params){
-
+    packetNamechange(v) {
+      if (v && v.value) {
+        let { value } = v;
+        let item = this.ke_bao_data_zong.find((v) => v.id === value);
+        this.formValidate.price = item.cost;
+      }
     },
-    handleDelete(params) {
+    deleteitem(params) {
+      let r = this.delCoursePacketOrder({
+        id: params.id,
+      }).then((v) => {
+        if (v.data.code === 200) {
+          this.modal2 = false;
 
+          this.getTrainCampOrdersPage({
+            pageNum: this.pageNum,
+            pageSize: this.pageSize,
+            orderType: 1,
+            isDelete: 0,
+            // userId:JSON.parse(localStorage.getItem('user').id)
+          });
+          this.$Message.info("删除成功");
+        } else {
+          this.$Message.info("删除失败");
+        }
+      });
     },
+    handleDelete(params) {},
     exportExcel() {
       this.$refs.tables.exportCsv({
         filename: `table-${new Date().valueOf()}.csv`,
@@ -514,6 +579,7 @@ export default {
           });
 
           this.ke_bao_data = arr;
+          this.ke_bao_data_zong = [...res.data.data.list];
 
           console.log([...res.data.data.list], arr, "课包");
         });
@@ -582,6 +648,36 @@ export default {
         }
       );
     },
+    //编辑
+    modifyCoursePacketOrder(params) {
+      return this.axios.post(
+        "/api/v2/business/trainOrder/modifyCoursePacketOrder",
+        {
+          ...params,
+          sign: untilMd5.toSign(
+            {
+              ...params,
+            },
+            "modifyCoursePacketOrder"
+          ),
+        }
+      );
+    },
+    //删除
+    delCoursePacketOrder(params) {
+      return this.axios.post(
+        "/api/v2/business/trainOrder/delCoursePacketOrder",
+        {
+          ...params,
+          sign: untilMd5.toSign(
+            {
+              ...params,
+            },
+            "delCoursePacketOrder"
+          ),
+        }
+      );
+    },
     lei_xingchange(e) {
       this.getTrainCampOrdersPage({
         pageNum: 1,
@@ -627,13 +723,26 @@ export default {
       this.Pageonchange(pageNum);
     },
     DatePickerchangeStart() {
-      console.log(this.DatePickerStart);
+      // console.log(this.DatePickerStart);
     },
     DatePickerchangeEnd() {
-      console.log(this.DatePickerEnd);
+      // console.log(this.DatePickerEnd);
     },
     timeSearch() {
-      console.log(2122);
+      this.getTrainCampOrdersPage({
+        pageNum: this.pageNum,
+        pageSize: this.pageSize,
+        orderType: 1,
+        isDelete: 0,
+        searchStartTime: Date.now(this.DatePickerStart),
+        searchEndTime: Date.now(this.DatePickerEnd)
+        // searchStartTime: moment(this.DatePickerStart).format(
+        //   "YYYY-MM-DD HH:mm:ss"
+        // ),
+        // searchEndTime: moment(this.DatePickerEnd).format("YYYY-MM-DD HH:mm:ss"),
+      });
+
+      // console.log(moment(this.DatePickerStart).format("YYYY-MM-DD HH:mm:ss"));
     },
   },
   async created() {
