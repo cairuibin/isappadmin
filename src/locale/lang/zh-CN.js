@@ -71,8 +71,10 @@ export default {
   xin_zeng_ke_bao_zi_ding_yi_lie_biao: '新增课包-自定义课节列表',
   xin_zeng_ke_jie_xiao_guo: '新增课节效果',
 
+
   ke_cheng_ding_dan: '课程订单',
-  ke_cheng_ding_dan_lie_biao: '课程订单列表',
+  ke_cheng_ding_dan_lie_biao: '训练营订单列表',
+  ke_bao_ding_dan_ye_mian:"课包订单页面",
   ding_dan_xiang_qing: '订单详情',
   shen_qing_tui_kuan: '订单详情-申请退款',
   shen_qing_qu_xiao: '订单详情-申请取消',

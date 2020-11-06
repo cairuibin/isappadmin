@@ -1,5 +1,6 @@
 <template>
   <div>
+    
     <Card>
       <div style="margin-bottom:10px;" class="header_wrap">
 
@@ -10,7 +11,7 @@
       <div style="margin-top:20px">
         <Page show-total :total="tableData.length" show-elevator></Page>
       </div>
-      <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
+    
     </Card>
     <!-- <Xzxly
         v-if="xzxlyModal"
@@ -34,6 +35,7 @@ export default {
   },
   data() {
     return {
+    
       xzxlyModal:false,
       row:{},
       edit: false,
@@ -45,11 +47,11 @@ export default {
         },
         { title: "创建时间", key: "createTime", },
         { title: "训练营名称", key: "title", },
-        { title: "课程安排", key: "coachList" },
+        // { title: "课程安排", key: "coachList" },
         { title: "所属冰场", key: "rinkId" },
         { title: "学费原价(元)", key: "cost" },
         { title: "实际价格(元)", key: "specialPrice" },
-        { title: "报名总数", key: "bmzs" },
+        { title: "报名总数", key: "salesVolume" },
         {
             title: "状态",
             key: "status",
@@ -116,6 +118,8 @@ export default {
           title:"专家训练营无锡站"
         }
       ],
+        pageNum: 1,
+      pageSize: 10,
     };
   },
   methods: {
@@ -159,8 +163,8 @@ export default {
   },
   mounted() { 
      this.getTrainCampPage({
-      pageNum: 1,
-      pageSize: 10,
+      pageNum: this.pageNum,
+      pageSize: this.pageSize,
       // userId:JSON.parse(localStorage.getItem('user').id)
     });
   },

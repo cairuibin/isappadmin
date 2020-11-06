@@ -1,16 +1,26 @@
 <template>
   <div>
     <Card>
-      <div style="margin-bottom:10px;" class="header_wrap">
-
-         <i-button type="primary">新增</i-button>&emsp;
-          <i-button type="primary">删除</i-button>
+      <div style="margin-bottom: 10px" class="header_wrap">
+        <i-button type="primary">新增</i-button>&emsp;
+        <i-button type="primary">删除</i-button>
       </div>
-      <tables ref="tables" v-model="tableData" :columns="columns" @on-delete="handleDelete" />
-      <div style="margin-top:20px">
+
+     <div  :style="{display:'flex'}" >
+       <Card>
+        <div :style="{minWidth:'100px',lineHeight:'27px',fontWeight:'bold',color:'#666'}" v-for="(v, i) in neirongContent" :key="i">{{ v }}</div>
+       </Card >
+      <tables
+        ref="tables"
+        v-model="tableData"
+        :columns="columns"
+        @on-delete="handleDelete"
+      />
+     </div>
+      <div style="margin-top: 20px">
         <Page show-total :total="tableData.length" show-elevator></Page>
       </div>
-      <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
+   
     </Card>
   </div>
 </template>
@@ -21,10 +31,20 @@ import { getTableData } from "@/api/data";
 export default {
   name: "tables_page",
   components: {
-      Tables
+    Tables,
   },
   data() {
     return {
+      neirongContent: [
+        "男子单人滑",
+        "女子单人滑",
+        "双人滑",
+        "冰舞",
+        "队列滑",
+        "陆地体能与专项",
+        "艺术",
+        "休息与康复",
+      ],
       columns: [
         {
           type: "selection",
@@ -36,7 +56,7 @@ export default {
         { title: "标签", key: "createTime" },
         { title: "状态", key: "createTime" },
         { title: "排序", key: "createTime" },
-    
+
         {
           title: "操作",
 
@@ -68,7 +88,8 @@ export default {
                 },
 
                 "查看"
-              ), h(
+              ),
+              h(
                 "Button",
 
                 {
@@ -88,14 +109,14 @@ export default {
                 },
 
                 "编辑"
-              )
+              ),
             ]);
           },
         },
       ],
       tableData: [],
-      lei_xing:"全部类型",
-      zhuang_tai:"全部状态"
+      lei_xing: "全部类型",
+      zhuang_tai: "全部状态",
     };
   },
   methods: {
@@ -119,5 +140,4 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-
 </style>

@@ -1,0 +1,627 @@
+<template>
+  <div>
+    <Card>
+      <div style="margin-bottom: 10px" class="header_wrap">
+        <div style="margin-bottom: 10px">
+          支付时间:
+          <DatePicker
+            type="datetime"
+            placeholder="请选择开始时间"
+            style="width: 130px"
+            v-model="DatePickerStart"
+            on-change="DatePickerchangeStart"
+          ></DatePicker
+          >至:
+          <DatePicker
+            type="datetime"
+            placeholder="请选择结束时间"
+            style="width: 130px"
+            v-model="DatePickerEnd"
+            on-change="DatePickerchangeEnd"
+          ></DatePicker>
+          <i-button type="primary" @click="timeSearch">搜索</i-button>&emsp;
+          <i-button type="primary" @click="add_order">新增订单</i-button>&emsp;
+        </div>
+      </div>
+      <tables
+        ref="tables"
+        v-model="tableData"
+        :columns="columns"
+        @on-delete="handleDelete"
+      />
+      <div style="margin-top: 20px">
+        <Page
+          show-total
+          :total="total"
+          show-elevator
+          @on-change="Pageonchange"
+          @on-page-size-change="onpagesizechange"
+        ></Page>
+      </div>
+    </Card>
+    <Modal
+      v-model="modal2"
+      title="新增订单"
+      :scrollable="true"
+      :mask-closable="false"
+      :loading="loading2"
+      @on-ok="ok2"
+      @on-cancel="cancel2"
+      width="40%"
+    >
+      <div :style="{ fontSize: '16px', color: '#888', marginBottom: '10px' }">
+        所在冰场: 喜悦北京
+      </div>
+
+      <Form
+        ref="setGold"
+        :model="formValidate"
+        :rules="ruleValidate"
+        :label-width="130"
+      >
+        <FormItem label="选择课包" prop="packetName">
+          <Select v-model="formValidate.packetName" placeholder="请选择课包">
+            <Option
+              :value="JSON.stringify(v)"
+              v-for="(v, i) in ke_bao_data"
+              :key="i"
+              >{{ v.name }}</Option
+            >
+          </Select>
+        </FormItem>
+        <FormItem label="选择学员" prop="studentName">
+          <Select v-model="formValidate.studentName" placeholder="请选择学员">
+            <Option
+              :value="JSON.stringify(v)"
+              v-for="(v, i) in xue_yuan_data"
+              :key="i"
+              >{{ v.studentName }}</Option
+            >
+          </Select>
+        </FormItem>
+        <FormItem label="选择教练" prop="coachName">
+          <Select v-model="formValidate.coachName" placeholder="请选择教练">
+            <Option
+              :value="JSON.stringify(v)"
+              v-for="(v, i) in jiao_lian_data"
+              :key="i"
+              >{{ v.coachName }}</Option
+            >
+          </Select>
+        </FormItem>
+        <FormItem label="实付金额" prop="price">
+          <Input value="0.00" disabled placeholder="请输入实付金额" />
+        </FormItem>
+        <FormItem label="实付金额" prop="money">
+          <Input v-model="formValidate.money" placeholder="请输入实付金额" />
+        </FormItem>
+
+        <FormItem label="备注" prop="remark">
+          <Input v-model="formValidate.remark" placeholder="请输入备注" />
+        </FormItem>
+        <FormItem>
+          <Button @click="handleReset2('setGold')" style="margin-left: 8px"
+            >取消</Button
+          >
+          &emsp;
+          <Button type="primary" @click="handleSubmit2('setGold')">保存</Button>
+        </FormItem>
+      </Form>
+      <div slot="footer"></div>
+    </Modal>
+  </div>
+</template>
+
+<script>
+const statusobj = {
+  0: "待付款",
+  1: "申请取消",
+  2: "、已取消",
+  3: "取消驳回",
+  4: "已付款",
+  6: "申请退款",
+  7: "退款中",
+  8: "已退款",
+  9: "支付失败",
+  11: "待排课",
+  12: "待确认",
+  13: "待完结",
+  14: "待评价",
+  15: "结束订单",
+};
+import Tables from "_c/tables";
+
+import untilMd5 from "../../../utils/md5";
+import Kcddxq from "./ke_bao_ding_dan_ye_mian_xiang_qing";
+export default {
+  name: "tables_page",
+  components: {
+    Tables,
+    Kcddxq,
+  },
+  data() {
+    return {
+      xue_yuan_data: [],
+      jiao_lian_data: [],
+      kcddxqModal: false,
+      row: {},
+      modal2: false,
+
+      loading2: true,
+      formValidate: {
+        packetName: "",
+        studentName: "",
+        coachName: "",
+        price: "0.00",
+        money: "",
+        remark: "",
+      },
+      ruleValidate: {
+        packetName: [
+          {
+            required: true,
+            message: "课包不能为空",
+            trigger: "blur",
+          },
+        ],
+        editText: [
+          {
+            required: true,
+            message: "学员不能为空",
+            trigger: "blur",
+          },
+        ],
+        mail: [
+          {
+            required: true,
+            message: "教练不能为空",
+            trigger: "blur",
+          },
+          { type: "email", message: "Incorrect email format", trigger: "blur" },
+        ],
+        city: [
+          {
+            required: true,
+            message: "Please select the city",
+            trigger: "change",
+          },
+        ],
+        gender: [
+          {
+            required: true,
+            message: "请输入实付金额",
+            trigger: "change",
+          },
+        ],
+        interest: [
+          {
+            required: true,
+            type: "array",
+            min: 1,
+            message: "Choose at least one hobby",
+            trigger: "change",
+          },
+          {
+            type: "array",
+            max: 2,
+            message: "Choose two hobbies at best",
+            trigger: "change",
+          },
+        ],
+        date: [
+          {
+            required: true,
+            type: "date",
+            message: "Please select the date",
+            trigger: "change",
+          },
+        ],
+        time: [
+          {
+            required: true,
+            type: "string",
+            message: "Please select time",
+            trigger: "change",
+          },
+        ],
+        desc: [
+          {
+            required: false,
+            message: "请输入课包摘要",
+            trigger: "blur",
+          },
+          {
+            type: "string",
+            min: 20,
+            message: "Introduce no less than 20 words",
+            trigger: "blur",
+          },
+        ],
+      },
+      columns: [
+        {
+          type: "selection",
+          width: 60,
+          align: "center",
+        },
+        { title: "创建时间", key: "createTime", sortable: false },
+        { title: "所属冰场", key: "rinkName", editable: false },
+        { title: "课包名称", key: "packetName" },
+        { title: "学员信息", key: "studentName" },
+        { title: "教练信息", key: "coachName" },
+        { title: "应付金额", key: "price" },
+        { title: "实付金额", key: "money" },
+
+        {
+          title: "状态",
+          key: "status",
+          render: (h, params) => {
+            return h("div", [
+              h("span", `${statusobj[params.row.status] || "没有数据"}`),
+            ]);
+          },
+        },
+        {
+          title: "操作",
+
+          key: "action",
+
+          width: 200,
+
+          align: "center",
+
+          render: (h, params) => {
+            return h("div", [
+              h(
+                "Button",
+
+                {
+                  props: {
+                    type: "primary",
+
+                    size: "small",
+                  },
+                  style: {
+                    marginRight: "5px",
+                  },
+                  on: {
+                    click: () => {
+                      this.look(params.row);
+                    },
+                  },
+                },
+
+                "查看"
+              ),
+              h(
+                "Button",
+
+                {
+                  props: {
+                    type: "primary",
+
+                    size: "small",
+                  },
+                  style: {
+                    marginRight: "5px",
+                  },
+                  on: {
+                    click: () => {
+                      // this.edit(params.row);
+                    },
+                  },
+                },
+
+                "编辑"
+              ),
+              h(
+                "Button",
+
+                {
+                  props: {
+                    type: "primary",
+
+                    size: "small",
+                  },
+                  style: {
+                    marginRight: "5px",
+                  },
+                  on: {
+                    click: () => {
+                      // this.delete(params.row);
+                    },
+                  },
+                },
+
+                "删除"
+              ),
+            ]);
+          },
+        },
+      ],
+      tableData: [],
+      pageNum: 1,
+      total: 0,
+      pageSize: 10,
+      lei_xing: "全部类型",
+      zhuang_tai: "全部状态",
+      DatePickerStart: "",
+      DatePickerEnd: "",
+      ke_bao_data: [],
+    };
+  },
+  methods: {
+    async ok2() {},
+    cancel2() {
+      // 取消后，重置表单
+      this.$refs["setGold"].resetFields();
+    },
+    handleSubmit2(name) {
+      this.$refs.setGold.validate(async (valid) => {
+        if (valid) {
+          let r = await this.bindingCoursePacketOrder({
+            rinkId: JSON.parse(localStorage.user).rinkId,
+            rinkName: JSON.parse(localStorage.user).rinkName,
+            userId: JSON.parse(localStorage.user).id,
+            packetId: JSON.parse(this.formValidate.packetName).packetId,
+            studentName: JSON.parse(this.formValidate.studentName).studentName,
+            studentId: JSON.parse(this.formValidate.studentName).studentId,
+            coachName: JSON.parse(this.formValidate.coachName).coachName,
+            coachId: JSON.parse(this.formValidate.coachName).coachId,
+          });
+          console.log(r.data, "rrrrrr");
+          if (r.data.code === 200) {
+            this.getTrainCampOrdersPage({
+              pageNum: this.pageNum,
+              pageSize: this.pageSize,
+              orderType: 1,
+              isDelete: 0,
+              // userId:JSON.parse(localStorage.getItem('user').id)
+            });
+            this.$Message.info("添加成功");
+            this.$refs[name].resetFields();
+            this.modal2 = false;
+          } else {
+            this.$Message.info("添加失败");
+          }
+        } else {
+          // 对话框校验失败，取消loading状态
+          this.loading = false;
+          setTimeout(() => {
+            this.$nextTick(() => {
+              this.loading = true;
+            });
+          }, 100);
+        }
+      });
+    },
+    handleReset2(name) {
+      this.$refs[name].resetFields();
+      this.modal2 = false;
+    },
+    async add_order() {
+      //获取所有课包
+      this.modal2Typeflag = "add";
+      this.modal2 = true;
+    },
+    onCancel() {
+      this.kcddxqModal = false;
+    },
+    look(params) {
+      this.modal2 = true;
+      console.log(params);
+      this.formValidate = JSON.parse(
+        JSON.stringify({
+          packetName: params.packetName,
+          studentName: params.studentName,
+          coachName: params.coachName,
+          price: params.price,
+          money: params.money,
+          remark: params.remark,
+        })
+      );
+      // this.formValidate.packetName= params.packetName
+      // this.ke_bao_data = [
+      //   { name: "2", packetId: "11" },
+      // ];
+      console.log(this.formValidate);
+    },
+    handleDelete(params) {
+      console.log(params);
+    },
+    exportExcel() {
+      this.$refs.tables.exportCsv({
+        filename: `table-${new Date().valueOf()}.csv`,
+      });
+    },
+    getTrainCampOrdersPage(params) {
+      this.axios
+        .post("/api/v2/business/trainOrder/getPacketOrdersPage", {
+          ...params,
+          sign: untilMd5.toSign({ ...params }, "getPacketOrdersPage"),
+        })
+        .then((res) => {
+          console.log(res.data.data, "查询训练课包订单列表接口(分页)");
+          this.tableData = res.data.data.list;
+          this.total = res.data.data.total;
+        });
+    },
+    getCoursePacketPage(params) {
+      this.axios
+        .post("/api/v2/data/course/getCoursePacketPage", {
+          ...params,
+          sign: untilMd5.toSign({ ...params }, "getCoursePacketPage"),
+        })
+        .then((res) => {
+          let arr = [];
+          [...res.data.data.list].forEach((v) => {
+            let obj = {
+              packetId: v.id,
+              name: v.title,
+            };
+            arr.push(obj);
+          });
+
+          this.ke_bao_data = arr;
+
+          console.log([...res.data.data.list], arr, "课包");
+        });
+    },
+    getStudentPage(params) {
+      this.axios
+        .post("/api/v2/user/student/getStudentPage", {
+          ...params,
+          sign: untilMd5.toSign(
+            {
+              ...params,
+            },
+            "getStudentPage"
+          ),
+        })
+        .then((res) => {
+          console.log(res.data, "学员列表");
+          let arr = [];
+          [...res.data.data.list].forEach((v) => {
+            let obj = {
+              studentId: v.id,
+              studentName: v.name,
+            };
+            arr.push(obj);
+          });
+
+          this.xue_yuan_data = arr;
+        });
+    },
+    getCoachPage(params) {
+      this.axios
+        .post("/api/v2/user/coach/getCoachPage", {
+          ...params,
+          sign: untilMd5.toSign(
+            {
+              ...params,
+            },
+            "getCoachPage"
+          ),
+        })
+        .then((res) => {
+          console.log(res.data, "教练列表");
+          let arr = [];
+          [...res.data.data.list].forEach((v) => {
+            let obj = {
+              coachId: v.id,
+              coachName: v.name,
+            };
+            arr.push(obj);
+          });
+
+          this.jiao_lian_data = arr;
+        });
+    },
+    bindingCoursePacketOrder(params) {
+      return this.axios.post(
+        "/api/v2/business/trainOrder/bindingCoursePacketOrder",
+        {
+          ...params,
+          sign: untilMd5.toSign(
+            {
+              ...params,
+            },
+            "bindingCoursePacketOrder"
+          ),
+        }
+      );
+    },
+    lei_xingchange(e) {
+      this.getTrainCampOrdersPage({
+        pageNum: 1,
+        pageSize: 10,
+        orderType: this.lei_xing,
+        isDelete: 0,
+      });
+    },
+    zhuang_tai_select() {
+      this.getTrainCampOrdersPage({
+        stauts: this.zhuang_tai,
+        pageNum: 1,
+        pageSize: 10,
+        orderType: this.lei_xing,
+        isDelete: 0,
+        // userId:JSON.parse(localStorage.getItem('user').id)
+      });
+    },
+    searchenter(e) {
+      if (e.target.value) {
+        this.getTrainCampOrdersPage({
+          studentName: e.target.value,
+          stauts: this.zhuang_tai,
+          pageNum: this.pageNum,
+          pageSize: this.pageSize,
+          orderType: this.lei_xing,
+          isDelete: 0,
+          // userId:JSON.parse(localStorage.getItem('user').id)
+        });
+      }
+    },
+    Pageonchange(pageNum) {
+      this.pageNum = pageNum;
+      this.getTrainCampOrdersPage({
+        pageNum: pageNum,
+        pageSize: this.pageSize,
+        orderType: 1,
+        isDelete: 0,
+      });
+    },
+    onpagesizechange(pageNum) {
+      console.log(pageNum, "1");
+      this.Pageonchange(pageNum);
+    },
+    DatePickerchangeStart() {
+      console.log(this.DatePickerStart);
+    },
+    DatePickerchangeEnd() {
+      console.log(this.DatePickerEnd);
+    },
+    timeSearch() {
+      console.log(2122);
+    },
+  },
+  async created() {
+    await this.getCoursePacketPage({
+      isUseTemplate: 0,
+      isMemberGoods: 0,
+      status: 1,
+      pageNum: 1,
+      pageSize: 30,
+    });
+    await this.getStudentPage({
+      //  userId: '0',
+      pageNum: 1,
+      pageSize: 10,
+    });
+    await this.getCoachPage({
+      workType: 1,
+      gender: 0,
+      pageNum: 1,
+      pageSize: 30,
+      coachType: 2,
+    });
+  },
+  mounted() {
+    this.getTrainCampOrdersPage({
+      pageNum: this.pageNum,
+      pageSize: this.pageSize,
+      orderType: 1,
+      isDelete: 0,
+      // userId:JSON.parse(localStorage.getItem('user').id)
+    });
+  },
+};
+</script>
+
+<style scoped lang='scss'>
+.header_wrap {
+  display: flex;
+
+  align-items: center;
+}
+</style>

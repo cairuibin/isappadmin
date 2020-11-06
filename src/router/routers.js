@@ -100,7 +100,16 @@ export default [
             title: '课程订单列表'
 
           },
-          component: () => import('@/view//yun_ying_guan_li/ke_cheng_ding_dan/ke_cheng_ding_dan_lie_biao.vue')
+          component: () => import('@/view/yun_ying_guan_li/ke_cheng_ding_dan/ke_cheng_ding_dan_lie_biao.vue')
+        },{
+          path: 'ke_bao_ding_dan_ye_mian',
+          name: 'ke_bao_ding_dan_ye_mian',
+          meta: {
+            icon: 'md-clipboard',
+            title: '课包订单页面'
+
+          },
+          component: () => import('@/view/yun_ying_guan_li/ke_bao_ding_dan_ye_mian/ke_bao_ding_dan_ye_mian_lie_biao.vue')
         },
         //  {
         //   path: 'ding_dan_xiang_qing',
@@ -132,14 +141,14 @@ export default [
         // }
       ]
       }, {
-        path: 'chong_zhi_ding_dan',
-        name: 'chong_zhi_ding_dan',
+        path: 'zhi_fu_ding_dan',
+        name: 'zhi_fu_ding_dan',
         meta: {
           icon: 'md-clipboard',
           title: '支付订单'
 
         },
-        component: () => import('@/view/yun_ying_guan_li/chong_zhi_ding_dan.vue')
+        component: () => import('@/view/yun_ying_guan_li/zhi_fu_ding_dan.vue')
       }, {
         path: 'xu_ni_ding_dan',
         name: 'xu_ni_ding_dan',
@@ -414,7 +423,7 @@ export default [
           icon: 'ios-document',
           title: 'i滑精选管理'
         },
-        component: () => import('@/view/update/update-table.vue'),
+        component:parentView,
         children: [{
           path: 'i_hua_jing_xuan_da_ka_jia_tang',
           name: 'i_hua_jing_xuan_da_ka_jia_tang',
@@ -422,7 +431,8 @@ export default [
             icon: 'md-clipboard',
             title: 'i滑精选-大咖讲堂'
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view/nei_rong_guan_li/i_hua_jing_xuan_guan_li/i_hua_jing_xuan_da_ka_jiang_tang.vue')
+
         }, {
           path: 'i_hua_jing_xuan_xin_zeng_nei_rong',
           name: 'i_hua_jing_xuan_xin_zeng_nei_rong',
@@ -430,7 +440,7 @@ export default [
             icon: 'md-clipboard',
             title: 'i滑精选-新增内容'
           },
-          component: () => import('@/view/update/update-paste.vue')
+          component: () => import('@/view/nei_rong_guan_li/i_hua_jing_xuan_guan_li/i_hua_jing_xuan_xin_zeng_nei_rong.vue')
         }]
       }
     ]
