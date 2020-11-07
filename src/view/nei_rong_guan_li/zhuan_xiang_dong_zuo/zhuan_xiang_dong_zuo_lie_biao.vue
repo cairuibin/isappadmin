@@ -133,25 +133,7 @@
           />
 
           <div>
-            <Upload
-              :before-upload="handleUpload"
-              :action="osshost.Host || 'xxxxxxxxxxxxxx'"
-              @on-success="Uploadsuccess"
-              accept="image/png,image/gif,image/jpeg"
-              headers=''
-              :data='{}'
-            >
-              <Button :disabled="isEdit === 3" icon="ios-cloud-upload-outline"
-                >上传图片</Button
-              >
-            </Upload>
-            <Button :disabled="isEdit === 3">图库</Button>
-            <div v-if="file !== null">
-              图片: {{ file.name }}
-              <Button type="text" @click="upload" :loading="loadingStatus">{{
-                loadingStatus ? "Uploading" : "Click to upload"
-              }}</Button>
-            </div>
+                <tuptian></tuptian>
           </div>
         </FormItem>
         <FormItem label=" 动作视频" prop="videoUrl">
@@ -161,20 +143,8 @@
             placeholder=" 动作视频"
           />
           <div>
-            <Upload
-              :before-upload="handleUpload"
-              action="//jsonplaceholder.typicode.com/posts/"
-            >
-              <Button :disabled="isEdit === 3" icon="ios-cloud-upload-outline"
-                >上传视频</Button
-              >
-            </Upload>
-            <div v-if="file !== null">
-              图片: {{ file.name }}
-              <Button type="text" @click="upload" :loading="loadingStatus">{{
-                loadingStatus ? "Uploading" : "Click to upload"
-              }}</Button>
-            </div>
+            <videoupload></videoupload>
+
           </div>
         </FormItem>
         <FormItem label="动作分类：" prop="actionType">
@@ -232,10 +202,12 @@
 import Tables from "_c/tables";
 import untilMd5 from "../../../utils/md5";
 import OSS from "ali-oss";
+import tuptian from './pic'
+import videoupload from './videoupload'
 export default {
   name: "tables_page",
   components: {
-    Tables,
+    Tables,tuptian,videoupload
   },
   data() {
     return {
@@ -496,9 +468,7 @@ export default {
       this.formValidate.imports = JSON.parse(data.data.content)["教学重点"];
       this.formValidate.errors = JSON.parse(data.data.content)["易犯错误"];
     },
-    handleDelete(params) {
-      console.log(params);
-    },
+    handleDelete(params) {},
     exportExcel() {
       this.$refs.tables.exportCsv({
         filename: `table-${new Date().valueOf()}.csv`,
@@ -511,7 +481,6 @@ export default {
           sign: untilMd5.toSign({ ...params }, "getTechniqueActionPage"),
         })
         .then((res) => {
-          console.log(res.data, "查询专项动作接口(分页)");
           this.tableData = res.data.data.list;
           this.total = res.data.data.total;
         });
@@ -557,7 +526,6 @@ export default {
       this.Pageonchange(pageNum);
     },
     onselect(select) {
-      console.log(select);
       this.deleteSelectIds = select.map((v) => v.id);
     },
     onselectall(selects) {},
@@ -577,7 +545,7 @@ export default {
             ids: this.deleteSelectIds.join(),
             updateUser: JSON.parse(localStorage.user).id,
           });
-          console.log(res.data);
+
           if (res.data.code === 200) {
             this.getTechniqueActionPage({
               pageNum: this.pageNum,
@@ -611,7 +579,7 @@ export default {
           obj.status = this.formValidate.status * 1;
           obj.trainUnit = this.formValidate.trainUnit * 1;
           obj.tag = JSON.stringify(this.formValidate.tag.split());
-          console.log(obj, "编辑");
+
           let content = {
             分解练习: obj.content,
             教学重点: obj.description,
@@ -629,7 +597,7 @@ export default {
           obj.tag = JSON.stringify(this.formValidate.tag.split());
           obj.parentId = this.parentId;
           obj.categoryLevel = this.categoryLevel;
-          console.log(this.formValidate, "新增");
+
           let content = {
             分解练习: this.formValidate.content,
             动作描述: this.formValidate.description,
@@ -642,7 +610,6 @@ export default {
         }
         this.$Message.info("表单校验成功");
       } else if (this.isEdit === 3) {
-        console.log("查看");
         this.AddAndEditvisible = false;
         this.$Message.success("查看完毕");
       } else {
@@ -669,26 +636,29 @@ export default {
     handleReset(name) {
       this.$refs[name].resetFields();
     },
-    async handleUpload(file) {
-      this.file = file;
-      console.log(file,'11111111111111')
-      // let client = new OSS({
-      //   AccessKeyId: data.data.AccessKeyId,
-      //   signature: data.data.Signature, //后台获取签名
-      //   "x-oss-security-token": data.data.SecurityToken,
-      //   policy: data.data.Policy, //后台获取超时时间
-      //   key: "stroeAs", //文件名
-      //   accessKeyId: data.data.AccessKeyId,
-      //   success_action_status: "200", //让服务端返回200
-      // });
-      // this.client = client;
-      // console.log(this.client,'212121212121');
 
-      // return false;
+    async upch(file) {
+      this.file = file;
+      let { data } = await this.getOssConfig({
+        ossType: 1,
+      });
+
+      let client = new OSS({
+        region: data.data.region,
+        accessKeyId: data.data.AccessKeyId,
+        accessKeySecret:data.data.AccessKeySecret,
+        secure: true,
+        stsToken: data.data.SecurityToken,
+      });
+
+      this.osshost = data.data;
+      console.log(file, "11111111111111");
+      console.log( client.multipartUpload, "2");
     },
+    async handleUpload(file) {},
     //图片上传陈工
     Uploadsuccess(response, file, fileList) {
-      console.log(response, file, fileList);
+      // console.log(response, file, fileList);
     },
     upload() {
       this.loadingStatus = true;
@@ -704,13 +674,6 @@ export default {
       pageNum: this.pageNum,
       pageSize: this.pageSize,
     });
-  },
-  async created() {
-    let { data } = await this.getOssConfig({
-      ossType: 1,
-    });
-
-    this.osshost = data.data;
   },
 };
 </script>
