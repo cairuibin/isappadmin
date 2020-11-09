@@ -13,13 +13,15 @@
             :style="{
               minWidth: '100px',
               lineHeight: '27px',
-              fontWeight: 'bold',
-              color: '#666',
+              color: curactive === i ? '#fff' : '#000',
+              background: curactive === i ? '#2d8cf0 ' : '',
+              textAlign: 'center',
             }"
+            @click="neirongContentclik(i, v.id)"
             v-for="(v, i) in neirongContent"
             :key="i"
           >
-            {{ v }}
+            {{ v.name }}
           </div>
         </Card>
         <tables
@@ -133,7 +135,7 @@
           />
 
           <div>
-                <tuptian></tuptian>
+            <tuptian></tuptian>
           </div>
         </FormItem>
         <FormItem label=" 动作视频" prop="videoUrl">
@@ -144,7 +146,6 @@
           />
           <div>
             <videoupload></videoupload>
-
           </div>
         </FormItem>
         <FormItem label="动作分类：" prop="actionType">
@@ -202,37 +203,32 @@
 import Tables from "_c/tables";
 import untilMd5 from "../../../utils/md5";
 import OSS from "ali-oss";
-import tuptian from './pic'
-import videoupload from './videoupload'
+import tuptian from "./pic";
+import videoupload from "./videoupload";
 export default {
   name: "tables_page",
   components: {
-    Tables,tuptian,videoupload
+    Tables,
+    tuptian,
+    videoupload,
   },
   data() {
     return {
       //阿里云地址
       osshost: "http://xx",
-      neirongContent: [
-        "111",
-        "222",
-        "32342",
-        "422",
-        "44",
-        "434",
-        "34",
-        "34dsd",
-      ],
+      neirongContent: [],
+      curactive: 0,
       columns: [
         {
           type: "selection",
-          width: 60,
+          width: 160,
           align: "center",
         },
-        { title: "动作名称", key: "name", sortable: false },
+        { title: "动作名称", key: "name", sortable: false, width: 130 },
         {
           title: "动作配图",
           key: "imageUrl",
+          width: 200,
           render: (h, params) => {
             return (
               <div>
@@ -244,6 +240,8 @@ export default {
         {
           title: "标签",
           key: "tag",
+          width: 200,
+          align: "center",
           render: (h, params) => {
             return JSON.parse(params.row.tag).map((v, i) => (
               <span>
@@ -255,6 +253,7 @@ export default {
         {
           title: "状态",
           key: "status",
+          width: 200,
           render: (h, params) => {
             return (
               <span>
@@ -267,14 +266,14 @@ export default {
             );
           },
         },
-        { title: "排序", key: "sortIndex" },
+        { title: "排序", key: "sortIndex", width: 200 },
 
         {
           title: "操作",
 
           key: "action",
 
-          width: 150,
+          width: 250,
 
           align: "center",
 
@@ -434,6 +433,15 @@ export default {
     };
   },
   methods: {
+    neirongContentclik(i, id) {
+      this.curactive = i;
+      this.getTechniqueActionPage({
+        pageNum: this.pageNum,
+        pageSize: this.pageSize,
+        parentId: id,
+      });
+      console.log(id);
+    },
     async look({ id }) {
       let { data } = await this.getTechniqueActionInfo({
         id: id,
@@ -482,7 +490,27 @@ export default {
         })
         .then((res) => {
           this.tableData = res.data.data.list;
+
           this.total = res.data.data.total;
+        });
+    },
+    getTeleftPage(params) {
+      this.axios
+        .post("/api/v2/data/action/getTechniqueActionPage", {
+          ...params,
+          sign: untilMd5.toSign({ ...params }, "getTechniqueActionPage"),
+        })
+        .then((res) => {
+          let arr = [];
+          res.data.data.list.filter((v) => {
+            let obj = {
+              name: v.name,
+              id: v.id,
+            };
+            arr.push(obj);
+          });
+
+          this.neirongContent = arr;
         });
     },
     deleteTableInId(params) {
@@ -646,14 +674,14 @@ export default {
       let client = new OSS({
         region: data.data.region,
         accessKeyId: data.data.AccessKeyId,
-        accessKeySecret:data.data.AccessKeySecret,
+        accessKeySecret: data.data.AccessKeySecret,
         secure: true,
         stsToken: data.data.SecurityToken,
       });
 
       this.osshost = data.data;
       console.log(file, "11111111111111");
-      console.log( client.multipartUpload, "2");
+      console.log(client.multipartUpload, "2");
     },
     async handleUpload(file) {},
     //图片上传陈工
@@ -671,6 +699,10 @@ export default {
   },
   mounted() {
     this.getTechniqueActionPage({
+      pageNum: this.pageNum,
+      pageSize: this.pageSize,
+    });
+    this.getTeleftPage({
       pageNum: this.pageNum,
       pageSize: this.pageSize,
     });
