@@ -146,7 +146,7 @@
             placeholder=" 动作视频"
           />
           <div>
-            <videoupload></videoupload>
+            <videoupload :getvideosrc="getvideosrc"></videoupload>
           </div>
         </FormItem>
         <FormItem label="动作分类：" prop="actionType">
@@ -338,7 +338,7 @@ export default {
       file: null,
       loadingStatus: false,
       formValidate: {
-        parentId:"",
+        parentId: "",
         name: "",
         tag: "",
         date: "",
@@ -437,25 +437,28 @@ export default {
       isshowmessage: true,
       isModalloading: true,
       //parentId
-      parentId: '',
+      parentId: "",
       categoryLevel: 1,
     };
   },
   methods: {
     getimgsrc(url) {
-      console.log(url);
+      this.formValidate.imageUrl = url[0];
     },
-    neirongContentclik(i, id) {
+    getvideosrc(url) {
+      this.formValidate.videoUrl = url[0];
+    },
+    async neirongContentclik(i, id) {
       this.curactive = i;
-      this.getTechniqueActionPage({
+      await this.getTechniqueActionPage({
         pageNum: this.pageNum,
         pageSize: this.pageSize,
-        // parentId: id,
+        parentId: id,
       });
-         this.getTeleftPage({
-      pageNum: this.pageNum,
-      pageSize: this.pageSize,
-    });
+      await this.getTeleftPage({
+        pageNum: this.pageNum,
+        pageSize: this.pageSize,
+      });
       console.log(id);
     },
     async look({ id }) {
@@ -506,7 +509,7 @@ export default {
         })
         .then((res) => {
           this.tableData = res.data.data.list;
-
+            console.log(res.data.data,'3')
           this.total = res.data.data.total;
         });
     },
@@ -634,12 +637,12 @@ export default {
           this.modifyTechniqueAction(obj);
         } else if (this.isEdit === 2) {
           let obj = JSON.parse(JSON.stringify(this.formValidate));
-            
+
           obj.actionType = this.formValidate.actionType * 1;
           obj.status = this.formValidate.status * 1;
           obj.trainUnit = this.formValidate.trainUnit * 1;
           obj.tag = JSON.stringify(this.formValidate.tag.split());
-          console.log(this.formValidate)
+          console.log(this.formValidate);
           //11-9修改
           obj.parentId = this.formValidate.parentId;
           obj.categoryLevel = this.categoryLevel;
@@ -651,9 +654,9 @@ export default {
           };
 
           obj.content = JSON.stringify(content);
-          delete obj.date
-          delete obj.time
-          delete obj.times
+          delete obj.date;
+          delete obj.time;
+          delete obj.times;
           console.log(obj);
           this.createTechniqueAction(obj);
         }

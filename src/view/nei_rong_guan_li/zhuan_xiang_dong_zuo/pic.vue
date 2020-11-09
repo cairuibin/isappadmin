@@ -98,8 +98,8 @@ export default {
         const obj = this.timestamp();
         const storeAs = "manage/" + obj + suffix; // 路径+时间戳+后缀名
         console.log(storeAs);
-        client.multipartUpload(storeAs, f).then(function (result) {
-          // this.getimgsrc(result.res.requestUrls)
+        client.put(storeAs, f).then(function (result) {
+          that.getimgsrc(result.res.requestUrls)
           console.log(result.res.requestUrls);
         });
       }

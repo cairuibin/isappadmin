@@ -50,6 +50,11 @@ export default {
       percent: 0,
     };
   },
+  props:{
+  getvideosrc:{
+    type:Function
+  }
+  },
   methods: {
     add() {
       this.$refs.file.click();
@@ -92,7 +97,8 @@ export default {
         const storeAs = "manage/" + obj + suffix; // 路径+时间戳+后缀名
         console.log(storeAs,f,'2222222222');
         client.put(storeAs, f).then(function (result) {
-          console.log(result.res.requestUrls);
+          that.getvideosrc(result.res.requestUrls)
+          
         });
       }
     },
