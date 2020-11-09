@@ -64,14 +64,15 @@
         :disabled="islook"
         :show-message="isshowmessage"
       >
-        <FormItem label=" 父类ID：" prop="name">
+        <FormItem label=" 父类ID：" prop="parentId">
           <Select
             :disabled="isEdit === 3"
-            v-model="formValidate.actionType"
+            v-model="formValidate.parentId"
             placeholder="父类ID："
           >
-            <Option value="1">xxxxx</Option>
-            <Option value="2">dddddddddddddd</Option>
+            <Option :value="v.id" v-for="(v, i) in neirongContent" :key="i">{{
+              v.name
+            }}</Option>
           </Select>
         </FormItem>
 
@@ -135,7 +136,7 @@
           />
 
           <div>
-            <tuptian></tuptian>
+            <tuptian :getimgsrc="getimgsrc"></tuptian>
           </div>
         </FormItem>
         <FormItem label=" 动作视频" prop="videoUrl">
@@ -337,6 +338,7 @@ export default {
       file: null,
       loadingStatus: false,
       formValidate: {
+        parentId:"",
         name: "",
         tag: "",
         date: "",
@@ -345,12 +347,19 @@ export default {
         content: "",
         imports: "",
         errors: "",
-        imageUrl: "",
-        videoUrl: "",
+        imageUrl: "http://xxxx",
+        videoUrl: "http://xxxx",
         actionType: "",
         trainUnit: "",
       },
       ruleValidate: {
+        parentId: [
+          {
+            required: true,
+            message: "请输入动作名陈",
+            trigger: "blur",
+          },
+        ],
         name: [
           {
             required: true,
@@ -428,18 +437,25 @@ export default {
       isshowmessage: true,
       isModalloading: true,
       //parentId
-      parentId: 1,
+      parentId: '',
       categoryLevel: 1,
     };
   },
   methods: {
+    getimgsrc(url) {
+      console.log(url);
+    },
     neirongContentclik(i, id) {
       this.curactive = i;
       this.getTechniqueActionPage({
         pageNum: this.pageNum,
         pageSize: this.pageSize,
-        parentId: id,
+        // parentId: id,
       });
+         this.getTeleftPage({
+      pageNum: this.pageNum,
+      pageSize: this.pageSize,
+    });
       console.log(id);
     },
     async look({ id }) {
@@ -618,12 +634,14 @@ export default {
           this.modifyTechniqueAction(obj);
         } else if (this.isEdit === 2) {
           let obj = JSON.parse(JSON.stringify(this.formValidate));
-
+            
           obj.actionType = this.formValidate.actionType * 1;
           obj.status = this.formValidate.status * 1;
           obj.trainUnit = this.formValidate.trainUnit * 1;
           obj.tag = JSON.stringify(this.formValidate.tag.split());
-          obj.parentId = this.parentId;
+          console.log(this.formValidate)
+          //11-9修改
+          obj.parentId = this.formValidate.parentId;
           obj.categoryLevel = this.categoryLevel;
 
           let content = {
@@ -633,9 +651,13 @@ export default {
           };
 
           obj.content = JSON.stringify(content);
-
+          delete obj.date
+          delete obj.time
+          delete obj.times
+          console.log(obj);
           this.createTechniqueAction(obj);
         }
+
         this.$Message.info("表单校验成功");
       } else if (this.isEdit === 3) {
         this.AddAndEditvisible = false;

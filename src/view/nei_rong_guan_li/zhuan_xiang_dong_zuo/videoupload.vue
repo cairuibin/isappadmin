@@ -30,7 +30,10 @@
         <button v-if="status == 'finished'" @click="finished">完成</button>
       </div>
     </section>
-    <input   type="file" @change="fileChanged" ref="file" accept="mp4"  multiple="multiple" />
+    <input   type="file" @change="fileChanged" ref="file" accept="mp4"
+     
+      />
+       <!-- multiple="multiple"  -->
   </div>
   <!-- accept="image/jpg,image/jpeg,image/png,image/bmp" -->
 </template>

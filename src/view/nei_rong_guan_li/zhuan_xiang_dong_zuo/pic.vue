@@ -33,11 +33,11 @@
       type="file"
       @change="fileChanged"
       ref="file"
-          multiple='multiple'
+         
  accept="image/jpg,image/jpeg,image/png,image/bmp"
     />
   </div>
-     <!-- accept="image/jpg,image/jpeg,image/png,image/bmp" -->
+     <!-- multiple='multiple' -->
 </template>
 <script>
 import untilMd5 from "../../../utils/md5";
@@ -51,6 +51,11 @@ export default {
       uploading: false,
       percent: 0,
     };
+  },
+  props:{
+    getimgsrc:{
+      type:Function
+    },
   },
   methods: {
     add() {
@@ -94,6 +99,7 @@ export default {
         const storeAs = "manage/" + obj + suffix; // 路径+时间戳+后缀名
         console.log(storeAs);
         client.multipartUpload(storeAs, f).then(function (result) {
+          // this.getimgsrc(result.res.requestUrls)
           console.log(result.res.requestUrls);
         });
       }
