@@ -85,18 +85,19 @@ export default {
           width: 60,
           align: "center",
         },
-        { title: "动作名称", key: "name", sortable: false },
-        { title: "动作配图", key: "email", editable: false },
-        { title: "标签", key: "createTime" },
-        { title: "状态", key: "createTime" },
-        { title: "排序", key: "createTime" },
+        { title: "动作类型", key: "name", sortable: false },
+        { title: "计划标题", key: "email", editable: false },
+        { title: "制作人", key: "createTime" },
+        { title: "创建者", key: "createTime" },
+        { title: "模板级别", key: "createTime" },
+  { title: "模板状态", key: "createTime" },
 
         {
           title: "操作",
 
           key: "action",
 
-          width: 150,
+          width: 250,
 
           align: "center",
 
@@ -117,6 +118,27 @@ export default {
                   on: {
                     click: () => {
                       this.look(params.row);
+                    },
+                  },
+                },
+
+                "课节管理"
+              ),
+               h(
+                "Button",
+
+                {
+                  props: {
+                    type: "primary",
+
+                    size: "small",
+                  },
+                  style: {
+                    marginRight: "5px",
+                  },
+                  on: {
+                    click: () => {
+                      this.look(params.index);
                     },
                   },
                 },

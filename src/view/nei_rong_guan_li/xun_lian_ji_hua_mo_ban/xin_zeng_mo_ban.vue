@@ -13,9 +13,9 @@
       <div style="font-size:16px">模板类型: 系统计划模板</div>
 
       <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="130">
-       
-       
-  
+
+
+
         <FormItem label="动作类型" prop="city">
           <Select v-model="formValidate.city" placeholder="选择动作类型">
             <Option value="beijing">1</Option>
@@ -40,11 +40,11 @@
 
 
 
-     
+
 
         <FormItem>
           <Button @click="handleReset('formValidate')" style="margin-left: 8px">取消</Button>
-         
+
           <Button type="primary" @click="handleSubmit('formValidate')">保存</Button>
         </FormItem>
       </Form>

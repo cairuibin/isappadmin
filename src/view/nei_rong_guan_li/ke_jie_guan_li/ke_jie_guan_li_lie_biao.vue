@@ -72,7 +72,7 @@ export default {
         { title: "创建者", key: "createUser" },
         { title: "课节安排", key: "content" },
         { title: "课后训练", key: "after_class_train" },
-        { title: "排序", key: "sortIndex" },
+        { title: "状态", key: "sortIndex" },
         {
           title: "操作",
           key: "action",
