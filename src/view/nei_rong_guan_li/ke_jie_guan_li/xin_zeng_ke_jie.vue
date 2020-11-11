@@ -34,13 +34,14 @@
           />
         </FormItem>
         <FormItem label="教学重点" prop="tag">
+          
           <Tag
             v-for="(item, index) in formValidate.tag"
             :key="index"
-            :name="item"
+            :name="item.name"
             closable
             @on-close="handleClose2"
-            >{{ item }}</Tag
+            >{{ item.name }}</Tag
           >
           <Button
             icon="ios-add"
@@ -79,7 +80,7 @@
             <Button
               :key="n + m.id"
               :disabled="edit"
-              @click="111"
+              @click="guan_lian_dong_zuo(m.id)"
               style="margin-left: 8px"
               >关联动作</Button
             >
@@ -115,18 +116,16 @@
               style="width: 300px"
               placeholder="请输入训练安排"
             />
-             <Input
+            <Input
               :key="n + 9997"
               :disabled="edit"
-
-              style="width:50px"
-
+              v-model="m.num"
+              style="width: 50px"
             />
             次
             <Button
               :key="n + m.id"
               :disabled="edit"
-
               style="margin-left: 8px"
               @click="deletedong_zuo_item(n)"
               >删除</Button
@@ -151,12 +150,51 @@
       title="选择动作"
       :mask-closable="false"
       :loading="loading"
-      @on-ok='xuan_ze_ok'
+      @on-ok="xuan_ze_ok"
       @on-cancel="cancel_dong_zuo_lie_biao_module"
     >
       <Select v-model="select_dong_zuo_val">
-        <Option :value="j.id" v-for="(j) in select_dong_zuo_lie_biao_module" :key="j.id">{{j.name}}</Option>
-
+        <Option
+          :value="j.id"
+          v-for="j in select_dong_zuo_lie_biao_module"
+          :key="j.id"
+          >{{ j.name }}</Option
+        >
+      </Select>
+    </Modal>
+    <Modal
+      v-model="add_tag_module"
+      title="选择动作"
+      :mask-closable="false"
+      :loading="loading"
+      @on-ok="add_tag_ok"
+      @on-cancel="add_tag_cancel"
+    >
+      <Select v-model="select_tag_val">
+        <Option
+          :value="j.id"
+          v-for="j in add_tag_module_lie_biao"
+          :key="j.id"
+          >{{ j.name }}</Option
+        >
+      </Select>
+    </Modal>
+    <!-- //关联动作 -->
+    <Modal
+      v-model="guan_lian_module"
+      title="选择动作"
+      :mask-closable="false"
+      :loading="loading"
+      @on-ok="guan_lian_ok"
+      @on-cancel="guan_lian_cancel"
+    >
+      <Select v-model="guan_lian_val">
+        <Option
+          :value="j.id"
+          v-for="j in guan_lian_module_lie_biao"
+          :key="j.id"
+          >{{ j.name }}</Option
+        >
       </Select>
     </Modal>
   </div>
@@ -180,9 +218,22 @@ export default {
       // 新增动作的弹框
       add_get_dong_zuo_lie_biao_module: false,
       //动作列表的数据
-      select_dong_zuo_lie_biao_module:[],
+      select_dong_zuo_lie_biao_module: [],
       //选择动作之后的valuse
-select_dong_zuo_val:'',
+      select_dong_zuo_val: "",
+      // 教学重点弹框选择的值
+      select_tag_val: "",
+      //教学重点弹框
+      add_tag_module: false,
+      //教学重点下拉框列表数据
+      add_tag_module_lie_biao: [],
+      //关联动作
+      guan_lian_module: false,
+      //关联动作拉框列表数据
+      guan_lian_module_lie_biao: [],
+      //当前关联动作的id
+      guan_lian_id: 0,
+      guan_lian_val: "",
       tagValue: "",
       modal: true,
       loading: true,
@@ -221,30 +272,57 @@ select_dong_zuo_val:'',
     },
   },
   methods: {
-    handleAddTag() {
-      this.tagValue = "";
-      this.$Modal.confirm({
-        title: "教学重点",
-        render: (h) => {
-          return h("Input", {
-            props: {
-              value: this.tagValue,
-              autofocus: true,
-              placeholder: "请输入.",
-            },
-            on: {
-              input: (val) => {
-                this.tagValue = val;
-              },
-            },
-          });
-        },
-        onOk: () => {
-          if (this.tagValue.trim() !== "") {
-            this.formValidate.tag.push(this.tagValue);
-          }
-        },
+    add_tag_cancel() {
+      this.add_tag_module = false;
+    },
+    add_tag_ok() {
+      this.add_tag_module = false;
+      let item = this.add_tag_module_lie_biao.find(
+        (v) => v.id == this.select_tag_val
+      );
+
+      this.formValidate.tag.push(item);
+      // this.select_tag_val=''
+    },
+    guan_lian_cancel() {
+      this.guan_lian_module = false;
+    },
+    guan_lian_ok() {
+      this.guan_lian_module = false;
+      let item = this.guan_lian_module_lie_biao.find(
+        (v) => v.id == this.guan_lian_val
+      );
+
+      let it = this.techniqueType_mimg_xi.find(
+        (v) => v.id === this.guan_lian_id
+      );
+      let i = this.techniqueType_mimg_xi.findIndex(
+        (v) => v.id === this.guan_lian_id
+      );
+      this.techniqueType_mimg_xi[i] = Object.assign(
+        this.techniqueType_mimg_xi[i],
+        item
+      );
+      console.log(this.techniqueType_mimg_xi);
+    },
+    async handleAddTag() {
+      let { data } = await this.getTechniqueActionPage({
+        pageSize: 100,
+        pageNum: 1,
       });
+
+      this.add_tag_module_lie_biao = data.data.list;
+      this.add_tag_module = true;
+    },
+    async guan_lian_dong_zuo(id) {
+      let { data } = await this.getTechniqueActionPage({
+        pageSize: 100,
+        pageNum: 1,
+      });
+
+      this.guan_lian_module_lie_biao = data.data.list;
+      this.guan_lian_module = true;
+      this.guan_lian_id = id;
     },
     handleClose2(event, name) {
       const index = this.formValidate.tag.indexOf(name);
@@ -263,21 +341,22 @@ select_dong_zuo_val:'',
     },
     handleSubmit(name) {
       this.$refs[name].validate(async (valid) => {
+        console.log(this.formValidate);
+        console.log(this.techniqueType_mimg_xi);
+        console.log(this.afterClassTrainType_an_pai);
         if (valid) {
           let { data } = await this.createCourse({
-            title: "",
+            title: this.formValidate.title,
             // subTitle: "String	副标题，课包摘要",
-            code: "String	课包编码：例如happyskate、xy-week-1",
-            trainPlanTemplate_id: "否	String	训练计划模板ID",
-            templateTitle: "否	String	模板标题",
-            imageUrl: "否	String	配图地址",
-            form: "是	int	课程形式：1、冰上；2、陆地；3、冰上+陆地",
-            content: "",
-            departmentId: "",
-            rinkId: "",
+            code: "happyskate",
+            form: this.formValidate.form,
+            techniqueType: JSON.stringify(this.techniqueType_mimg_xi),
+            afterClassTrain: JSON.stringify(this.afterClassTrainType_an_pai),
+            rinkId: JSON.parse(localStorage.user).rinkId,
           });
           if (data.code === 200) {
             this.$Message.success("添加成功!");
+            this.modal=false
             this.updataTable();
           } else {
             this.$Message.success("添加失败!");
@@ -289,12 +368,10 @@ select_dong_zuo_val:'',
     },
     //获取动作列表
     getTechniqueActionPage(params) {
-    return  this.axios
-        .post("/api/v2/data/action/getTechniqueActionPage", {
-          ...params,
-          sign: untilMd5.toSign({ ...params }, "getTechniqueActionPage"),
-        })
-
+      return this.axios.post("/api/v2/data/action/getTechniqueActionPage", {
+        ...params,
+        sign: untilMd5.toSign({ ...params }, "getTechniqueActionPage"),
+      });
     },
     //新增安排明细
     addtechniqueType() {
@@ -303,38 +380,39 @@ select_dong_zuo_val:'',
         id: Date.now(),
       });
     },
+    //新增课后训练的新增动作
     afterClassTrainType(val) {
       this.afterClassTrainType_an_pai.push({
-        name: val,
+        name: val.name,
         id: Date.now(),
+        num: 1,
+        actionType: val.actionType,
       });
     },
     async add_get_dong_zuo_lie_biao() {
-      console.log(21)
-      let {data}  = await this.getTechniqueActionPage({
+      console.log(21);
+      let { data } = await this.getTechniqueActionPage({
         pageSize: 100,
         pageNum: 1,
-      })
-         this.add_get_dong_zuo_lie_biao_module = true;
-         this.select_dong_zuo_lie_biao_module=data.data.list
-
-
+      });
+      this.add_get_dong_zuo_lie_biao_module = true;
+      this.select_dong_zuo_lie_biao_module = data.data.list;
     },
     // 取消选择动作
-    cancel_dong_zuo_lie_biao_module(){
-          this.add_get_dong_zuo_lie_biao_module = false;
-
+    cancel_dong_zuo_lie_biao_module() {
+      this.add_get_dong_zuo_lie_biao_module = false;
     },
-    xuan_ze_ok(){
-
-         let item=this.select_dong_zuo_lie_biao_module.find(v=>v.id===this.select_dong_zuo_val)
-               console.log(item)
-      this.afterClassTrainType(item.name)
-      this.add_get_dong_zuo_lie_biao_module=false
+    xuan_ze_ok() {
+      let item = this.select_dong_zuo_lie_biao_module.find(
+        (v) => v.id === this.select_dong_zuo_val
+      );
+      console.log(item);
+      this.afterClassTrainType(item);
+      this.add_get_dong_zuo_lie_biao_module = false;
     },
-    deletedong_zuo_item(i){
-        this.afterClassTrainType_an_pai.splice(i,1)
-    }
+    deletedong_zuo_item(i) {
+      this.afterClassTrainType_an_pai.splice(i, 1);
+    },
   },
 };
 </script>

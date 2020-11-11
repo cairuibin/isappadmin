@@ -67,7 +67,30 @@ export default {
           },
         },
         { title: "课程名称", key: "title", sortable: false },
-        { title: "教学重点", key: "tag", editable: false },
+        {
+          title: "教学重点",
+          key: "tag",
+          render: (h, params) => {
+            let a = "";
+            if (
+              params.row.techniqueType &&
+              params.row.techniqueType[0] 
+            ) {
+              a = JSON.parse(params.row.techniqueType)[0].tag;
+            } else {
+              a = "[]";
+            }
+
+            console.log(a);
+            return h("div", [
+              h(
+                "span",
+
+               a? JSON.parse(a):""
+              ),
+            ]);
+          },
+        },
         { title: "版权", key: "copyright" },
         { title: "创建者", key: "createUser" },
         { title: "课节安排", key: "content" },
