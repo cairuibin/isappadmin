@@ -72,21 +72,17 @@ export default {
           key: "tag",
           render: (h, params) => {
             let a = "";
-            if (
-              params.row.techniqueType &&
-              params.row.techniqueType[0] 
-            ) {
+            if (params.row.techniqueType && params.row.techniqueType[0]) {
               a = JSON.parse(params.row.techniqueType)[0].tag;
             } else {
               a = "[]";
             }
 
-            console.log(a);
             return h("div", [
               h(
                 "span",
 
-               a? JSON.parse(a):""
+                a ? JSON.parse(a) : ""
               ),
             ]);
           },
@@ -94,7 +90,31 @@ export default {
         { title: "版权", key: "copyright" },
         { title: "创建者", key: "createUser" },
         { title: "课节安排", key: "content" },
-        { title: "课后训练", key: "after_class_train" },
+        {
+          title: "课后训练",
+          key: "afterClassTrain",
+          render: (h, params) => {
+            let a = "";
+
+            if (params.row.afterClassTrain) {
+              let o = [];
+              a = JSON.parse(params.row.afterClassTrain).map((v) => {
+                o.push(v.name);
+                return o;
+              });
+              
+              a = o;
+            } 
+
+            return h("div", [
+              h(
+                "span"
+,
+                 a? a:""
+              ),
+            ]);
+          },
+        },
         { title: "状态", key: "sortIndex" },
         {
           title: "操作",
