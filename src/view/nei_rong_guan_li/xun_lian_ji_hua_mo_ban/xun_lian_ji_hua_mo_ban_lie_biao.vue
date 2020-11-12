@@ -86,11 +86,11 @@ export default {
           align: "center",
         },
         { title: "动作类型", key: "name", sortable: false },
-        { title: "计划标题", key: "email", editable: false },
+        { title: "计划标题", key: "title", editable: false },
         { title: "制作人", key: "createTime" },
-        { title: "创建者", key: "createTime" },
-        { title: "模板级别", key: "createTime" },
-  { title: "模板状态", key: "createTime" },
+        { title: "创建者", key: "createUser" },
+        { title: "模板级别", key: "isSystem" },
+  { title: "模板状态", key: "isPrivate" },
 
         {
           title: "操作",
