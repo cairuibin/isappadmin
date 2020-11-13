@@ -54,7 +54,7 @@
       </div>
       <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
-    <LookModal v-if="lookVisible" :onCancel="onCancel" />
+    <LookModal v-if="lookVisible" :rowInfo="row" :onCancel="onCancel" />
   </div>
 </template>
 
@@ -71,7 +71,8 @@ export default {
   },
   data() {
     return {
-      lookVisible:false,
+      lookVisible: false,
+      row: {},
       columns: [
         {
           type: "selection",
@@ -119,7 +120,7 @@ export default {
           },
         },
       ],
-      tableData: [],
+      tableData: [{a:22}],
       lei_xing: "全部类型",
       zhuang_tai: "全部状态",
     };
@@ -128,6 +129,7 @@ export default {
     editBus(item, index) {},
     look(params) {
       this.lookVisible=true;
+      this.row=params;
     },
     onCancel() {
       this.lookVisible = false;

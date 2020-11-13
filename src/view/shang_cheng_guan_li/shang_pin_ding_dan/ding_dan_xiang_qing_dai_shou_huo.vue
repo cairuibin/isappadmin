@@ -3,15 +3,15 @@
     <Modal v-model="modal12" draggable scrollable footer-hide title="订单详情" @on-cancel="cancel">
       <div class="content_item">
         <span>平台订单ID：</span>
-        {{101021987}}
+        {{rowInfo.id}}
       </div>
       <div class="content_item">
         <span>商品名称：</span>
-        {{101021987}}
+        {{rowInfo.goodsName}}
       </div>
       <div class="content_item">
         <span>创建时间</span>
-        {{101021987}}
+        {{rowInfo.createTime}}
       </div>
       <div class="content_item">
         <span>商品封面图：</span>
@@ -19,61 +19,54 @@
       </div>
       <div class="content_item">
         <span>商品参数：</span>
-        {{101021987}}
+        <!-- {{rowInfo}} -->
       </div>
       <div class="content_item">
         <span>商品数量：</span>
-        {{101021987}}
+        {{rowInfo.goodsNumber}}
       </div>
       <div class="content_item">
         <span>应付金额：</span>
-        {{101021987}}
+        {{rowInfo.totalPrice}}
       </div>
       <div class="content_item">
         <span>快递费：</span>
-        {{101021987}}
+        {{rowInfo.shippingMoney}}
       </div>
       <div class="content_item">
         <span>分润金额：</span>
-        {{101021987}}
       </div>
       <h2>支付信息</h2>
       <div class="content_item">
         <span>支付时间：</span>
-        {{101021987}}
+        {{rowInfo.payTime}}
       </div>
       <div class="content_item">
         <span>付款方式：</span>
-        {{101021987}}
       </div>
       <div class="content_item">
         <span>渠道订单号：</span>
-        {{101021987}}
+        {{rowInfo.id}}
       </div>
       <div class="content_item">
         <span>支付金额：</span>
-        {{101021987}}
+        {{rowInfo.totalMoney}}
       </div>
-
       <div class="content_item">
         <span>支付结果：</span>
-        {{101021987}}
+        {{rowInfo.stauts}}
       </div>
       <div class="content_item">
         <span>账号信息：</span>
-        {{101021987}}
       </div>
       <div class="content_item">
         <span>邮寄信息：</span>
-        {{101021987}}
       </div>
       <div class="content_item">
         <span>邮寄省市：</span>
-        {{101021987}}
       </div>
       <div class="content_item">
         <span>详细地址：</span>
-        {{101021987}}
       </div>
       <!-- 0、待付款； -->
       <!-- 5、已付款，待发货； -->
@@ -81,7 +74,7 @@
       <!-- 6、申请退款； -->
       <div class="content_item">
         <span>订单状态：</span>
-        {{101021987}}
+          {{rowInfo.stauts}}
       </div>
       <!-- <div class="content_item">
         <span>快递信息：</span>
@@ -106,6 +99,7 @@
 export default {
   props: {
     onCancel: Function,
+    rowInfo: Object,
   },
   data() {
     return {
