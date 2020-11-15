@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Modal v-model="modal12" draggable scrollable footer-hide title="订单详情" @on-cancel="cancel">
+    <Modal v-model="modal12" scrollable footer-hide title="订单详情" @on-cancel="cancel">
       <div class="content_item">
         <span>平台订单ID：</span>
         {{rowInfo.id}}
@@ -74,24 +74,33 @@
       <!-- 6、申请退款； -->
       <div class="content_item">
         <span>订单状态：</span>
-          {{rowInfo.stauts}}
+        <span v-if="rowInfo.stauts===0">待支付</span>
+        <span v-else-if="rowInfo.stauts==5">待发货</span>
+        <span v-else-if="rowInfo.stauts==6">
+          申请退款(代发货)
+          <Button style="marginLeft:10px;" type="primary" @click="tuikuan">退款</Button>
+        </span>
+        <span v-else-if="rowInfo.stauts===10">待收货</span>
       </div>
-      <!-- <div class="content_item">
+      <div v-if="rowInfo.stauts===10" class="content_item">
         <span>快递信息：</span>
-        {{101021987}}
-      </div> -->
-      <!-- <div class="content_item">
-        <label>快递机构：</label>
-        <Select v-model="s" placeholder="">
-            <Option value="1">1</Option>
-            <Option value="2">2</Option>
-            <Option value="3">3</Option>
-          </Select>
       </div>
-      <div class="content_item">
+      <div v-if="rowInfo.stauts===5" class="content_item">
+        <label>快递机构：</label>
+        <Select v-model="s" placeholder>
+          <Option value="1">1</Option>
+          <Option value="2">2</Option>
+          <Option value="3">3</Option>
+        </Select>
+      </div>
+      <div v-if="rowInfo.stauts===5" class="content_item">
         <span>订单号：</span>
-        <Input v-model="s" />
-      </div> -->
+        <Input v-model="dingdanhao" />
+      </div>
+      <div v-if="rowInfo.stauts===5">
+        <Button type="primary" @click="fahuo">发货</Button>
+        <Button type="primary" @click="cancel">取消</Button>
+      </div>
     </Modal>
   </div>
 </template>
@@ -99,17 +108,45 @@
 export default {
   props: {
     onCancel: Function,
-    rowInfo: Object,
+    rowInfo: Object
   },
   data() {
     return {
       modal12: true,
+      s: "",
+      dingdanhao: ""
     };
   },
-  methods:{
+  methods: {
     cancel() {
       this.onCancel();
     },
+    tuikuan() {
+      this.$Modal.confirm({
+        title: "退款",
+        content: "<h3>未发货前直接退款</h3>"
+        // onOk: async () => {
+        //   this.$Message.info("退款");
+        //   this.onCancel();
+        // },
+        // onCancel: () => {
+        //   this.$Message.info("取消");
+        // },
+      });
+    },
+    fahuo() {
+      this.$Modal.confirm({
+        title: "发货",
+        content: "<h3>当前版本，已发货的商品不支持退款</h3>"
+        // onOk: async () => {
+        //   this.$Message.info("发货");
+        //   this.onCancel();
+        // },
+        // onCancel: () => {
+        //   this.$Message.info("取消");
+        // },
+      });
+    }
   }
 };
 </script>
