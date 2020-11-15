@@ -26,7 +26,7 @@
       </div>-->
       <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
-    <XinzengModal v-if="addModal" :onCancel="onCancel"></XinzengModal>
+    <XinzengModal v-if="addModal" :row="row" :onCancel="onCancel"></XinzengModal>
   </div>
 </template>
 
@@ -44,6 +44,7 @@ export default {
   data() {
     return {
       addModal:false,
+      row: {},
       navList: [{ title: "冰鞋" }, { title: "冰服" }, { title: "护具" }],
       navIndex:0,
       columns: [
@@ -89,7 +90,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.look(params.index);
+                      this.look(params.row);
                     },
                   },
                 },
@@ -166,7 +167,10 @@ export default {
       this.addModal = false;
     },
     editBus(item, index) {},
-    look(params) {},
+    look(params) {
+      this.row = params;
+      this.addModal = true;
+    },
     handleDelete(params) {
       console.log(params);
     },

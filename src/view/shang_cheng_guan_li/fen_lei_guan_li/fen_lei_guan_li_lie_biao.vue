@@ -72,14 +72,14 @@
 <script>
 import Tables from "_c/tables";
 import untilMd5 from "../../../utils/md5";
-import Newdetail from "./xin_zeng_fen_lei";
+// import Newdetail from "./xin_zeng_fen_lei";
 export default {
   name: "tables_page",
   components: {
     Tables,
   },
   components: {
-    Newdetail,
+    // Newdetail,
     Tables,
   },
   data() {
@@ -364,7 +364,7 @@ export default {
     },
     handleReset(name) {
       this.$refs[name].resetFields();
-      this.$emit("setmodal", false);
+      this.modal = false;
     },
   },
   mounted() {

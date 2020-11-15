@@ -152,7 +152,8 @@ import Editor from "_c/editor";
 import AddItem from "./add_item";
 export default {
   props: {
-    onCancel: Function
+    onCancel: Function,
+    row: Object,
   },
   data() {
     return {
@@ -269,7 +270,11 @@ export default {
     Editor,
     AddItem
   },
-  mounted() {},
+  watch: {
+    row: (value) => {
+      this.formValidate = value;
+    },
+  },
   methods: {
     addChange(val) {
       this.formValidate.amountStock = val;
