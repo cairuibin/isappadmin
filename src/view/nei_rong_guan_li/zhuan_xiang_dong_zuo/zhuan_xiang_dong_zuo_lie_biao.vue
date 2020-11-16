@@ -9,7 +9,7 @@
       </div>
       <div :style="{ display: 'flex' }">
         <Card>
-          <div
+          <!-- <div
             :style="{
               minWidth: '100px',
               lineHeight: '27px',
@@ -22,7 +22,8 @@
             :key="i"
           >
             {{ v.name }}
-          </div>
+          </div> -->
+          <Tree :data="neirongContent"></Tree>
         </Card>
         <tables
           ref="tables"
@@ -369,7 +370,7 @@ export default {
         ],
         tag: [
           {
-            required: true,
+            required: false,
             message: "请输入动作标签",
             trigger: "blur",
           },
@@ -398,14 +399,14 @@ export default {
         ],
         actionType: [
           {
-            required: true,
+            required: false,
             message: "请输入动作分类",
             trigger: "change",
           },
         ],
         trainUnit: [
           {
-            required: true,
+            required: false,
             message: "请输入练习分类",
             trigger: "change",
           },
@@ -509,27 +510,65 @@ export default {
         })
         .then((res) => {
           this.tableData = res.data.data.list;
-            console.log(res.data.data,'3')
+          console.log(res.data.data, "3");
           this.total = res.data.data.total;
         });
     },
-    getTeleftPage(params) {
+    // getTeleftPage(params) {
+    //   this.axios
+    //     .post("/api/v2/data/action/getTechniqueActionPage", {
+    //       ...params,
+    //       sign: untilMd5.toSign({ ...params }, "getTechniqueActionPage"),
+    //     })
+    //     .then((res) => {
+    //       let arr = [];
+    //       res.data.data.list.filter((v) => {
+    //         let obj = {
+    //           name: v.name,
+    //           id: v.id,
+    //         };
+    //         arr.push(obj);
+    //       });
+
+    //       this.neirongContent = arr;
+    //     });
+    // },
+
+    aaaaaaa(params) {
       this.axios
-        .post("/api/v2/data/action/getTechniqueActionPage", {
+        .post("/api/v2/data/action/getActionCategoryList", {
           ...params,
-          sign: untilMd5.toSign({ ...params }, "getTechniqueActionPage"),
+          sign: untilMd5.toSign({ ...params }, "getActionCategoryList"),
         })
         .then((res) => {
-          let arr = [];
-          res.data.data.list.filter((v) => {
-            let obj = {
-              name: v.name,
-              id: v.id,
-            };
-            arr.push(obj);
-          });
+          if (res.data) {
+            let arr=[]
+            
+            function initData(orgList) {
+                   
+            orgList.forEach((v,i)=>{
+             
+               if(v.children){
+                      v.title=v.name
+                    console.log(v.title)
+                initData(v.children)
+                
 
-          this.neirongContent = arr;
+               }else{
+                   v.title=v.name
+               }
+               
+            })
+             
+            }
+            console.log(initData(res.data.data));
+            this.neirongContent = res.data.data;
+          } else {
+            this.$Message.info("获取时局失败");
+          }
+
+          console.log(res.data.data, "32222222");
+          //     this.neirongContent = res.data.data;
         });
     },
     deleteTableInId(params) {
@@ -727,10 +766,11 @@ export default {
       pageNum: this.pageNum,
       pageSize: this.pageSize,
     });
-    this.getTeleftPage({
-      pageNum: this.pageNum,
-      pageSize: this.pageSize,
-    });
+    // this.getTeleftPage({
+    //   pageNum: this.pageNum,
+    //   pageSize: this.pageSize,
+    // });
+    this.aaaaaaa({});
   },
 };
 </script>

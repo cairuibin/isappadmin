@@ -35,7 +35,7 @@ export default {
   methods: {
     ...mapActions(["handleLogOut"]),
     logout() {
-      this.handleLogOut().then(() => {
+      // this.handleLogOut().then(() => {
         let params = {
           userId: JSON.parse(localStorage.user).id,
         };
@@ -56,7 +56,7 @@ export default {
               
             }
             console.log(res.data.code);
-          });
+          // });
       });
     },
     message() {
