@@ -42,9 +42,9 @@ export default {
           width: 60,
           align: "center",
         },
-        { title: "ID", key: "name", sortable: false, width: 90 },
+        { title: "ID", key: "id", sortable: false, width: 90 },
         { title: "真实姓名", key: "name", editable: false, width: 90 },
-        { title: "教练照", key: "createTime", width: 90, render: (h, params) => {
+        { title: "教练照", key: "logoUrl", width: 90, render: (h, params) => {
             return (
               <div>
                 <img style={{ width: "30px" }} src={params.row.logoUrl} />
@@ -52,22 +52,30 @@ export default {
             );
           }, },
         { title: "手机账号", key: "mobile", width: 90 },
-        { title: "工作性质", key: "createTime", width: 90,ender: (h, params) => {
+        { title: "工作性质", key: "workType", width: 90,render: (h, params) => {
             return (
               <div>
                 {params.workType===0?"全职":"兼职"}
               </div>
             );
           }, },
-        { title: "所在城市", key: "createTime", width: 90 },
-        { title: "所属机构", key: "createTime", width: 90 },
-        { title: "账户余额(i币)", key: "createTime", width: 119 },
+        { title: "所在城市", key: "city", width: 90 },
+        { title: "所属机构", key: "rinkName", width: 90 },
+        // { title: "账户余额(i币)", key: "authTime", width: 119 },
         { title: "消费总金额(元)", key: "createTime", width: 119 },
-        { title: "消费总金额(元)", key: "createTime", width: 119 },
-        { title: "收益总金额(元)", key: "createTime", width: 119 },
+        // { title: "消费总金额(元)", key: "createTime", width: 119 },
+        // { title: "收益总金额(元)", key: "createTime", width: 119 },
         { title: "注册时间", key: "createTime", width: 119 },
-        { title: "审核提交时间", key: "createTime", width: 119 },
-        { title: "状态", key: "createTime", width: 119 },
+        { title: "审核提交时间", key: "updateTime", width: 119 },
+        { title: "状态", key: "status", width: 119 ,render:(h, params) => {
+ return (
+              <div>
+                {params.status===0?"全职":"兼职"}
+              </div>
+            );
+        }}
+           ,
+          
         {
           title: "操作",
           key: "action",
@@ -126,6 +134,7 @@ export default {
   },
   methods: {
     look(row) {
+      console.log(row)
       this.coachInfo = row;
       this.detailModal = true;
     },
@@ -161,7 +170,7 @@ export default {
   },
   mounted() {
     this.gettabledata_c({
-      workType: 1,
+      // workType: 1,
       gender: 0,
       pageNum: 1,
       pageSize: 10,

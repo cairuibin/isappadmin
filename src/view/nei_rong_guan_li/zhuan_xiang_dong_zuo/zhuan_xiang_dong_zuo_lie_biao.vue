@@ -23,7 +23,7 @@
           >
             {{ v.name }}
           </div> -->
-          <Tree :data="neirongContent"></Tree>
+          <Tree key="787878" :data="neirongContent"></Tree>
         </Card>
         <tables
           ref="tables"
@@ -65,15 +65,17 @@
         :disabled="islook"
         :show-message="isshowmessage"
       >
+        <!-- {{ neirongContent }} -->
         <FormItem label=" 父类ID：" prop="parentId">
           <Select
             :disabled="isEdit === 3"
             v-model="formValidate.parentId"
             placeholder="父类ID："
           >
-            <Option :value="v.id" v-for="(v, i) in neirongContent" :key="i">{{
-              v.name
-            }}</Option>
+            <!-- <Option :value="v.id" v-for="(v, i) in neirongContent" :key="i"> -->
+              <!-- {{ v.name }} -->
+              <Tree key='222' :data="selectneirongContent" />
+            <!-- </Option> -->
           </Select>
         </FormItem>
 
@@ -219,6 +221,7 @@ export default {
       //阿里云地址
       osshost: "http://xx",
       neirongContent: [],
+      selectneirongContent:[],
       curactive: 0,
       columns: [
         {
@@ -542,27 +545,23 @@ export default {
         })
         .then((res) => {
           if (res.data) {
-            let arr=[]
-            
-            function initData(orgList) {
-                   
-            orgList.forEach((v,i)=>{
-             
-               if(v.children){
-                      v.title=v.name
-                    console.log(v.title)
-                initData(v.children)
-                
+            let arr = [];
 
-               }else{
-                   v.title=v.name
-               }
-               
-            })
-             
+            function initData(orgList) {
+              orgList.forEach((v, i) => {
+                if (v.children) {
+                  v.title = v.name;
+                  console.log(v.title);
+                  initData(v.children);
+                } else {
+                  v.title = v.name;
+                }
+              });
             }
             console.log(initData(res.data.data));
             this.neirongContent = res.data.data;
+               this.selectneirongContent = res.data.data;
+            
           } else {
             this.$Message.info("获取时局失败");
           }

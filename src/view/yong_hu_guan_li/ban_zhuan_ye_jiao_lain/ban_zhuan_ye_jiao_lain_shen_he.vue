@@ -7,6 +7,8 @@
       width="750" 
       @on-cancel="Cancel"
     >
+    {{rzsxInfo}}
+    
       <p slot="header" style="text-align:center">
         <span>账号专家认证</span>
       </p>
