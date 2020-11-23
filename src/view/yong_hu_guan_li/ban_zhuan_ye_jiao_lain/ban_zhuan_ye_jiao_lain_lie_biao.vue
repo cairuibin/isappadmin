@@ -1,18 +1,28 @@
 <template>
   <div>
     <Card>
-      <div style="margin-bottom:10px;">
-        <Input search enter-button="搜索" style="width:200px" placeholder="学员账号/手机账号/账号昵称" />
+      <div style="margin-bottom: 10px">
+        <Input
+          search
+          enter-button="搜索"
+          style="width: 200px"
+          placeholder="学员账号/手机账号/账号昵称"
+        />
       </div>
       <!-- editable 表格可编辑 -->
       <!-- searchable search-place="top" 搜索框-->
-      <tables ref="tables" v-model="tableData" :columns="columns" @on-delete="handleDelete" />
-      <div style="margin-top:20px">
+      <tables
+        ref="tables"
+        v-model="tableData"
+        :columns="columns"
+        @on-delete="handleDelete"
+      />
+      <div style="margin-top: 20px">
         <Page show-total :total="tableData.length" show-elevator></Page>
       </div>
       <!-- <Button type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
-    <Detail  v-if="detailModal" :coachInfo="coachInfo" :onCancel="onCancel" />
+    <Detail v-if="detailModal" :coachInfo="coachInfo" :onCancel="onCancel" />
     <Rzsx v-if="rzsxModal" :rzsxInfo="rzsxInfo" :onCancel="rzsxCancel" />
   </div>
 </template>
@@ -44,21 +54,27 @@ export default {
         },
         { title: "ID", key: "id", sortable: false, width: 90 },
         { title: "真实姓名", key: "name", editable: false, width: 90 },
-        { title: "教练照", key: "logoUrl", width: 90, render: (h, params) => {
+        {
+          title: "教练照",
+          key: "logoUrl",
+          width: 90,
+          render: (h, params) => {
             return (
               <div>
                 <img style={{ width: "30px" }} src={params.row.logoUrl} />
               </div>
             );
-          }, },
+          },
+        },
         { title: "手机账号", key: "mobile", width: 90 },
-        { title: "工作性质", key: "workType", width: 90,render: (h, params) => {
-            return (
-              <div>
-                {params.workType===0?"全职":"兼职"}
-              </div>
-            );
-          }, },
+        {
+          title: "工作性质",
+          key: "workType",
+          width: 90,
+          render: (h, params) => {
+            return <div>{params.workType === 0 ? "全职" : "兼职"}</div>;
+          },
+        },
         { title: "所在城市", key: "city", width: 90 },
         { title: "所属机构", key: "rinkName", width: 90 },
         // { title: "账户余额(i币)", key: "authTime", width: 119 },
@@ -67,15 +83,14 @@ export default {
         // { title: "收益总金额(元)", key: "createTime", width: 119 },
         { title: "注册时间", key: "createTime", width: 119 },
         { title: "审核提交时间", key: "updateTime", width: 119 },
-        { title: "状态", key: "status", width: 119 ,render:(h, params) => {
- return (
-              <div>
-                {params.status===0?"全职":"兼职"}
-              </div>
-            );
-        }}
-           ,
-          
+        {
+          title: "状态",
+          key: "status",
+          width: 119,
+          render: (h, params) => {
+            return <div>{params.status === 0 ? "全职" : "兼职"}</div>;
+          },
+        },
         {
           title: "操作",
           key: "action",
@@ -129,12 +144,11 @@ export default {
         },
       ],
       tableData: [],
-      
     };
   },
   methods: {
     look(row) {
-      console.log(row)
+      console.log(row);
       this.coachInfo = row;
       this.detailModal = true;
     },
@@ -142,11 +156,14 @@ export default {
       this.detailModal = false;
     },
     rzsx(row) {
-      this.rzxsInfo = row;
+     this.rzsxInfo = row;
+
+
       this.rzsxModal = true;
     },
     rzsxCancel() {
       this.rzsxModal = false;
+      
     },
     handleDelete(params) {
       console.log(params);
