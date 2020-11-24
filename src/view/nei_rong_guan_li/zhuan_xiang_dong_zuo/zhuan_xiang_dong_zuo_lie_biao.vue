@@ -9,22 +9,13 @@
       </div>
       <div :style="{ display: 'flex' }">
         <Card>
-          <!-- <div
-            :style="{
-              minWidth: '100px',
-              lineHeight: '27px',
-              color: curactive === i ? '#fff' : '#000',
-              background: curactive === i ? '#2d8cf0 ' : '',
-              textAlign: 'center',
-            }"
-            @click="neirongContentclik(i, v.id)"
-            v-for="(v, i) in neirongContent"
-            :key="i"
-          >
-            {{ v.name }}
-          </div> -->
-          <Tree key="787878" :data="neirongContent"></Tree>
+          <Tree
+            @on-select-change="oncontextmenu111"
+            key="787878"
+            :data="neirongContent"
+          ></Tree>
         </Card>
+        {{ tableDatadetail }}
         <tables
           ref="tables"
           v-model="tableData"
@@ -67,16 +58,24 @@
       >
         <!-- {{ neirongContent }} -->
         <FormItem label=" 父类ID：" prop="parentId">
-          <Select
+          <!-- <Select
             :disabled="isEdit === 3"
             v-model="formValidate.parentId"
-            placeholder="父类ID："
-          >
+            placeholder="父类ID"
+          > -->
             <!-- <Option :value="v.id" v-for="(v, i) in neirongContent" :key="i"> -->
-              <!-- {{ v.name }} -->
-              <Tree key='222' :data="selectneirongContent" />
+            <!-- {{ v.name }} -->
+           
             <!-- </Option> -->
-          </Select>
+          <!-- </Select> -->
+          <Input  :disabled="isEdit === 3"
+            v-model="formValidate.parentId"
+            placeholder="父类ID" />
+           <Tree
+              
+              @on-select-change="addchangesele"
+              :data="selectneirongContent"
+            />
         </FormItem>
 
         <FormItem label=" 动作名称" prop="name">
@@ -219,9 +218,10 @@ export default {
   data() {
     return {
       //阿里云地址
+      tableDatadetail: "",
       osshost: "http://xx",
       neirongContent: [],
-      selectneirongContent:[],
+      selectneirongContent: [],
       curactive: 0,
       columns: [
         {
@@ -233,7 +233,7 @@ export default {
         {
           title: "动作配图",
           key: "imageUrl",
-          width: 200,
+          width: 120,
           render: (h, params) => {
             return (
               <div>
@@ -245,7 +245,7 @@ export default {
         {
           title: "标签",
           key: "tag",
-          width: 200,
+          width: 100,
           align: "center",
           render: (h, params) => {
             return JSON.parse(params.row.tag).map((v, i) => (
@@ -576,6 +576,7 @@ export default {
       });
     },
     getTechniqueActionInfo(params) {
+      console.log(params, "22222222");
       return this.axios.post("/api/v2/data/action/getTechniqueActionInfo", {
         ...params,
         sign: untilMd5.toSign({ ...params }, "getTechniqueActionInfo"),
@@ -606,6 +607,7 @@ export default {
         pageSize: this.pageSize,
       });
     },
+
     onpagesizechange(pageNum) {
       this.Pageonchange(pageNum);
     },
@@ -757,6 +759,23 @@ export default {
         this.loadingStatus = false;
         this.$Message.success("Success");
       }, 1500);
+    },
+    async oncontextmenu111(data, event, position) {
+      console.log(data[0].id, event.id);
+      await this.getTechniqueActionInfo({
+        id: data[0].id,
+      }).then((res) => {
+        console.log(res.data.data, "3");
+        let arr = [];
+        arr.push(res.data.data);
+        this.tableData = arr;
+        this.total = 1;
+      });
+    },
+    addchangesele(data, event) {
+      this.formValidate.parentId = data[0].id;
+      console.log(this.formValidate.parentId);
+      console.log(data, event);
     },
   },
   mounted() {
