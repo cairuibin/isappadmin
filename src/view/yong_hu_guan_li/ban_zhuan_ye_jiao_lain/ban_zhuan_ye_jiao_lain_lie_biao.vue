@@ -1,13 +1,29 @@
 <template>
   <div>
     <Card>
-      <div style="margin-bottom: 10px">
-        <Input
-          search
-          enter-button="搜索"
-          style="width: 200px"
-          placeholder="学员账号/手机账号/账号昵称"
-        />
+      <div :style="{ 'margin-bottom': '10px', display: 'flex' }">
+        <div>
+          <Input
+            search
+            enter-button="搜索"
+            :style="{ width: '200px' }"
+            placeholder="学员账号/手机账号/账号昵称"
+          />
+        </div>
+        &emsp; &emsp;
+        <div>
+          <Select
+            :style="{ width: '200' }"
+            v-model="selectvalaue"
+            placeholder="请选择审核状态"
+            @on-change="selectvalaueonchange"
+          >
+            <Option value="0">1111</Option>
+            <Option value="1">2222</Option>
+            <Option value="2">333</Option>
+            <Option value="3">444</Option>
+          </Select>
+        </div>
       </div>
       <!-- editable 表格可编辑 -->
       <!-- searchable search-place="top" 搜索框-->
@@ -42,6 +58,8 @@ export default {
   },
   data() {
     return {
+      //出巡条件
+      selectvalaue: "",
       detailModal: false,
       coachInfo: {},
       rzsxModal: false,
@@ -156,14 +174,12 @@ export default {
       this.detailModal = false;
     },
     rzsx(row) {
-     this.rzsxInfo = row;
-
+      this.rzsxInfo = row;
 
       this.rzsxModal = true;
     },
     rzsxCancel() {
       this.rzsxModal = false;
-      
     },
     handleDelete(params) {
       console.log(params);
@@ -184,10 +200,18 @@ export default {
           this.tableData = res.data.data.list;
         });
     },
+    selectvalaueonchange(v) {
+      this.gettabledata_c({
+        authStatus: v,
+        gender: 0,
+        pageNum: 1,
+        pageSize: 10,
+        coachType: 1,
+      });
+    },
   },
   mounted() {
     this.gettabledata_c({
-      // workType: 1,
       gender: 0,
       pageNum: 1,
       pageSize: 10,
