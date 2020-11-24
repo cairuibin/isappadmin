@@ -18,11 +18,39 @@
             placeholder="请选择审核状态"
             @on-change="selectvalaueonchange"
           >
-            <Option value="0">1111</Option>
-            <Option value="1">2222</Option>
-            <Option value="2">333</Option>
-            <Option value="3">444</Option>
+            <Option value="0">半专业教练申请中</Option>
+            <Option value="1">通过</Option>
+            <Option value="2">驳回</Option>
+            <Option value="3">高级教练申中</Option>
           </Select>
+        </div>
+          &emsp; &emsp;
+        <div>
+          <Select
+            :style="{ width: '200' }"
+            v-model="selectwork_typevalaue"
+            placeholder="请选择工作性质"
+            @on-change="selectvwork_type"
+          >
+            <Option value="1">全职</Option>
+            <Option value="2">兼职</Option>
+          </Select>
+        </div>
+          &emsp; &emsp;
+        <div>
+          <Select
+            :style="{ width: '200' }"
+            v-model="selectspecial_typeval"
+            placeholder="请选择专业项目"
+            @on-change="selectspecial_type"
+          >
+            <Option value="1">花样滑冰</Option>
+            <Option value="2">冰球</Option>
+          </Select>
+        </div>
+          &emsp; &emsp;
+         <div>
+          <Button type="primary" @click="getalllist">所有</Button>
         </div>
       </div>
       <!-- editable 表格可编辑 -->
@@ -60,6 +88,8 @@ export default {
     return {
       //出巡条件
       selectvalaue: "",
+      selectspecial_typeval: "",
+      selectwork_typevalaue: "",
       detailModal: false,
       coachInfo: {},
       rzsxModal: false,
@@ -203,16 +233,43 @@ export default {
     selectvalaueonchange(v) {
       this.gettabledata_c({
         authStatus: v,
-        gender: 0,
+
         pageNum: 1,
         pageSize: 10,
         coachType: 1,
       });
     },
+    selectspecial_type(v) {
+      this.gettabledata_c({
+        specialType: v,
+
+        pageNum: 1,
+        pageSize: 10,
+        coachType: 1,
+      });
+    },
+    selectvwork_type(v) {
+      this.gettabledata_c({
+        workType: v,
+
+        pageNum: 1,
+        pageSize: 10,
+        coachType: 1,
+      });
+    },
+    getalllist(){
+  
+       this.gettabledata_c({
+   
+      pageNum: 1,
+      pageSize: 10,
+      coachType: 1,
+    });
+    }
   },
   mounted() {
     this.gettabledata_c({
-      gender: 0,
+      // gender: 0,
       pageNum: 1,
       pageSize: 10,
       coachType: 1,

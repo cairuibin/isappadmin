@@ -172,7 +172,7 @@ export default {
     this.gettabledata_c({
       // 工作类型：1、全职；2、兼职
       // workType: 1,
-      gender: 0,
+      // gender: 0,
       pageNum: 1,
       pageSize: 10,
       coachType: 2,
