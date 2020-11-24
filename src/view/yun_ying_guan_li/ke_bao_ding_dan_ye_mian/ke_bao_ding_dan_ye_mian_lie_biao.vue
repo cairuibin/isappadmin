@@ -611,19 +611,19 @@ export default {
     },
     getCoachPage(params) {
       this.axios
-        .post("/api/v2/user/coach/getCoachPage", {
+        .post("/api/v2/user/coach/getValidCoachList", {
           ...params,
           sign: untilMd5.toSign(
             {
               ...params,
             },
-            "getCoachPage"
+            "getValidCoachList"
           ),
         })
         .then((res) => {
-          console.log(res.data, "教练列表");
+          console.log(res.data, "新教练列表");
           let arr = [];
-          [...res.data.data.list].forEach((v) => {
+          [...res.data.data].forEach((v) => {
             let obj = {
               coachId: v.id,
               coachName: v.name,
@@ -759,16 +759,17 @@ export default {
       //  userId: '0',
       pageNum: 1,
       pageSize: 10,
-      status: 1,
+      // status: 1,
       isDelete: 0,
       rinkId: JSON.parse(localStorage.getItem("user")).rinkId,
     });
     await this.getCoachPage({
-      status: 1,
+      // status: 1,
       isDelete: 0,
       rinkId: JSON.parse(localStorage.getItem("user")).rinkId,
       // workType: 1,
       // gender: 0,
+      authStatus:1,
       pageNum: 1,
       pageSize: 30,
       // coachType: 2,

@@ -1,18 +1,72 @@
 <template>
   <div>
     <Card>
-      <div style="margin-bottom:10px;">
-        <Input search enter-button="搜索" style="width:200px" placeholder="学员账号/手机账号/账号昵称" />
+      <div :style="{ 'margin-bottom': '10px', display: 'flex' }">
+        <div>
+          <Input
+            search
+            enter-button="搜索"
+            :style="{ width: '200px' }"
+            placeholder="学员账号/手机账号/账号昵称"
+          />
+        </div>
+        &emsp; &emsp;
+        <div>
+          <Select
+            :style="{ width: '200' }"
+            v-model="selectvalaue"
+            placeholder="请选择审核状态"
+            @on-change="selectvalaueonchange"
+          >
+            <Option value="0">半专业教练申请中</Option>
+            <Option value="1">通过</Option>
+            <Option value="2">驳回</Option>
+            <Option value="3">高级教练申中</Option>
+          </Select>
+        </div>
+          &emsp; &emsp;
+        <div>
+          <Select
+            :style="{ width: '200' }"
+            v-model="selectwork_typevalaue"
+            placeholder="请选择工作性质"
+            @on-change="selectvwork_type"
+          >
+            <Option value="1">全职</Option>
+            <Option value="2">兼职</Option>
+          </Select>
+        </div>
+          &emsp; &emsp;
+        <div>
+          <Select
+            :style="{ width: '200' }"
+            v-model="selectspecial_typeval"
+            placeholder="请选择专业项目"
+            @on-change="selectspecial_type"
+          >
+            <Option value="1">花样滑冰</Option>
+            <Option value="2">冰球</Option>
+          </Select>
+        </div>
+          &emsp; &emsp;
+         <div>
+          <Button type="primary" @click="getalllist">所有</Button>
+        </div>
       </div>
       <!-- editable 表格可编辑 -->
       <!-- searchable search-place="top" 搜索框-->
-      <tables ref="tables" v-model="tableData" :columns="columns" @on-delete="handleDelete" />
-      <div style="margin-top:20px">
+      <tables
+        ref="tables"
+        v-model="tableData"
+        :columns="columns"
+        @on-delete="handleDelete"
+      />
+      <div style="margin-top: 20px">
         <Page show-total :total="tableData.length" show-elevator></Page>
       </div>
       <!-- <Button type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
-    <Detail  v-if="detailModal" :coachInfo="coachInfo" :onCancel="onCancel" />
+    <Detail v-if="detailModal" :coachInfo="coachInfo" :onCancel="onCancel" />
     <Rzsx v-if="rzsxModal" :rzsxInfo="rzsxInfo" :onCancel="rzsxCancel" />
   </div>
 </template>
@@ -32,6 +86,10 @@ export default {
   },
   data() {
     return {
+      //出巡条件
+      selectvalaue: "",
+      selectspecial_typeval: "",
+      selectwork_typevalaue: "",
       detailModal: false,
       coachInfo: {},
       rzsxModal: false,
@@ -42,32 +100,45 @@ export default {
           width: 60,
           align: "center",
         },
-        { title: "ID", key: "name", sortable: false, width: 90 },
+        { title: "ID", key: "id", sortable: false, width: 90 },
         { title: "真实姓名", key: "name", editable: false, width: 90 },
-        { title: "教练照", key: "createTime", width: 90, render: (h, params) => {
+        {
+          title: "教练照",
+          key: "logoUrl",
+          width: 90,
+          render: (h, params) => {
             return (
               <div>
                 <img style={{ width: "30px" }} src={params.row.logoUrl} />
               </div>
             );
-          }, },
+          },
+        },
         { title: "手机账号", key: "mobile", width: 90 },
-        { title: "工作性质", key: "createTime", width: 90,ender: (h, params) => {
-            return (
-              <div>
-                {params.workType===0?"全职":"兼职"}
-              </div>
-            );
-          }, },
-        { title: "所在城市", key: "createTime", width: 90 },
-        { title: "所属机构", key: "createTime", width: 90 },
-        { title: "账户余额(i币)", key: "createTime", width: 119 },
+        {
+          title: "工作性质",
+          key: "workType",
+          width: 90,
+          render: (h, params) => {
+            return <div>{params.workType === 0 ? "全职" : "兼职"}</div>;
+          },
+        },
+        { title: "所在城市", key: "city", width: 90 },
+        { title: "所属机构", key: "rinkName", width: 90 },
+        // { title: "账户余额(i币)", key: "authTime", width: 119 },
         { title: "消费总金额(元)", key: "createTime", width: 119 },
-        { title: "消费总金额(元)", key: "createTime", width: 119 },
-        { title: "收益总金额(元)", key: "createTime", width: 119 },
+        // { title: "消费总金额(元)", key: "createTime", width: 119 },
+        // { title: "收益总金额(元)", key: "createTime", width: 119 },
         { title: "注册时间", key: "createTime", width: 119 },
-        { title: "审核提交时间", key: "createTime", width: 119 },
-        { title: "状态", key: "createTime", width: 119 },
+        { title: "审核提交时间", key: "updateTime", width: 119 },
+        {
+          title: "状态",
+          key: "status",
+          width: 119,
+          render: (h, params) => {
+            return <div>{params.status === 0 ? "全职" : "兼职"}</div>;
+          },
+        },
         {
           title: "操作",
           key: "action",
@@ -121,11 +192,11 @@ export default {
         },
       ],
       tableData: [],
-      
     };
   },
   methods: {
     look(row) {
+      console.log(row);
       this.coachInfo = row;
       this.detailModal = true;
     },
@@ -133,7 +204,8 @@ export default {
       this.detailModal = false;
     },
     rzsx(row) {
-      this.rzxsInfo = row;
+      this.rzsxInfo = row;
+
       this.rzsxModal = true;
     },
     rzsxCancel() {
@@ -158,11 +230,46 @@ export default {
           this.tableData = res.data.data.list;
         });
     },
+    selectvalaueonchange(v) {
+      this.gettabledata_c({
+        authStatus: v,
+
+        pageNum: 1,
+        pageSize: 10,
+        coachType: 1,
+      });
+    },
+    selectspecial_type(v) {
+      this.gettabledata_c({
+        specialType: v,
+
+        pageNum: 1,
+        pageSize: 10,
+        coachType: 1,
+      });
+    },
+    selectvwork_type(v) {
+      this.gettabledata_c({
+        workType: v,
+
+        pageNum: 1,
+        pageSize: 10,
+        coachType: 1,
+      });
+    },
+    getalllist(){
+  
+       this.gettabledata_c({
+   
+      pageNum: 1,
+      pageSize: 10,
+      coachType: 1,
+    });
+    }
   },
   mounted() {
     this.gettabledata_c({
-      workType: 1,
-      gender: 0,
+      // gender: 0,
       pageNum: 1,
       pageSize: 10,
       coachType: 1,

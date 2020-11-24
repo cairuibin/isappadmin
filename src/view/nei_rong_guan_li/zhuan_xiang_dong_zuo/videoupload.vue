@@ -24,7 +24,7 @@
           v-if="status == 'ready'"
           @click="submit"
           icon="ios-cloud-upload-outline"
-          >开始图片</Button
+          >开始视频</Button
         >
 
         <button v-if="status == 'finished'" @click="finished">完成</button>

@@ -105,6 +105,7 @@
 </template>
 
 <script>
+import untilMd5 from "../../../utils/md5";
 export default {
    props:{
     rzxsInfo:Object,
@@ -124,13 +125,45 @@ export default {
     };
   },
   methods: {
+     updateCoachAuthStatus(params) {
+    return  this.axios.post("/api/v2/user/coach/updateCoachAuthStatus", {
+        ...params,
+        sign: untilMd5.toSign({ ...params }, "updateCoachAuthStatus"),
+      });
+    },
     Cancel(){
         this.onCancel()
     },
     onAdopt(){
         // 通过接口
+          this.updateCoachAuthStatus({
+        id: this.rzxsInfo.id,
+        userId: this.rzxsInfo.userId,
+        authStatus: this.rzxsInfo.authStatus,
+      }).then((res) => {
+        if(res.data.code===200){
+         this.$Message.info('更新成功') 
+        }else{
+           this.$Message.info('更新失败')
+        }
+        console.log(res.data, "更新教练认证状态接口");
+        // this.tableData = res.data.data.list;
+      });
     },
     onReject(){
+        this.updateCoachAuthStatus({
+        id: this.rzxsInfo.id,
+        userId: this.rzxsInfo.userId,
+        authStatus: this.rzxsInfo.authStatus,
+      }).then((res) => {
+        if(res.data.code===200){
+         this.$Message.info('更新成功') 
+        }else{
+           this.$Message.info('更新失败')
+        }
+        console.log(res.data, "更新教练认证状态接口");
+        // this.tableData = res.data.data.list;
+      });
       // 驳回接口
     },
     del() {

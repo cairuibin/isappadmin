@@ -51,7 +51,7 @@ export default {
           // width: 60,
           align: "center",
         },
-        { title: "ID", key: "id", sortable: false, },
+        { title: "ID", key: "id", sortable: false},
         { title: "真实姓名", key: "name", editable: false, },
         { title: "教练照", key: "createTime",  render: (h, params) => {
             return (
@@ -60,15 +60,21 @@ export default {
               </div>
             );
           }, },
-        { title: "手机账号", key: "mobile	", },
+        { title: "手机账号", key: "mobile", width:120},
         { title: "专项", key: "specialType", },
         { title: "专项运动开始时间", key: "coachStartYear",width: 140 },
-        { title: "专项教学开始时间", key: "professionalCoachStartYear", width: 140},
-        { title: "认证提交时间", key: "createTime",  width: 130 },
-        { title: "账户余额(i币)", key: "createTime",   width: 130},
-        { title: "消费总金额(元)", key: "createTime", width: 120 },
+        { title: "专项教学开始时间", key: "professionalCoachStartYear", width: 110},
+        { title: "认证提交时间", key: "createTime",  width: 110 },
+        { title: "账户余额(i币)", key: "askPrice",   width: 110},
+        { title: "消费总金额(元)", key: "gender", width: 100 },
         { title: "收益总金额(元)", key: "createTime", width: 120 },
-        { title: "状态", key: "createTime",  },
+        { title: "状态", key: "status",  render: (h, params) => {
+            return (
+              <div>
+               {status===0?"无效":"有效"}
+              </div>
+            );
+          },  },
 
         {
           title: "操作",
@@ -164,8 +170,9 @@ export default {
   },
   mounted() {
     this.gettabledata_c({
-      workType: 1,
-      gender: 0,
+      // 工作类型：1、全职；2、兼职
+      // workType: 1,
+      // gender: 0,
       pageNum: 1,
       pageSize: 10,
       coachType: 2,
