@@ -9,7 +9,6 @@
           placeholder="全部类型"
           style="width: 100px"
         >
-
           <Option value="1">课包</Option>
           <Option value="2">青训营</Option>
         </Select> -->
