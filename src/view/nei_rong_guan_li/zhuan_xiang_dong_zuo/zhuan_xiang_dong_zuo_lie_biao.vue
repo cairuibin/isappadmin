@@ -58,16 +58,24 @@
       >
         <!-- {{ neirongContent }} -->
         <FormItem label=" 父类ID：" prop="parentId">
-          <Select
+          <!-- <Select
             :disabled="isEdit === 3"
             v-model="formValidate.parentId"
-            placeholder="父类ID："
-          >
+            placeholder="父类ID"
+          > -->
             <!-- <Option :value="v.id" v-for="(v, i) in neirongContent" :key="i"> -->
             <!-- {{ v.name }} -->
-            <Tree key="222" :data="selectneirongContent" />
+           
             <!-- </Option> -->
-          </Select>
+          <!-- </Select> -->
+          <Input  :disabled="isEdit === 3"
+            v-model="formValidate.parentId"
+            placeholder="父类ID" />
+           <Tree
+              
+              @on-select-change="addchangesele"
+              :data="selectneirongContent"
+            />
         </FormItem>
 
         <FormItem label=" 动作名称" prop="name">
@@ -763,6 +771,11 @@ export default {
         this.tableData = arr;
         this.total = 1;
       });
+    },
+    addchangesele(data, event) {
+      this.formValidate.parentId = data[0].id;
+      console.log(this.formValidate.parentId);
+      console.log(data, event);
     },
   },
   mounted() {
