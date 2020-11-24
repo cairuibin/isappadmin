@@ -558,9 +558,8 @@ export default {
                 }
               });
             }
-            console.log(initData(res.data.data));
             this.neirongContent = res.data.data;
-               this.selectneirongContent = res.data.data;
+            this.selectneirongContent = res.data.data;
             
           } else {
             this.$Message.info("获取时局失败");
