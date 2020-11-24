@@ -9,21 +9,8 @@
       </div>
       <div :style="{ display: 'flex' }">
         <Card>
-          <!-- <div
-            :style="{
-              minWidth: '100px',
-              lineHeight: '27px',
-              color: curactive === i ? '#fff' : '#000',
-              background: curactive === i ? '#2d8cf0 ' : '',
-              textAlign: 'center',
-            }"
-            @click="neirongContentclik(i, v.id)"
-            v-for="(v, i) in neirongContent"
-            :key="i"
-          >
-            {{ v.name }}
-          </div> -->
-          <Tree key="787878" :data="neirongContent"></Tree>
+         
+          <Tree  @on-select-change='oncontextmenu111' key="787878"  :data="neirongContent"></Tree>
         </Card>
         <tables
           ref="tables"
@@ -759,6 +746,13 @@ export default {
         this.$Message.success("Success");
       }, 1500);
     },
+    oncontextmenu111(data, event, position){
+ console.log(data, event.categoryLevel)
+  // this.getTechniqueActionPage({
+  //     pageNum: this.pageNum,
+  //     pageSize: this.pageSize,
+  //   });
+    }
   },
   mounted() {
     this.getTechniqueActionPage({
