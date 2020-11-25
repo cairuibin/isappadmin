@@ -63,19 +63,20 @@
             v-model="formValidate.parentId"
             placeholder="父类ID"
           > -->
-            <!-- <Option :value="v.id" v-for="(v, i) in neirongContent" :key="i"> -->
-            <!-- {{ v.name }} -->
-           
-            <!-- </Option> -->
+          <!-- <Option :value="v.id" v-for="(v, i) in neirongContent" :key="i"> -->
+          <!-- {{ v.name }} -->
+
+          <!-- </Option> -->
           <!-- </Select> -->
-          <Input  :disabled="isEdit === 3"
+          <Input
+            :disabled="isEdit === 3"
             v-model="formValidate.parentId"
-            placeholder="父类ID" />
-           <Tree
-              
-              @on-select-change="addchangesele"
-              :data="selectneirongContent"
-            />
+            placeholder="父类ID"
+          />
+          <Tree
+            @on-select-change="addchangesele"
+            :data="selectneirongContent"
+          />
         </FormItem>
 
         <FormItem label=" 动作名称" prop="name">
@@ -463,7 +464,7 @@ export default {
         pageNum: this.pageNum,
         pageSize: this.pageSize,
       });
-      console.log(id);
+ 
     },
     async look({ id }) {
       let { data } = await this.getTechniqueActionInfo({
@@ -513,7 +514,7 @@ export default {
         })
         .then((res) => {
           this.tableData = res.data.data.list;
-          console.log(res.data.data, "3");
+  
           this.total = res.data.data.total;
         });
     },
@@ -551,13 +552,14 @@ export default {
               orgList.forEach((v, i) => {
                 if (v.children) {
                   v.title = v.name;
-                  console.log(v.title);
+                
                   initData(v.children);
                 } else {
                   v.title = v.name;
                 }
               });
             }
+      
             this.neirongContent = res.data.data;
             this.selectneirongContent = res.data.data;
             
@@ -565,7 +567,7 @@ export default {
             this.$Message.info("获取时局失败");
           }
 
-          console.log(res.data.data, "32222222");
+        
           //     this.neirongContent = res.data.data;
         });
     },
@@ -576,7 +578,7 @@ export default {
       });
     },
     getTechniqueActionInfo(params) {
-      console.log(params, "22222222");
+    
       return this.axios.post("/api/v2/data/action/getTechniqueActionInfo", {
         ...params,
         sign: untilMd5.toSign({ ...params }, "getTechniqueActionInfo"),
@@ -681,7 +683,7 @@ export default {
           obj.status = this.formValidate.status * 1;
           obj.trainUnit = this.formValidate.trainUnit * 1;
           obj.tag = JSON.stringify(this.formValidate.tag.split());
-          console.log(this.formValidate);
+    
           //11-9修改
           obj.parentId = this.formValidate.parentId;
           obj.categoryLevel = this.categoryLevel;
@@ -696,7 +698,7 @@ export default {
           delete obj.date;
           delete obj.time;
           delete obj.times;
-          console.log(obj);
+     
           this.createTechniqueAction(obj);
         }
 
@@ -761,21 +763,27 @@ export default {
       }, 1500);
     },
     async oncontextmenu111(data, event, position) {
-      console.log(data[0].id, event.id);
-      await this.getTechniqueActionInfo({
+      console.log(data, event);
+      if (data[0] && data[0].children) {
+        this.tableData = data[0].children;
+        this.total = data[0].children.length;
+      }else{
+          await this.getTechniqueActionInfo({
         id: data[0].id,
       }).then((res) => {
-        console.log(res.data.data, "3");
+     
         let arr = [];
         arr.push(res.data.data);
         this.tableData = arr;
         this.total = 1;
       });
+      }
+
+    
     },
     addchangesele(data, event) {
       this.formValidate.parentId = data[0].id;
-      console.log(this.formValidate.parentId);
-      console.log(data, event);
+     
     },
   },
   mounted() {
