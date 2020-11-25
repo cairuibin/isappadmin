@@ -21,7 +21,7 @@
             :disabled="edit"
             v-model="formValidate.title"
             placeholder="请输入课包名称"
-          ></Input>
+          />
         </FormItem>
         <FormItem label="封面图片" prop="imageUrl">
           <Row>
@@ -30,7 +30,7 @@
                 :disabled="edit"
                 v-model="formValidate.imageUrl"
                 placeholder="图片地址"
-              ></Input>
+              />
             </Col>
             <Col span="6" style="text-align: center">
               <Upload action="//jsonplaceholder.typicode.com/posts/">
@@ -148,10 +148,14 @@
             :disabled="edit"
             multiple
             v-model="formValidate.teachingCoach"
-            placeholder="选择教练"
+            placeholder="请选择教练"
           >
-            <Option value="1">尤硕</Option>
-            <Option value="2">春熙</Option>
+            <Option
+              :value="v.coachId.toString()"
+              v-for="(v, i) in jiao_lian_data"
+              :key="i"
+              >{{ v.coachName }}</Option
+            >
           </Select>
         </FormItem>
         <FormItem label="状态" prop="status">
@@ -233,7 +237,9 @@ export default {
       ],
       modal: true,
       loading: true,
-      formValidate: this.rowInfo,
+      formValidate: {
+        ...this.rowInfo,
+      },
       ruleValidate: {
         title: [
           {
@@ -275,6 +281,7 @@ export default {
         ],
       },
       editorA:null,
+      jiao_lian_data: [],
     };
   },
   watch: {
@@ -362,38 +369,84 @@ export default {
           sign: untilMd5.toSign({ ...params }, "createCoursePacket"),
         })
         .then((res) => {
+          this.$Message.success("新增成功!");
           console.log(res.data.data, "新增课包");
         });
     },
     handleSubmit(name) {
-      this.createCoursePacket({
-        title: "",
-        code: "",
-        courseIds: "",
-        content: "",
-        techniqueType: "",
-        introduce: "",
-        isMemberGoods: "",
-        status: "",
-        teachingCoach: "",
-        cost: "",
-        createUser: "",
-        coursePacketRelations: "",
-      });
+      // this.createCoursePacket({
+      //   title: "",
+      //   code: "",
+      //   courseIds: "",
+      //   content: "",
+      //   techniqueType: "",
+      //   introduce: "",
+      //   isMemberGoods: "",
+      //   status: "",
+      //   teachingCoach: "",
+      //   cost: "",
+      //   createUser: "",
+      //   coursePacketRelations: "",
+      // });
       this.$refs[name].validate((valid) => {
-        console.log(this.formValidate,'formValidate')
+        // console.log(this.formValidate,'formValidate')
         if (valid) {
           //判断图文介绍是否为空
-          // console.log(valid,this.formValidate,'vlaue')
-          // this.createCoursePacket({
-
-          // })
-          this.$Message.success("Success!");
+          const formValue = {...this.formValidate};
+          const arr = [];
+          this.jiao_lian_data.forEach(v=>{
+            if(this.formValidate.teachingCoach.includes(v.coachId.toString())){
+              arr.push({
+                coachId: v.coachId,
+                coachName: v.coachName
+              })
+            }
+          })
+          formValue.teachingCoach = JSON.stringify(arr)
+          this.createCoursePacket(formValue)
         } else {
           this.$Message.error("Fail!");
         }
       });
     },
+    getCoachPage(params) {
+      this.axios
+        .post("/api/v2/user/coach/getValidCoachList", {
+          ...params,
+          sign: untilMd5.toSign(
+            {
+              ...params,
+            },
+            "getValidCoachList"
+          ),
+        })
+        .then((res) => {
+          console.log(res.data, "新教练列表");
+          let arr = [];
+          [...res.data.data].forEach((v) => {
+            let obj = {
+              coachId: v.id,
+              coachName: v.name,
+            };
+            arr.push(obj);
+          });
+          this.jiao_lian_data = arr;
+        });
+    },
   },
+    created(){
+        this.getCoachPage({
+            // status: 1,
+            isDelete: 0,
+            rinkId: JSON.parse(localStorage.getItem("user")).rinkId,
+            // workType: 1,
+            // gender: 0,
+            authStatus:1,
+            pageNum: 1,
+            pageSize: 30,
+            // coachType: 2,
+          });
+     
+    }
 };
 </script>
