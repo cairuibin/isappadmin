@@ -57,8 +57,7 @@
           />
         </FormItem>
         <FormItem label=" 图文介绍:" prop="introduce">
-          <!-- <Input v-model="formValidate.editText" placeholder="图片地址"></Input> -->
-          <Editor />
+            <div id="kebaoEditor"></div>
         </FormItem>
         <FormItem label="课程安排" prop="anpai">
           <Select
@@ -181,7 +180,7 @@
   </div>
 </template>
 <script>
-import Editor from "@/view/components/editor/editor.vue";
+import E from 'wangeditor';
 import untilMd5 from "../../../utils/md5";
 import { isEmpty } from "lodash";
 export default {
@@ -250,13 +249,12 @@ export default {
             trigger: "blur",
           },
         ],
-        introduce: [
-          {
-            required: true,
-            message: "请输入图文介绍",
-            trigger: "blur",
-          },
-        ],
+        // introduce: [
+        //   {
+        //     required: true,
+        //     message: "请输入图文介绍",
+        //   },
+        // ],
         departmentId: [
           {
             required: true,
@@ -276,17 +274,27 @@ export default {
           },
         ],
       },
+      editorA:null,
     };
-  },
-  components: {
-    Editor,
   },
   watch: {
     rowInfo: function (val) {
       this.formValidate = val;
     },
   },
-  mounted() {},
+  mounted() {
+    this.editorA = new E('#kebaoEditor');
+    this.editorA.config.uploadImgShowBase64 = true;
+    this.editorA.config.onchange = (newHtml) => {
+       this.formValidate.introduce = newHtml
+    }
+    this.editorA.create();
+  },
+   beforeDestroy() {
+    // 调用销毁 API 对当前编辑器实例进行销毁
+    this.editorA.destroy()
+    this.editorA = null
+  },
   computed: {
     isFujiaAdd() {
       return isEmpty(this.formValidate.fu_jia);
@@ -373,9 +381,10 @@ export default {
         coursePacketRelations: "",
       });
       this.$refs[name].validate((valid) => {
-        console.log(this.formValidate)
+        console.log(this.formValidate,'formValidate')
         if (valid) {
-          console.log(valid,this.formValidate)
+          //判断图文介绍是否为空
+          // console.log(valid,this.formValidate,'vlaue')
           // this.createCoursePacket({
 
           // })

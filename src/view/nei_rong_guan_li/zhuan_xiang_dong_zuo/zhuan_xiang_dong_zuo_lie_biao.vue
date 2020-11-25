@@ -562,6 +562,7 @@ export default {
       
             this.neirongContent = res.data.data;
             this.selectneirongContent = res.data.data;
+            
           } else {
             this.$Message.info("获取时局失败");
           }
