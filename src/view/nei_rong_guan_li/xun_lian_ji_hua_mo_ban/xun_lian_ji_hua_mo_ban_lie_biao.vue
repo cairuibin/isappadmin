@@ -21,8 +21,6 @@
       :scrollable="true"
       :mask-closable="false"
       :loading="loading"
-      @on-ok="ok"
-      @on-cancel="cancel"
       width="60%"
     >
       <div style="font-size: 16px">模板类型: 系统计划模板</div>
@@ -33,25 +31,47 @@
         :rules="ruleValidate"
         :label-width="130"
       >
-        <FormItem label="动作类型" prop="city">
-          <Select v-model="formValidate.city" placeholder="选择分类">
-            <Option value="beijing">1</Option>
-            <Option value="shanghai">2</Option>
-            <Option value="shanghai">3</Option>
+        <FormItem label="动作类型" prop="techniqueType">
+          <!-- {{formValidate.techniqueType}} -->
+          <!-- 数据问题导致的bug  id对不上 无法回填数据 -->
+          <Select
+            :disabled="isLook === 'look'"
+            v-model="formValidate.techniqueType"
+            placeholder="选择分类"
+          >
+            <Option
+              :value="item.id + ''"
+              v-for="(item, index) in lei_xing"
+              :key="index"
+              >{{ item.name }}</Option
+            >
           </Select>
         </FormItem>
-        <FormItem label="商品标题" prop="name">
-          <Input v-model="formValidate.name" placeholder="请输入商品标题" />
+        <FormItem label="商品标题" prop="title">
+          <Input
+            :disabled="isLook === 'look'"
+            v-model="formValidate.title"
+            placeholder="请输入商品标题"
+          />
         </FormItem>
-        <FormItem label="计划描述：" prop="name">
-          <Input v-model="formValidate.name" placeholder="计划描述：" />
+        <FormItem label="计划描述：" prop="description">
+          <Input
+            :disabled="isLook === 'look'"
+            v-model="formValidate.description"
+            placeholder="计划描述："
+          />
         </FormItem>
 
-        <FormItem label="* 计划状态" prop="city">
-          <Select v-model="formValidate.city" placeholder="选择分类">
-            <Option value="beijing">1</Option>
-            <Option value="shanghai">2</Option>
-            <Option value="shanghai">3</Option>
+        <FormItem label="* 计划状态" prop="status">
+          <Select
+            :disabled="isLook === 'look'"
+            v-model="formValidate.status"
+            placeholder="选择分类"
+          >
+            <!-- 状态：0、无效；1、有效；2、暂停； -->
+            <Option value="0">无效</Option>
+            <Option value="1">有效</Option>
+            <Option value="2">暂停</Option>
           </Select>
         </FormItem>
 
@@ -60,11 +80,15 @@
             >取消</Button
           >
 
-          <Button type="primary" @click="handleSubmit('formValidate')"
+          <Button
+            v-if="isLook !== 'look'"
+            type="primary"
+            @click="handleSubmit('formValidate')"
             >保存</Button
           >
         </FormItem>
       </Form>
+      <div slot="footer"></div>
     </Modal>
   </div>
 </template>
@@ -85,12 +109,20 @@ export default {
           width: 60,
           align: "center",
         },
-        { title: "动作类型", key: "name", sortable: false },
+        {
+          title: "动作类型",
+          key: "techniqueType",
+          sortable: false,
+          render: (h, p) => {
+            let arr = JSON.parse(p.row.techniqueType) || [];
+            return arr.map((v) => <div>{v.name}</div>);
+          },
+        },
         { title: "计划标题", key: "title", editable: false },
-        { title: "制作人", key: "createTime" },
+        // { title: "制作人", key: "createTime" },
         { title: "创建者", key: "createUser" },
         { title: "模板级别", key: "isSystem" },
-  { title: "模板状态", key: "isPrivate" },
+        { title: "模板状态", key: "isPrivate" },
 
         {
           title: "操作",
@@ -117,14 +149,16 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.look(params.row);
+                      this.$router.push(
+                        "/nei_rong_guan_li/ji_hua_mo_ban/ke_jie_guan_li"
+                      );
                     },
                   },
                 },
 
                 "课节管理"
               ),
-               h(
+              h(
                 "Button",
 
                 {
@@ -138,7 +172,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.look(params.index);
+                      this.look(params.row);
                     },
                   },
                 },
@@ -159,7 +193,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.look(params.index);
+                      this.edit(params.row);
                     },
                   },
                 },
@@ -175,6 +209,8 @@ export default {
       zhuang_tai: "全部状态",
       modal: false,
       loading: true,
+      // 是否是查看状态
+      isLook: "look",
       setForm: { rate: "" },
       rules: {
         rate: [
@@ -188,95 +224,38 @@ export default {
         ],
       },
       formValidate: {
-        name: "",
-        mail: "",
-        city: "",
-        gender: "",
-        interest: [],
-        date: "",
-        time: "",
-        desc: "",
-        editText: "",
+        techniqueType: "",
+        title: "",
+        description: "",
+        status: 0,
       },
       ruleValidate: {
-        name: [
+        techniqueType: [
           {
             required: true,
-            message: "The name cannot be empty",
+            message: "请输入动作类型",
             trigger: "blur",
           },
         ],
-        editText: [
+        title: [
           {
             required: true,
-            message: "请输入图文介绍",
+            message: "请输入标题",
             trigger: "blur",
           },
         ],
-        mail: [
+        description: [
           {
-            required: true,
-            message: "Mailbox cannot be empty",
-            trigger: "blur",
-          },
-          { type: "email", message: "Incorrect email format", trigger: "blur" },
-        ],
-        city: [
-          {
-            required: true,
-            message: "Please select the city",
-            trigger: "change",
+            // required: true,
+            // message: "请输入描述",
+            // trigger: "blur",
           },
         ],
-        gender: [
+        status: [
           {
             required: true,
-            message: "Please select gender",
+            message: "请选择计划状态",
             trigger: "change",
-          },
-        ],
-        interest: [
-          {
-            required: true,
-            type: "array",
-            min: 1,
-            message: "Choose at least one hobby",
-            trigger: "change",
-          },
-          {
-            type: "array",
-            max: 2,
-            message: "Choose two hobbies at best",
-            trigger: "change",
-          },
-        ],
-        date: [
-          {
-            required: true,
-            type: "date",
-            message: "Please select the date",
-            trigger: "change",
-          },
-        ],
-        time: [
-          {
-            required: true,
-            type: "string",
-            message: "Please select time",
-            trigger: "change",
-          },
-        ],
-        desc: [
-          {
-            required: false,
-            message: "请输入课包摘要",
-            trigger: "blur",
-          },
-          {
-            type: "string",
-            min: 20,
-            message: "Introduce no less than 20 words",
-            trigger: "blur",
           },
         ],
       },
@@ -285,53 +264,82 @@ export default {
   methods: {
     editBus(item, index) {},
     look(params) {
+      this.isLook = "look";
+      this.formValidate.techniqueType = params.id;
+      this.lei_xing = JSON.parse(params.techniqueType);
+      this.formValidate.title = params.title;
+      this.formValidate.description = params.description;
+      this.formValidate.status = params.status + "";
+      this.modal = true;
+    },
+    edit(params) {
+      this.isLook = "edit";
+      this.formValidate.techniqueType = params.id;
+      this.lei_xing = JSON.parse(params.techniqueType);
+      this.formValidate.title = params.title;
+      this.formValidate.description = params.description;
+      this.formValidate.status = params.status + "";
       this.modal = true;
     },
     add(params) {
       this.modal = true;
+      this.isLook='add'
+      console.log(this.formValidate);
+      this.createTrainPlanTemplate({});
     },
     delet(params) {
       this.modal = true;
     },
-    ok() {},
+
     handleDelete(params) {
       console.log(params);
     },
-    exportExcel() {
-      this.$refs.tables.exportCsv({
-        filename: `table-${new Date().valueOf()}.csv`,
-      });
-    },
-    getTechniqueActionPage(params) {
+
+    getTrainPlanTemplatePage(params) {
       this.axios
-        .post("/api/v2/data/action/getTechniqueActionPage", {
+        .post("/api/v2/data/train/getTrainPlanTemplatePage", {
           ...params,
-          sign: untilMd5.toSign({ ...params }, "getTechniqueActionPage"),
+          sign: untilMd5.toSign({ ...params }, "getTrainPlanTemplatePage"),
         })
         .then((res) => {
-          console.log(res.data, "查询退款申请列表接口(分页)");
+          console.log(res.data, "获取训练计划模板列表(分页)接口");
           this.tableData = res.data.data.list;
         });
     },
-    addTrainPlanTemplateCourse(params) {
+    createTrainPlanTemplate(params) {
       this.axios
-        .post("/api/v2/data/train/addTrainPlanTemplateCourse", {
+        .post("/api/v2/data/train/createTrainPlanTemplate", {
           ...params,
-          sign: untilMd5.toSign({ ...params }, "addTrainPlanTemplateCourse"),
+          sign: untilMd5.toSign({ ...params }, "createTrainPlanTemplate"),
         })
         .then((res) => {
-          console.log(res.data, "训练计划模板添加课程接口");
+          this.getTrainPlanTemplatePage({
+            pageNum: 1,
+            pageSize: 10,
+          });
         });
     },
-    cancel() {
+    handleReset(name) {
       // 取消后，重置表单
-      this.$refs["formValidate"].resetFields();
+      this.$refs[name].resetFields();
+      this.modal = false;
+    },
+    handleSubmit(name) {
+      this.$refs[name].validate((valid) => {
+        if (valid) {
+          this.$Message.success("Success!");
+          this.modal = false;
+        } else {
+          this.$Message.error("Fail!");
+        }
+      });
     },
   },
   mounted() {
-    this.getTechniqueActionPage({
+    this.getTrainPlanTemplatePage({
       pageNum: 1,
       pageSize: 10,
+
       // userId:JSON.parse(localStorage.getItem('user').id)
     });
   },

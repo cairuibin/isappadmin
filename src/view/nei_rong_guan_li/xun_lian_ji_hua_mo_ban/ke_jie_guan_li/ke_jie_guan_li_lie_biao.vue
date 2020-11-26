@@ -1,13 +1,17 @@
 <template>
   <div>
     <Card>
-      <div style="margin-bottom:10px;" class="header_wrap">
-
-         <i-button type="primary">新增</i-button>&emsp;
-          <i-button type="primary">删除</i-button>
+      <div style="margin-bottom: 10px" class="header_wrap">
+        <i-button type="primary">新增</i-button>&emsp;
+        <i-button type="primary">删除</i-button>
       </div>
-      <tables ref="tables" v-model="tableData" :columns="columns" @on-delete="handleDelete" />
-      <div style="margin-top:20px">
+      <tables
+        ref="tables"
+        v-model="tableData"
+        :columns="columns"
+        @on-delete="handleDelete"
+      />
+      <div style="margin-top: 20px">
         <Page show-total :total="tableData.length" show-elevator></Page>
       </div>
       <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
@@ -17,11 +21,11 @@
 
 <script>
 import Tables from "_c/tables";
-import { getTableData } from "@/api/data";
+import untilMd5 from "@/utils/md5";
 export default {
   name: "tables_page",
   components: {
-      Tables
+    Tables,
   },
   data() {
     return {
@@ -36,7 +40,7 @@ export default {
         { title: "标签", key: "createTime" },
         { title: "状态", key: "createTime" },
         { title: "排序", key: "createTime" },
-    
+
         {
           title: "操作",
 
@@ -68,7 +72,8 @@ export default {
                 },
 
                 "查看"
-              ), h(
+              ),
+              h(
                 "Button",
 
                 {
@@ -88,14 +93,16 @@ export default {
                 },
 
                 "编辑"
-              )
+              ),
             ]);
           },
         },
       ],
       tableData: [],
-      lei_xing:"全部类型",
-      zhuang_tai:"全部状态"
+      lei_xing: "全部类型",
+      zhuang_tai: "全部状态",
+         pageNum: 1,
+      pageSize: 10,
     };
   },
   methods: {
@@ -104,20 +111,26 @@ export default {
     handleDelete(params) {
       console.log(params);
     },
-    exportExcel() {
-      this.$refs.tables.exportCsv({
-        filename: `table-${new Date().valueOf()}.csv`,
+
+    getCoursePage(params) {
+      return this.axios.post("/api/v2/data/course/getCoursePage", {
+        ...params,
+        sign: untilMd5.toSign({ ...params }, "getCoursePage"),
       });
     },
   },
   mounted() {
-    getTableData().then((res) => {
-      this.tableData = res.data;
+    this.getCoursePage({
+      pageNum: this.pageNum,
+      pageSize: this.pageSize,
+      // userId:JSON.parse(localStorage.getItem('user').id)
+    }).then((res) => {
+      console.log(res.data, "课节(分页)");
+      this.tableData = res.data.data.list;
     });
   },
 };
 </script>
 
 <style scoped lang='scss'>
-
 </style>
