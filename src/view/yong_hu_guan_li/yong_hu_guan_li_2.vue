@@ -15,7 +15,13 @@
       <!-- searchable search-place="top" 搜索框-->
       <tables ref="tables" v-model="tableData" :columns="columns" @on-delete="handleDelete" />
       <div style="margin-top:20px">
-        <Page show-total :total="tableData.length" show-elevator></Page>
+        <Page
+          show-total
+          @on-change="Pageonchange"
+          @on-page-size-change="onpagesizechange"
+          :total="total"
+          show-elevator
+        ></Page>
       </div>
       <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
@@ -66,7 +72,10 @@ export default {
         { title: "最终登录时间", key: "lastLoginTime" },
       ],
       tableData: [],
-      search_key: "1",
+      search_key: "",
+      total: 0,
+      pageNum: 1,
+      pageSize: 10,
     };
   },
   methods: {
@@ -82,38 +91,48 @@ export default {
       });
     },
     gettable_c(params) {
-      return this.axios.post("/api/v2/user/getUsersPage", {
+      this.axios.post("/api/v2/user/getUsersPage", {
         ...params,
         sign: untilMd5.toSign({ ...params }, "getUsersPage"),
+      }).then((res) => {
+        console.log(res.data.data, "用户管理列表");
+        if (typeof res.data.data !== "string") {
+          this.tableData = res.data.data.list;
+          this.total = res.data.data.total;
+        } else {
+          this.tableData = [];
+          this.total = 0;
+        }
       });
     },
     search_keyfn(e) {
       this.gettable_c({
         pageNum: 1,
-        pageSize: 10,
+        pageSize: this.pageSize,
         stauts: 1,
         isDelete: 0,
         username: e,
-      }).then((res) => {
-        console.log(res.data.data, "搜索用户管理列表");
-        if (typeof res.data.data !== "string") {
-          this.tableData = res.data.data.list;
-        } else {
-          this.tableData = [];
-        }
-      });
+      })
+    },
+    Pageonchange(pageNum) {
+      this.gettable_c({
+        pageNum: pageNum,
+        pageSize: this.pageSize,
+        stauts: 1,
+        isDelete: 0,
+      })
+    },
+    onpagesizechange(pageNum) {
+      this.Pageonchange(pageNum);
     },
   },
   created() {
     this.gettable_c({
       pageNum: 1,
-      pageSize: 10,
+      pageSize: this.pageSize,
       stauts: 1,
       isDelete: 0,
-    }).then((res) => {
-      console.log(res.data.data, "用户管理列表");
-      this.tableData = res.data.data.list;
-    });
+    })
   },
 };
 </script>

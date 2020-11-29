@@ -6,7 +6,7 @@
           search
           enter-button="搜索"
           style="width: 200px"
-          placeholder="学员账号/手机账号/账号昵称"
+          placeholder="用户名/手机账号"
         />
       </div>
       <!-- editable 表格可编辑 -->

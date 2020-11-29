@@ -7,7 +7,7 @@
       :mask-closable="false"
       :loading="loading"
       @on-cancel="cancel"
-      width="60%"
+      :width="843" 
     >
       <div style="font-size:16px">基本信息:</div>
 
@@ -111,8 +111,8 @@
 
         <div style="font-size:16px">售后服务</div>
 
-        <FormItem label="售后支持：" prop="interest">
-          <CheckboxGroup v-model="formValidate.interest">
+        <FormItem label="售后支持：" prop="service">
+          <CheckboxGroup v-model="formValidate.service">
             <Checkbox label="提供发票"></Checkbox>
             <Checkbox label="退换货承诺"></Checkbox>
           </CheckboxGroup>
@@ -150,6 +150,7 @@
 <script>
 import Editor from "_c/editor";
 import AddItem from "./add_item";
+import untilMd5 from "../../../utils/md5";
 export default {
   props: {
     onCancel: Function,
@@ -176,7 +177,7 @@ export default {
         // mail: "",
         // city: "",
         // gender: "",
-        // interest: [],
+        // service: [],
         // date: "",
         // time: "",
         // desc: "",
@@ -219,21 +220,21 @@ export default {
             trigger: "change"
           }
         ],
-        interest: [
-          {
-            required: true,
-            type: "array",
-            min: 1,
-            message: "Choose at least one hobby",
-            trigger: "change"
-          },
-          {
-            type: "array",
-            max: 2,
-            message: "Choose two hobbies at best",
-            trigger: "change"
-          }
-        ],
+        // interest: [
+        //   {
+        //     required: true,
+        //     type: "array",
+        //     min: 1,
+        //     message: "Choose at least one hobby",
+        //     trigger: "change"
+        //   },
+        //   {
+        //     type: "array",
+        //     max: 2,
+        //     message: "Choose two hobbies at best",
+        //     trigger: "change"
+        //   }
+        // ],
         date: [
           {
             required: true,
@@ -285,9 +286,17 @@ export default {
       this.onCancel();
     },
     handleSubmit(name) {
-      console.log(this.formValidate);
+      console.log(this.formValidate,'新增商品数据');
       this.$refs[name].validate(valid => {
         if (valid) {
+          this.axios
+            .post("/api/v2/data/goods/createGoods", {
+              ...this.formValidate,
+              sign: untilMd5.toSign({ ...this.formValidate }, "createGoods"),
+            })
+            .then((res) => {
+              console.log(res.data, "新增商品接口");
+            });
           this.$Message.success("Success!");
         } else {
           this.$Message.error("Fail!");

@@ -2,7 +2,7 @@
   <div>
     <Card>
       <div style="margin-bottom:10px;">
-        <Input search enter-button="搜索" style="width:200px" placeholder="学员账号/手机账号/账号昵称" />
+        <Input search enter-button="搜索" style="width:200px" placeholder="学员姓名" />
       </div>
       <!-- editable 表格可编辑 -->
       <!-- searchable search-place="top" 搜索框-->
