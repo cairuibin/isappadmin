@@ -5,6 +5,7 @@
         <div>
           <Input
             search
+            @on-search="search_keyfn"
             enter-button="搜索"
             :style="{ width: '200px' }"
             placeholder="用户名/手机账号"
@@ -62,7 +63,13 @@
         @on-delete="handleDelete"
       />
       <div style="margin-top: 20px">
-        <Page show-total :total="tableData.length" show-elevator></Page>
+        <Page
+          show-total
+          @on-change="Pageonchange"
+          @on-page-size-change="onpagesizechange"
+          :total="total"
+          show-elevator
+        ></Page>
       </div>
       <!-- <Button type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
@@ -192,6 +199,9 @@ export default {
         },
       ],
       tableData: [],
+      total: 0,
+      pageNum: 1,
+      pageSize: 10,
     };
   },
   methods: {
@@ -228,6 +238,7 @@ export default {
         .then((res) => {
           console.log(res.data, "半专业教练列表");
           this.tableData = res.data.data.list;
+          this.total = res.data.data.total;
         });
     },
     selectvalaueonchange(v) {
@@ -258,14 +269,30 @@ export default {
       });
     },
     getalllist(){
-  
        this.gettabledata_c({
-   
-      pageNum: 1,
-      pageSize: 10,
-      coachType: 1,
-    });
-    }
+          pageNum: 1,
+          pageSize: 10,
+          coachType: 1,
+        });
+    },
+    search_keyfn(e) {
+      this.gettabledata_c({
+        pageNum: 1,
+        pageSize: 10,
+        coachType: 1,
+        username: e,
+      })
+    },
+    Pageonchange(pageNum) {
+      this.gettabledata_c({
+        pageNum: pageNum,
+        pageSize: this.pageSize,
+        coachType: 1,
+      })
+    },
+    onpagesizechange(pageNum) {
+      this.Pageonchange(pageNum);
+    },
   },
   mounted() {
     this.gettabledata_c({

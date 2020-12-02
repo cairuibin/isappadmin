@@ -3,6 +3,7 @@
     <Card>
       <div style="margin-bottom: 10px">
         <Input
+          @on-search="search_keyfn"
           search
           enter-button="搜索"
           style="width: 200px"
@@ -18,7 +19,13 @@
         @on-delete="handleDelete"
       />
       <div style="margin-top: 20px">
-        <Page show-total :total="tableData.length" show-elevator></Page>
+        <Page
+          show-total
+          @on-change="Pageonchange"
+          @on-page-size-change="onpagesizechange"
+          :total="total"
+          show-elevator
+        ></Page>
       </div>
       <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
@@ -130,6 +137,9 @@ export default {
         },
       ],
       tableData: [],
+      total: 0,
+      pageNum: 1,
+      pageSize: 10,
     };
   },
   methods: {
@@ -165,7 +175,26 @@ export default {
         .then((res) => {
           console.log(res.data, "专业教练列表");
           this.tableData = res.data.data.list;
+          this.total = res.data.data.total;
         });
+    },
+    search_keyfn(e) {
+      this.gettabledata_c({
+        pageNum: 1,
+        pageSize: 10,
+        coachType: 2,
+        username: e,
+      })
+    },
+    Pageonchange(pageNum) {
+      this.gettabledata_c({
+        pageNum: pageNum,
+        pageSize: this.pageSize,
+        coachType: 2,
+      })
+    },
+    onpagesizechange(pageNum) {
+      this.Pageonchange(pageNum);
     },
   },
   mounted() {
