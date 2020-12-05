@@ -122,7 +122,6 @@ export default {
             })
             .then(
               (res) => {
-                console.log(res);
                 if (res.data.code == 200) {
                   this.$Message.success("登录成功");
                   localStorage.token = res.data.data.token;
@@ -134,7 +133,6 @@ export default {
                   this.$Message.error("登录失败");
                 }
                 localStorage.setItem("user", JSON.stringify(res.data.data));
-                console.log(res.data);
               },
               (e) => {
                 console.log(e);

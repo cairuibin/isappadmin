@@ -18,7 +18,7 @@ export default { //加密
 			iv: iv
 		});
 		// return encrypted.toString();
-		console.log(CryptoJS.enc.Base64.stringify(encrypted.ciphertext))
+		// console.log(CryptoJS.enc.Base64.stringify(encrypted.ciphertext))
 		return CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
 	},
 	//加密字符串

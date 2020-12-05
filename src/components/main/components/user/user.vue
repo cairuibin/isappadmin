@@ -53,10 +53,7 @@ export default {
               });
             }else{
               this.$Message.info('系统出错，请稍后重试')
-              
             }
-            console.log(res.data.code);
-          // });
       });
     },
     message() {
