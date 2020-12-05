@@ -42,7 +42,7 @@
 
 <script>
 import Tables from "_c/tables";
-import { getTableData } from "@/api/data";
+// import { getTableData } from "@/api/data";
 export default {
   name: "tables_page",
   components: {
@@ -72,9 +72,9 @@ export default {
   },
   methods: {},
   mounted() {
-    getTableData().then((res) => {
-      this.tableData = res.data;
-    });
+    // getTableData().then((res) => {
+    //   this.tableData = res.data;
+    // });
   },
 };
 </script>

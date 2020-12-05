@@ -34,7 +34,7 @@
       <img
         class="yanzhengma-img"
         id="picimg"
-        src="https://test.iskatesports.com/api/v2/message/sms/getPicCode?username=IskateAdmin"
+        src=""
         @click="() => updata()"
         alt
       />
@@ -100,7 +100,6 @@ export default {
     },
     getPicCode() {
       let picnode = document.getElementById("picimg");
-      console.log(picnode)
       picnode.src =
         "https://test.iskatesports.com/api/v2/message/sms/getPicCode?username=IskateAdmin";
     },

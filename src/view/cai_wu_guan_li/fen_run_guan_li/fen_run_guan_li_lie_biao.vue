@@ -11,8 +11,7 @@
       <div style="margin-top:20px">
         <Page show-total :total="tableData.length" show-elevator></Page>
       </div>
-      <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
-    </Card>
+       </Card>
   </div>
 </template>
 
@@ -27,16 +26,16 @@ export default {
   data () {
     return {
       columns: [
-        {
-          type: 'selection',
-          width: 60,
-          align: 'center'
-        },
+        // {
+        //   type: 'selection',
+        //   width: 60,
+        //   align: 'center'
+        // },
         { title: '用户类型', key: 'name', sortable: false },
         { title: '用户信息', key: 'email', editable: false },
         { title: '收益总额', key: 'createTime' },
-        { title: '已提现收益(元)', key: 'createTime' },
-        { title: '待分配收益', key: 'createTime' },
+        { title: '已提现收益(元)', key: 'createTime1' },
+        { title: '待分配收益', key: 'createTime2' },
        
         {
           title: '操作',
@@ -106,11 +105,7 @@ export default {
     handleDelete (params) {
       console.log(params)
     },
-    exportExcel () {
-      this.$refs.tables.exportCsv({
-        filename: `table-${new Date().valueOf()}.csv`
-      })
-    },
+  
      getPaymentPageByUserId(params) {
       this.axios
         .post("/api/v2/user/payment/getPaymentPageByUserId", {
@@ -127,7 +122,7 @@ export default {
     this.getPaymentPageByUserId({
       pageNum: 1,
       pageSize: 10,
-      userId:JSON.parse(localStorage.getItem('user').id)
+      userId:JSON.parse(localStorage.getItem('user')).id
     });
   }
 }
