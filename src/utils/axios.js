@@ -2,7 +2,6 @@
 
 import Vue from 'vue';
 import axios from "axios";
-
 import Router from 'vue-router'
 import routes from '../router/routers'
 const router = new Router({
@@ -33,7 +32,7 @@ _axios.interceptors.response.use(
         router.replace('/login')
             setTimeout(()=>{   
                 window.location.reload()
-            },1000)
+            },200)
       
         }
         return response;

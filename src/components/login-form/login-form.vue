@@ -90,7 +90,9 @@ export default {
     };
   },
   created() {
-    this.getPicCode();
+    this.$nextTick(()=>{
+      this.getPicCode();
+    })
   },
   methods: {
     updata() {
@@ -98,6 +100,7 @@ export default {
     },
     getPicCode() {
       let picnode = document.getElementById("picimg");
+      console.log(picnode)
       picnode.src =
         "https://test.iskatesports.com/api/v2/message/sms/getPicCode?username=IskateAdmin";
     },
