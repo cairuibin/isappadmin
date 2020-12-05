@@ -283,7 +283,7 @@ export default {
     },
     add(params) {
       this.modal = true;
-      this.isLook='add'
+      this.isLook = "add";
       this.createTrainPlanTemplate({});
     },
     delet(params) {
