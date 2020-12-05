@@ -111,34 +111,6 @@ export default [
           },
           component: () => import('@/view/yun_ying_guan_li/ke_bao_ding_dan_ye_mian/ke_bao_ding_dan_ye_mian_lie_biao.vue')
         },
-        //  {
-        //   path: 'ding_dan_xiang_qing',
-        //   name: 'ding_dan_xiang_qing',
-        //   meta: {
-        //     icon: 'md-clipboard',
-        //     title: '订单详情'
-
-        //   },
-        //   component: () => import('@/view/yun_ying_guan_li/ke_cheng_ding_dan/ding_dan_xiang_qing.vue')
-        // }, {
-        //   path: 'shen_qing_qu_xiao',
-        //   name: 'shen_qing_qu_xiao',
-        //   meta: {
-        //     icon: 'md-clipboard',
-        //     title: '订单详情-申请取消'
-
-        //   },
-        //   component: () => import('@/view/yun_ying_guan_li/ke_cheng_ding_dan/shen_qing_qu_xiao.vue')
-        // }, {
-        //   path: 'shen_qing_tui_kuan',
-        //   name: 'shen_qing_tui_kuan',
-        //   meta: {
-        //     icon: 'md-clipboard',
-        //     title: '订单详情-申请退款'
-
-        //   },
-        //   component: () => import('@/view/yun_ying_guan_li/ke_cheng_ding_dan/shen_qing_tui_kuan')
-        // }
       ]
       }, {
         path: 'zhi_fu_ding_dan',
@@ -370,51 +342,7 @@ export default [
           title: '专家青训营',
         },
         component: () => import('@/view/nei_rong_guan_li/zhuan_jia_qing_xun_ying/zhuan_jia_qing_xun_ying_lie_biao.vue'),
-        // children: [{
-        //   path: 'zhuan_jia_qing_xun_ying_lie_biao',
-        //   name: 'zhuan_jia_qing_xun_ying_lie_biao',
-        //   meta: {
-        //     icon: 'ios-document',
-        //     title: '专家青训营列表'
-
-        //   },
-        //   component: () => import('@/view/nei_rong_guan_li/zhuan_jia_qing_xun_ying/zhuan_jia_qing_xun_ying_lie_biao.vue')
-        // },
-        // {
-        //   path: 'xin_zeng_xun_lian_ying_xun_lian_ji_hua',
-        //   name: 'xin_zeng_xun_lian_ying_xun_lian_ji_hua',
-        //   meta: {
-        //     icon: 'ios-document',
-        //     title: '新增训练营-训练计划'
-        //   },
-        //   component: () => import('@/view/nei_rong_guan_li/zhuan_jia_qing_xun_ying/xin_zeng_xun_lian_ying_xun_lian_ji_hua.vue')
-        // }, {
-        //   path: 'xin_zeng_xun_lian_ying_zi_ding_yi',
-        //   name: 'xin_zeng_xun_lian_ying_zi_ding_yi',
-        //   meta: {
-        //     icon: 'ios-document',
-        //     title: '新增训练营-自定义',
-        //     showAlways: true
-        //   },
-        //   component: parentView,
-        //   children: [{
-        //     path: 'xin_zeng_xun_lian_ying_zi_ding_yi_lie_biao',
-        //     name: 'xin_zeng_xun_lian_ying_zi_ding_yi_lie_biao',
-        //     meta: {
-        //       icon: 'md-clipboard',
-        //       title: '新增训练营-自定义列表'
-        //     },
-        //     component: () => import('@/view/nei_rong_guan_li/zhuan_jia_qing_xun_ying/xin_zeng_xun_lian_ying_zi_ding_yi/xin_zeng_xun_lian_ying_zi_ding_yi_lie_biao.vue')
-        //   }, {
-        //     path: 'x_xin_zeng_ke_jie',
-        //     name: 'x_xin_zeng_ke_jie',
-        //     meta: {
-        //       icon: 'md-clipboard',
-        //       title: '新增课节'
-        //     },
-        //     component: () => import('@/view/nei_rong_guan_li/zhuan_jia_qing_xun_ying/xin_zeng_xun_lian_ying_zi_ding_yi/xin_zeng_ke_jie.vue')
-        //   }]
-        // }]
+       
       },
       {
         path: 'i_hua_jing_xuan_guan_li',

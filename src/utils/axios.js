@@ -2,38 +2,48 @@
 
 import Vue from 'vue';
 import axios from "axios";
-console.log(process.env.NODE_ENV)
+
+import Router from 'vue-router'
+import routes from '../router/routers'
+const router = new Router({
+    routes,
+    mode: 'hash'
+  })
 const _axios = axios.create({
     // baseURL:'',
-    baseURL:process.env.NODE_ENV==='development'?"":"https://test.iskatesports.com"
+    baseURL: process.env.NODE_ENV === 'development' ? "" : "https://test.iskatesports.com"
 });
 
 _axios.interceptors.request.use(
 
     (config) => {
-        console.log(config)
+
         config.headers.Authorization = 'Bearer' + " " + localStorage.token
-        // Do something before request is sent
+
         return config;
     },
     (error) => {
-        // Do something with request error
+
+        return Promise.reject(error);
+    }
+);
+_axios.interceptors.response.use(
+    (response) => {
+        if (response.data.code === 402) {
+        router.replace('/login')
+            setTimeout(()=>{   
+                window.location.reload('/login')
+            },1000)
+      
+        }
+        return response;
+    },
+    (error) => {
+
         return Promise.reject(error);
     }
 );
 
-// Add a response interceptor
-_axios.interceptors.response.use(
-    (response) => {
-        // Do something with response data
-        return response;
-    },
-    (error) => {
-        // Do something with response error
-        return Promise.reject(error);
-    }
-);
-// options
 Plugin.install = (Vue) => {
     Vue.axios = _axios;
     window.axios = _axios;
