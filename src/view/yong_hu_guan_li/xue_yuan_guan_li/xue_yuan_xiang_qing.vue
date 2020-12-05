@@ -7,7 +7,7 @@
       <div>
         <div class="div_content">
           <span>用户ID：</span>
-          {{student_detail_c.userId}}
+          {{student_detail_c.id}}
         </div>
         <div class="div_content">
           <span>账号信息：</span>
@@ -75,10 +75,10 @@ export default {
       bo_hui_yuan_yin: "",
       qi_ta: "",
       columns: [
-        { title: "课程名称", key: "name", sortable: false },
-        { title: "实缴(元)", key: "email", editable: false },
-        { title: "教练", key: "createTime" },
-        { title: "状态", key: "createTime" },
+        { title: "课程名称", key: "packetName", sortable: false },
+        { title: "实缴(元)", key: "money", editable: false },
+        { title: "教练", key: "coachName" },
+        { title: "状态", key: "status" },
       ],
       tableData: [],
       student_detail_c:{}
@@ -111,6 +111,17 @@ export default {
           ),
         });
     },
+    getTrainCampOrdersPage(params) {
+      this.axios
+        .post("/api/v2/business/trainOrder/getPacketOrdersPage", {
+          ...params,
+          sign: untilMd5.toSign({ ...params }, "getPacketOrdersPage"),
+        })
+        .then((res) => {
+          console.log(res.data.data, "查询训练课包订单列表接口(分页)");
+          this.tableData = res.data.data.list;
+        });
+    },
   },
   created() {
     console.log( this.studentInfo_id)
@@ -120,8 +131,15 @@ export default {
     }).then((res) => {
           console.log(res, "学员详情");
           this.student_detail_c = res.data.data;
-          this.tableData = res.data.data.list;
-        });
+    });
+    this.getTrainCampOrdersPage({
+      pageNum: 1,
+      pageSize: 99,
+      orderType: 1,
+      isDelete: 0,
+      studentId: this.studentInfo_id,
+      // userId:JSON.parse(localStorage.getItem('user').id)
+    })
   },
 };
 </script>

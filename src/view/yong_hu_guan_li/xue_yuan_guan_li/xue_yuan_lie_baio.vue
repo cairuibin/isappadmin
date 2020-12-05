@@ -2,13 +2,25 @@
   <div>
     <Card>
       <div style="margin-bottom:10px;">
-        <Input search enter-button="搜索" style="width:200px" placeholder="学员姓名" />
+        <Input
+          @on-search="search_keyfn"
+          search
+          enter-button="搜索"
+          style="width:200px"
+          placeholder="学员姓名"
+        />
       </div>
       <!-- editable 表格可编辑 -->
       <!-- searchable search-place="top" 搜索框-->
       <tables ref="tables" v-model="tableData" :columns="columns" @on-delete="handleDelete" />
       <div style="margin-top:20px">
-        <Page show-total :total="tableData?tableData.length:0" show-elevator></Page>
+        <Page
+          show-total
+          @on-change="Pageonchange"
+          @on-page-size-change="onpagesizechange"
+          :total="total"
+          show-elevator
+        ></Page>
       </div>
       <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
@@ -106,7 +118,10 @@ export default {
         },
       ],
       tableData: [],
-      tableData_all:{}
+      tableData_all:{},
+      total: 0,
+      pageNum: 1,
+      pageSize: 10,
     };
   },
   methods: {
@@ -141,8 +156,25 @@ export default {
         console.log(res.data,'学员管理');
         this.tableData_all=res.data
         this.tableData = res.data.data.list;
+        this.total = res.data.data.total;
       });
-    }
+    },
+    search_keyfn(e) {
+      this.gettabledata_c({
+        pageNum: 1,
+        pageSize: 10,
+        name: e,
+      })
+    },
+    Pageonchange(pageNum) {
+      this.gettabledata_c({
+        pageNum: pageNum,
+        pageSize: this.pageSize,
+      })
+    },
+    onpagesizechange(pageNum) {
+      this.Pageonchange(pageNum);
+    },
   },
   mounted() {
      this.gettabledata_c({

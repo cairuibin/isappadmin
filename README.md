@@ -25,7 +25,7 @@
 
 1、用户管理
     用户管理  页码逻辑   (已完成)
-    学员管理  搜索(加name字段)   页码逻辑  查看：线下学习历史 api/v2/business/trainOrder/getPacketOrdersPage(获取课包接口)
+    学员管理  搜索(加name字段)  页码逻辑  查看：线下学习历史 api/v2/business/trainOrder/getPacketOrdersPage(获取课包接口)(已完成)
     半专业教练  搜索(接口文档差搜索字段)  页码（完成）
     专业教练   搜索(接口文档差搜索字段)  页码（完成）
 
