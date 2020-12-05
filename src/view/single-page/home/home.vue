@@ -101,7 +101,6 @@ export default {
           sign: untilMd5.toSign({ ...params }, "recommendList"),
         })
         .then((res) => {
-          console.log(res.data, "首页(分页)");
           this.tableData = res.data.data?res.data.data.list:[];
         });
     },

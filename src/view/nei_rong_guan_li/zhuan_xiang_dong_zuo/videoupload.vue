@@ -66,7 +66,6 @@ export default {
       });
     },
     async submit() {
-      console.log(this.files);
       if (this.files.length === 0) {
         console.warn("no file!");
         return;
@@ -75,7 +74,6 @@ export default {
       let { data } = await this.getOssConfig({
         ossType: 1,
       });
-      console.log(data.data);
       // 这里是OSS
       const client = new OSS({
         region: data.data.region,
@@ -85,17 +83,13 @@ export default {
         success_action_status: "200",
         stsToken: data.data.SecurityToken,
       });
-      console.log(client, 111);
       const fNum = this.files;
       for (let i = 0; i < fNum.length; i++) {
         let f = fNum[i].file;
-        console.log(f);
         const Name = f.name;
-        console.log(Name);
         const suffix = Name.substr(Name.indexOf("."));
         const obj = this.timestamp();
         const storeAs = "manage/" + obj + suffix; // 路径+时间戳+后缀名
-        console.log(storeAs,f,'2222222222');
         client.put(storeAs, f).then(function (result) {
           that.getvideosrc(result.res.requestUrls)
           

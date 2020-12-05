@@ -218,7 +218,6 @@ export default {
       console.log(params);
     },
     onselect(select) {
-      console.log(select);
       this.deleteSelectIds = select.map((v) => v.id);
     },
     onselectall(selects) {
@@ -226,14 +225,12 @@ export default {
     },
     onselectcancel(select) {
       this.deleteSelectIds = select.map((v) => v.id);
-      console.log(this.deleteSelectIds);
     },
     onselectallcancel(select) {
       console.log(this.deleteSelectIds);
     },
     onselectionchange(select) {
       this.deleteSelectIds = select.map((v) => v.id);
-      console.log(this.deleteSelectIds);
     },
 
     batchDeleteCourse(params) {
@@ -249,7 +246,6 @@ export default {
           sign: untilMd5.toSign({ ...params }, "getCoursePage"),
         })
         .then((res) => {
-          console.log(res.data, "课节(分页)");
           this.tableData = res.data.data.list;
         });
     },

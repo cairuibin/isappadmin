@@ -186,7 +186,6 @@ export default {
           sign: untilMd5.toSign({ ...params }, "getGoodsCategoryPage"),
         })
         .then((res) => {
-          console.log(res.data, "获取商品分类列表接口");
           this.tableData = res.data.data.list;
         });
     },

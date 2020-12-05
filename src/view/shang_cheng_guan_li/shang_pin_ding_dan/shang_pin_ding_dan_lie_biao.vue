@@ -150,7 +150,6 @@ export default {
           sign: untilMd5.toSign({ ...params }, "getGoodsOrdersPage"),
         })
         .then((res) => {
-          console.log(res.data, "查询商品订单列表接口");
           this.tableData = res.data.data.list;
         });
     },

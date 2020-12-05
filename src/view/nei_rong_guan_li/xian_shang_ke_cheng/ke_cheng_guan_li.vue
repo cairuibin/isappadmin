@@ -116,7 +116,6 @@ export default {
           sign: untilMd5.toSign({ ...params }, "getTeachResourcesPage"),
         })
         .then((res) => {
-          console.log(res.data, "课节(分页)");
           this.tableData = res.data.data.list;
         });
     },

@@ -282,7 +282,6 @@ export default {
       let { data } = await this.getGoodsCategoryInfo({
         id: params.id * 1,
       });
-      console.log(data.data);
       data.data.status = data.data.status + "";
       this.formValidate = JSON.parse(JSON.stringify(data.data));
     },
@@ -309,7 +308,6 @@ export default {
           ),
         })
         .then((res) => {
-          console.log(res.data, "商城管理列表");
           this.tableData_all = res.data;
           this.tableData = res.data.data.list;
         });

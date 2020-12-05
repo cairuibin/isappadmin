@@ -284,7 +284,6 @@ export default {
     add(params) {
       this.modal = true;
       this.isLook='add'
-      console.log(this.formValidate);
       this.createTrainPlanTemplate({});
     },
     delet(params) {
@@ -302,7 +301,6 @@ export default {
           sign: untilMd5.toSign({ ...params }, "getTrainPlanTemplatePage"),
         })
         .then((res) => {
-          console.log(res.data, "获取训练计划模板列表(分页)接口");
           this.tableData = res.data.data.list;
         });
     },

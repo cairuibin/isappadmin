@@ -303,7 +303,6 @@ export default {
         this.techniqueType_mimg_xi[i],
         item
       );
-      console.log(this.techniqueType_mimg_xi);
     },
     async handleAddTag() {
       let { data } = await this.getTechniqueActionPage({
@@ -341,9 +340,6 @@ export default {
     },
     handleSubmit(name) {
       this.$refs[name].validate(async (valid) => {
-        console.log(this.formValidate);
-        console.log(this.techniqueType_mimg_xi);
-        console.log(this.afterClassTrainType_an_pai);
         if (valid) {
           let { data } = await this.createCourse({
             title: this.formValidate.title,
@@ -390,7 +386,6 @@ export default {
       });
     },
     async add_get_dong_zuo_lie_biao() {
-      console.log(21);
       let { data } = await this.getTechniqueActionPage({
         pageSize: 100,
         pageNum: 1,
@@ -406,7 +401,6 @@ export default {
       let item = this.select_dong_zuo_lie_biao_module.find(
         (v) => v.id === this.select_dong_zuo_val
       );
-      console.log(item);
       this.afterClassTrainType(item);
       this.add_get_dong_zuo_lie_biao_module = false;
     },

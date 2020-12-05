@@ -8,13 +8,10 @@
            <i-button type="primary">搜索</i-button>&emsp;
 
       </div>
-      <!-- editable 表格可编辑 -->
-      <!-- searchable search-place="top" 搜索框-->
-      <tables ref="tables"   v-model="tableData" :columns="columns" @on-delete="handleDelete" />
+      <tables ref="tables"   v-model="tableData" :columns="columns" />
       <div style="margin-top:20px">
         <Page show-total :total="tableData.length" show-elevator></Page>
       </div>
-      <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
   </div>
 </template>
@@ -35,32 +32,26 @@ export default {
           width: 60,
           align: 'center'
         },
-        { title: '付款类型', key: 'name', sortable: false , width: 86,},
-        { title: '消费名称', key: 'email', editable: false , width: 86,},
-        { title: '用户信息', key: 'createTime', width: 86, },
-        { title: '申请退款时间', key: 'createTime' , width: 130,},
-        { title: '支付方式', key: 'createTime' , width: 86,},
-          { title: '第三方订单号', key: 'createTime', width: 136, },
-           { title: '退款金额(元)', key: 'createTime' , width: 110,},
-          { title: '状态', key: 'createTime' , width: 86,},
+        { title: '付款类型', key: 'type', sortable: false,},
+        { title: '消费名称', key: 'email', editable: false,},
+        { title: '用户信息', key: 'realName', },
+        { title: '申请退款时间', key: 'createTime',},
+        { title: '支付方式', key: 'alipayAccount',},
+          { title: '第三方订单号', key: 'orderId',},
+           { title: '退款金额(元)', key: 'refundMoney',},
+          { title: '状态', key: 'status',},
         {
           title: '操作',
-
           key: 'action',
-
           width: 130,
-
           align: 'center',
-
           render: (h, params) => {
             return h('div', [
               h(
                 'Button',
-
                 {
                   props: {
                     type: 'primary',
-
                     size: 'small'
                   },
                   style: {
@@ -72,12 +63,10 @@ export default {
                     }
                   }
                 },
-
                 '查看'
               ),
               h(
                 'Button',
-
                 {
                   props: {
                     type: 'warning',
@@ -95,7 +84,6 @@ export default {
                     }
                   }
                 },
-
                 '审核'
               )
             ])
@@ -108,14 +96,6 @@ export default {
   methods: {
     editBus (item, index) {},
     look (params) {},
-    handleDelete (params) {
-      console.log(params)
-    },
-    exportExcel () {
-      this.$refs.tables.exportCsv({
-        filename: `table-${new Date().valueOf()}.csv`
-      })
-    },
     getAccountRefundsPage(params) {
       this.axios
         .post("/api/v2/user/refund/getAccountRefundsPage", {
@@ -123,7 +103,6 @@ export default {
           sign: untilMd5.toSign({ ...params }, "getAccountRefundsPage"),
         })
         .then((res) => {
-          console.log(res.data, "查询退款申请列表接口(分页)");
           this.tableData = res.data.data.list;
         });
     },

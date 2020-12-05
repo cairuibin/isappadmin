@@ -187,7 +187,6 @@ export default {
           sign: untilMd5.toSign({ ...params }, "getTrainCampOrdersPage"),
         })
         .then((res) => {
-          console.log(res.data.data.list, "查询训练课包订单列表接口(分页)");
           this.tableData = res.data.data.list;
         });
     },

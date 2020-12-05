@@ -95,7 +95,6 @@ export default {
         ...params,
         sign: untilMd5.toSign({ ...params }, "getUsersPage"),
       }).then((res) => {
-        console.log(res.data.data, "用户管理列表");
         if (typeof res.data.data !== "string") {
           this.tableData = res.data.data.list;
           this.total = res.data.data.total;
