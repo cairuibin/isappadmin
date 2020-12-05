@@ -34,7 +34,7 @@
       <img
         class="yanzhengma-img"
         id="picimg"
-        src="https://test.iskatesports.com/api/v2/message/sms/getPicCode?username=IskateAdmin"
+        src=""
         @click="() => updata()"
         alt
       />
@@ -90,7 +90,9 @@ export default {
     };
   },
   created() {
-    this.getPicCode();
+    this.$nextTick(()=>{
+      this.getPicCode();
+    })
   },
   methods: {
     updata() {
