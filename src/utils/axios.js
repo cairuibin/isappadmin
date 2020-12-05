@@ -32,7 +32,7 @@ _axios.interceptors.response.use(
         if (response.data.code === 402) {
         router.replace('/login')
             setTimeout(()=>{   
-                window.location.reload('/login')
+                window.location.reload()
             },1000)
       
         }
