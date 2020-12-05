@@ -7,14 +7,12 @@
            <i-button type="primary">搜索</i-button>&emsp;
 
       </div>
-      <!-- editable 表格可编辑 -->
-      <!-- searchable search-place="top" 搜索框-->
+    
       <tables ref="tables"   v-model="tableData" :columns="columns" @on-delete="handleDelete" />
       <div style="margin-top:20px">
         <Page show-total :total="tableData.length" show-elevator></Page>
       </div>
-      <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
-    </Card>
+      </Card>
   </div>
 </template>
 
@@ -63,7 +61,7 @@ export default {
           sign: untilMd5.toSign({ ...params }, "getPaymentPageByUserId"),
         })
         .then((res) => {
-          console.log(res.data, "shou_yi_ming_xi(分页)");
+ 
           this.tableData = res.data.data?res.data.data.list:[];
         });
     },
@@ -71,8 +69,7 @@ export default {
   mounted () {
     this.getPaymentPageByUserId({
       pageNum: 1,
-      pageSize: 10,
-      // userId:JSON.parse(localStorage.getItem('user').id)
+      pageSize: 10
     });
   }
 }

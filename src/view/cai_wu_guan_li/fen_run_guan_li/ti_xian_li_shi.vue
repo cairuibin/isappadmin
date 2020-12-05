@@ -13,8 +13,7 @@
       <div style="margin-top:20px">
         <Page show-total :total="tableData.length" show-elevator></Page>
       </div>
-      <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
-    </Card>
+     </Card>
   </div>
 </template>
 
@@ -133,11 +132,7 @@ export default {
     handleDelete (params) {
       console.log(params)
     },
-    exportExcel () {
-      this.$refs.tables.exportCsv({
-        filename: `table-${new Date().valueOf()}.csv`
-      })
-    }
+   
   },
   mounted () {
     getTableData().then((res) => {
