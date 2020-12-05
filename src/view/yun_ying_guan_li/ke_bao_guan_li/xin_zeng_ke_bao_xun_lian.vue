@@ -370,7 +370,6 @@ export default {
         })
         .then((res) => {
           this.$Message.success("新增成功!");
-          console.log(res.data.data, "新增课包");
         });
     },
     handleSubmit(name) {
@@ -421,7 +420,6 @@ export default {
           ),
         })
         .then((res) => {
-          console.log(res.data, "新教练列表");
           let arr = [];
           [...res.data.data].forEach((v) => {
             let obj = {

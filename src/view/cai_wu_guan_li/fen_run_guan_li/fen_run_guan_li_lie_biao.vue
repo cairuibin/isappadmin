@@ -31,26 +31,20 @@ export default {
         //   width: 60,
         //   align: 'center'
         // },
-        { title: '用户类型', key: 'name', sortable: false },
-        { title: '用户信息', key: 'email', editable: false },
-        { title: '收益总额', key: 'createTime' },
-        { title: '已提现收益(元)', key: 'createTime1' },
-        { title: '待分配收益', key: 'createTime2' },
-       
+        { title: '用户类型', key: 'userType', sortable: false },
+        { title: '用户信息', key: 'username', editable: false },
+        { title: '收益总额', key: 'incomeBalance' },
+        { title: '已提现收益(元)', key: 'withdrewIncome' },
+        { title: '待分配收益', key: 'incomeBalanc' },
         {
           title: '操作',
-
           key: 'action',
-
           width: 350,
-
           align: 'center',
-
           render: (h, params) => {
             return h('div', [
               h(
                 'Button',
-
                 {
                   props: {
                     type: 'primary',
@@ -108,13 +102,14 @@ export default {
   
      getPaymentPageByUserId(params) {
       this.axios
-        .post("/api/v2/user/payment/getPaymentPageByUserId", {
+        .post("/api/v2/user/account/getIncomeManagePage", {
           ...params,
           sign: untilMd5.toSign({ ...params }, "getPaymentPageByUserId"),
         })
         .then((res) => {
-          console.log(res.data, "查询退款申请列表接口(分页)");
+          if(res.code === 200){
           this.tableData = res.data.data.list;
+          }
         });
     },
   },
@@ -122,6 +117,7 @@ export default {
     this.getPaymentPageByUserId({
       pageNum: 1,
       pageSize: 10,
+      mobile: localStorage.mobile,
       userId:JSON.parse(localStorage.getItem('user')).id
     });
   }

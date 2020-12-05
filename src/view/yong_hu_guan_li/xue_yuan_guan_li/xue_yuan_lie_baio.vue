@@ -153,7 +153,6 @@ export default {
         ),
       })
       .then((res) => {
-        console.log(res.data,'学员管理');
         this.tableData_all=res.data
         this.tableData = res.data.data.list;
         this.total = res.data.data.total;

@@ -746,8 +746,6 @@ export default {
       });
 
       this.osshost = data.data;
-      console.log(file, "11111111111111");
-      console.log(client.multipartUpload, "2");
     },
     async handleUpload(file) {},
     //图片上传陈工
@@ -763,7 +761,6 @@ export default {
       }, 1500);
     },
     async oncontextmenu111(data, event, position) {
-      console.log(data, event);
       if (data[0] && data[0].children) {
         this.tableData = data[0].children;
         this.total = data[0].children.length;

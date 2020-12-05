@@ -125,7 +125,6 @@ export default {
       pageSize: this.pageSize,
       // userId:JSON.parse(localStorage.getItem('user').id)
     }).then((res) => {
-      console.log(res.data, "课节(分页)");
       this.tableData = res.data.data.list;
     });
   },

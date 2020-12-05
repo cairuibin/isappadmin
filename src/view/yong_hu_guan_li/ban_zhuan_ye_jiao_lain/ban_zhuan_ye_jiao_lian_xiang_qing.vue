@@ -172,7 +172,6 @@ export default {
     },
   },
   created(){
-    console.log(this.coachInfo.id,'22')
     this.getCoachById({id:this.coachInfo.id.toString()})
   }
 };

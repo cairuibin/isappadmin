@@ -118,7 +118,6 @@ export default {
           sign: untilMd5.toSign({ ...params }, "getPacketOrdersPage"),
         })
         .then((res) => {
-          console.log(res.data.data, "查询训练课包订单列表接口(分页)");
           this.tableData = res.data.data.list;
         });
     },
@@ -129,7 +128,6 @@ export default {
       id: this.studentInfo_id,
       coachId:null
     }).then((res) => {
-          console.log(res, "学员详情");
           this.student_detail_c = res.data.data;
     });
     this.getTrainCampOrdersPage({

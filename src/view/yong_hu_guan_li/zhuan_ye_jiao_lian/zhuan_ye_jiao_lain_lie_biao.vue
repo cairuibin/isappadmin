@@ -173,7 +173,6 @@ export default {
           sign: untilMd5.toSign({ ...params }, "getCoachPage"),
         })
         .then((res) => {
-          console.log(res.data, "专业教练列表");
           this.tableData = res.data.data.list;
           this.total = res.data.data.total;
         });

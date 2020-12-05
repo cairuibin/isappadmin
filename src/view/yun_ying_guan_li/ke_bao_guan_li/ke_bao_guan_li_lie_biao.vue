@@ -207,7 +207,6 @@ export default {
           sign: untilMd5.toSign({ ...params }, "getCoursePacketPage"),
         })
         .then((res) => {
-          console.log(res.data.data, "课包管理");
           this.tableData = [...res.data.data.list];
           this.total = res.data.data.total;
         });

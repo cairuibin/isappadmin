@@ -475,7 +475,6 @@ export default {
           sign: untilMd5.toSign({ ...params }, "getTechniqueActionPage"),
         })
         .then((res) => {
-          console.log(res.data, "查询专项动作接口(分页)");
           this.tableData = res.data.data.list;
           this.total = res.data.data.total;
         });
@@ -515,7 +514,6 @@ export default {
       this.Pageonchange(pageNum);
     },
     onselect(select) {
-      console.log(select);
       this.deleteSelectIds = select.map((v) => v.id);
     },
     onselectall(selects) {},
@@ -535,7 +533,6 @@ export default {
             ids: this.deleteSelectIds.join(),
             updateUser: JSON.parse(localStorage.user).id,
           });
-          console.log(res.data);
           if (res.data.code === 200) {
             this.getTechniqueActionPage({
               pageNum: this.pageNum,
@@ -569,7 +566,6 @@ export default {
           obj.status = this.formValidate.status * 1;
           obj.trainUnit = this.formValidate.trainUnit * 1;
           obj.tag = JSON.stringify(this.formValidate.tag.split());
-          console.log(obj, "编辑");
           let content = {
             分解练习: obj.content,
             教学重点: obj.description,
@@ -585,7 +581,6 @@ export default {
           obj.status = this.formValidate.status * 1;
           obj.trainUnit = this.formValidate.trainUnit * 1;
           obj.tag = JSON.stringify(this.formValidate.tag.split());
-          console.log(this.formValidate, "新增");
           let content = {
             分解练习: this.formValidate.content,
             动作描述: this.formValidate.description,
@@ -598,7 +593,6 @@ export default {
         }
         this.$Message.info("表单校验成功");
       } else if (this.isEdit === 3) {
-        console.log("查看");
         this.AddAndEditvisible = false;
         this.$Message.success("查看完毕");
       } else {

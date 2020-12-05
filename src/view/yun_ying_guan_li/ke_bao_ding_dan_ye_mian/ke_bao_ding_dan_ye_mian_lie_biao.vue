@@ -557,7 +557,6 @@ export default {
           sign: untilMd5.toSign({ ...params }, "getPacketOrdersPage"),
         })
         .then((res) => {
-          console.log(res.data.data, "查询训练课包订单列表接口(分页)");
           this.tableData = res.data.data.list;
           this.total = res.data.data.total;
         });
@@ -596,7 +595,6 @@ export default {
           ),
         })
         .then((res) => {
-          console.log(res.data, "学员列表");
           let arr = [];
           [...res.data.data.list].forEach((v) => {
             let obj = {
@@ -621,7 +619,6 @@ export default {
           ),
         })
         .then((res) => {
-          console.log(res.data, "新教练列表");
           let arr = [];
           [...res.data.data].forEach((v) => {
             let obj = {
