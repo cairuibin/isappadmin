@@ -10,8 +10,7 @@
           placeholder="用户名/手机账号"
         />
       </div>
-      <!-- editable 表格可编辑 -->
-      <!-- searchable search-place="top" 搜索框-->
+      <!-- 表格 -->
       <tables
         ref="tables"
         v-model="tableData"
@@ -27,7 +26,6 @@
           show-elevator
         ></Page>
       </div>
-      <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
     <Detail v-if="detailModal" :coachInfo="coachInfo" :onCancel="onCancel" />
     <Rzsx v-if="rzsxModal" :rzxsInfo="rzxsInfo" :onCancel="rzsxCancel" />
@@ -161,11 +159,6 @@ export default {
     handleDelete(params) {
       console.log(params);
     },
-    exportExcel() {
-      this.$refs.tables.exportCsv({
-        filename: `table-${new Date().valueOf()}.csv`,
-      });
-    },
     gettabledata_c(params) {
       this.axios
         .post("/api/v2/user/coach/getCoachPage", {
@@ -198,9 +191,6 @@ export default {
   },
   mounted() {
     this.gettabledata_c({
-      // 工作类型：1、全职；2、兼职
-      // workType: 1,
-      // gender: 0,
       pageNum: 1,
       pageSize: 10,
       coachType: 2,

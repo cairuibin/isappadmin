@@ -54,8 +54,7 @@
           <Button type="primary" @click="getalllist">所有</Button>
         </div>
       </div>
-      <!-- editable 表格可编辑 -->
-      <!-- searchable search-place="top" 搜索框-->
+    <!-- 表格 -->
       <tables
         ref="tables"
         v-model="tableData"
@@ -63,6 +62,7 @@
         @on-delete="handleDelete"
       />
       <div style="margin-top: 20px">
+        <!-- 分页器 -->
         <Page
           show-total
           @on-change="Pageonchange"
@@ -71,9 +71,10 @@
           show-elevator
         ></Page>
       </div>
-      <!-- <Button type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
+    <!-- 查看弹窗 -->
     <Detail v-if="detailModal" :coachInfo="coachInfo" :onCancel="onCancel" />
+    <!-- 账号审核弹窗 -->
     <Rzsx v-if="rzsxModal" :rzsxInfo="rzsxInfo" :onCancel="rzsxCancel" />
   </div>
 </template>
@@ -93,7 +94,7 @@ export default {
   },
   data() {
     return {
-      //出巡条件
+      //查询条件
       selectvalaue: "",
       selectspecial_typeval: "",
       selectwork_typevalaue: "",
@@ -170,12 +171,10 @@ export default {
                     },
                   },
                 },
-
                 "查看"
               ),
               h(
                 "Button",
-
                 {
                   props: {
                     type: "primary",
@@ -191,7 +190,6 @@ export default {
                     },
                   },
                 },
-
                 "账号审核"
               ),
             ]);
@@ -206,7 +204,6 @@ export default {
   },
   methods: {
     look(row) {
-      console.log(row);
       this.coachInfo = row;
       this.detailModal = true;
     },
@@ -224,11 +221,6 @@ export default {
     handleDelete(params) {
       console.log(params);
     },
-    exportExcel() {
-      this.$refs.tables.exportCsv({
-        filename: `table-${new Date().valueOf()}.csv`,
-      });
-    },
     gettabledata_c(params) {
       this.axios
         .post("/api/v2/user/coach/getCoachPage", {
@@ -243,7 +235,6 @@ export default {
     selectvalaueonchange(v) {
       this.gettabledata_c({
         authStatus: v,
-
         pageNum: 1,
         pageSize: 10,
         coachType: 1,
@@ -252,7 +243,6 @@ export default {
     selectspecial_type(v) {
       this.gettabledata_c({
         specialType: v,
-
         pageNum: 1,
         pageSize: 10,
         coachType: 1,
@@ -261,7 +251,6 @@ export default {
     selectvwork_type(v) {
       this.gettabledata_c({
         workType: v,
-
         pageNum: 1,
         pageSize: 10,
         coachType: 1,

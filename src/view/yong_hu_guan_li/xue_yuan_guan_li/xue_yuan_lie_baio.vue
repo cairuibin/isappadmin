@@ -10,10 +10,10 @@
           placeholder="学员姓名"
         />
       </div>
-      <!-- editable 表格可编辑 -->
-      <!-- searchable search-place="top" 搜索框-->
-      <tables ref="tables" v-model="tableData" :columns="columns" @on-delete="handleDelete" />
+<!-- 表格 -->
+      <tables ref="tables" v-model="tableData" :columns="columns" />
       <div style="margin-top:20px">
+        <!-- 分页器 -->
         <Page
           show-total
           @on-change="Pageonchange"
@@ -22,8 +22,8 @@
           show-elevator
         ></Page>
       </div>
-      <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
+    <!-- 查看弹窗 -->
     <Detail v-if="detailModal" :studentInfo_id="studentInfo_id" :onCancel="onCancel" />
   </div>
 </template>
@@ -32,7 +32,6 @@
 import Tables from "_c/tables";
 import untilMd5 from "../../../utils/md5";
 import Detail from './xue_yuan_xiang_qing'
-// import { getTableData } from "@/api/data";
 export default {
   name: "tables_page",
   components: {
@@ -66,9 +65,7 @@ export default {
             );
           }, },
         { title: "所属专项", key: "studyType" ,render: (h, params) => {
-         
             return (
-             
               <span>{params.row.studyType===1?"花样滑冰":"冰球"}</span>
             );
           },    },
@@ -132,14 +129,6 @@ export default {
     },
     onCancel(){
         this.detailModal=false
-    },
-    handleDelete(params) {
-      console.log(params);
-    },
-    exportExcel() {
-      this.$refs.tables.exportCsv({
-        filename: `table-${new Date().valueOf()}.csv`,
-      });
     },
     gettabledata_c(params){
       this.axios

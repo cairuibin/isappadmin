@@ -11,10 +11,10 @@
           placeholder="用户名/手机账号"
         />
       </div>
-      <!-- editable 表格可编辑 -->
-      <!-- searchable search-place="top" 搜索框-->
+  <!-- 表格 -->
       <tables ref="tables" v-model="tableData" :columns="columns" @on-delete="handleDelete" />
       <div style="margin-top:20px">
+        <!-- 分页器 -->
         <Page
           show-total
           @on-change="Pageonchange"
@@ -23,14 +23,12 @@
           show-elevator
         ></Page>
       </div>
-      <!-- <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button> -->
     </Card>
   </div>
 </template>
 
 <script>
 import Tables from "_c/tables";
-// import { getTableData } from "@/api/data";
 import untilMd5 from "../../utils/md5";
 import directiveVue from "../directive/directive.vue";
 export default {
@@ -84,11 +82,6 @@ export default {
     look(params) {},
     handleDelete(params) {
       console.log(params);
-    },
-    exportExcel() {
-      this.$refs.tables.exportCsv({
-        filename: `table-${new Date().valueOf()}.csv`,
-      });
     },
     gettable_c(params) {
       this.axios.post("/api/v2/user/getUsersPage", {

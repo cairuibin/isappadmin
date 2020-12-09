@@ -288,11 +288,6 @@ export default {
     handleDelete(params) {
       console.log(params);
     },
-    exportExcel() {
-      this.$refs.tables.exportCsv({
-        filename: `table-${new Date().valueOf()}.csv`,
-      });
-    },
     setmodal() {
       this.modal = false;
     },

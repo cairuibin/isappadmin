@@ -46,7 +46,6 @@
             ref="tables"
             v-model="tableData"
             :columns="columns"
-            @on-delete="handleDelete"
           />
         </div>
       </div>
@@ -87,9 +86,6 @@ export default {
   methods: {
     Cancel() {
       this.onCancel();
-    },
-    handleDelete(params) {
-      console.log(params);
     },
     del() {
       this.modal_loading = true;

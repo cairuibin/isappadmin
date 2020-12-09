@@ -4,7 +4,6 @@
       <p slot="header" style="text-align:center">
         <span>教练详情</span>
       </p>
- 
       <div>
         <div class="div_content">
           <span>教练ID：</span>

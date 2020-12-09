@@ -159,7 +159,6 @@ export default {
         }else{
            this.$Message.info('更新失败')
         }
-        // this.tableData = res.data.data.list;
       });
       // 驳回接口
     },

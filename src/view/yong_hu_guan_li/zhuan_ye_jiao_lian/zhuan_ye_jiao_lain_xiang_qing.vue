@@ -7,7 +7,6 @@
       <div>
         <div class="div_content">
           <span>教练ID：</span>
-          <!-- <div>{{'1101021987'}}</div> -->
           {{ coachInfo.id }}
         </div>
         <div class="div_content">
@@ -106,10 +105,6 @@
           <span>运动生涯成绩：</span>
           <div>{{coachInfo.professionalIntroduce&&coachInfo.professionalIntroduce.athletic_achievement}}</div>
         </div>
-        <!-- <div class="div_content">
-          <span>滑冰教学开始时间：</span>
-          yyyy-MM
-        </div>-->
         <div class="div_content">
           <span>教学特点：</span>
           <div>{{coachInfo.professionalIntroduce&&coachInfo.professionalIntroduce.features}}</div>

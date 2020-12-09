@@ -7,8 +7,6 @@
       width="750"
       @on-cancel="Cancel"
     >
-      {{ rzsxInfo.authStatus }}
-
       <p slot="header" style="text-align: center">
         <span>账号专家认证</span>
       </p>
@@ -131,7 +129,6 @@ export default {
         userId: this.rzsxInfo.userId,
         authStatus: this.rzsxInfo.authStatus,
       }).then((res) => {
-        console.log(res.data)
         if(res.data.code===200){
           this.$Message.info('更新成功')
          
@@ -143,7 +140,6 @@ export default {
     },
     onReject() {
       // 驳回接口
-
       this.updateCoachAuthStatus({
         id: this.rzsxInfo.id,
         userId: this.rzsxInfo.userId,
